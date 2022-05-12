@@ -1,36 +1,64 @@
 # API Document
 
-## Create Account
+## Create Customer Account
 
 ### [Request]
 
 #### URL
 
 ```
-POST /account/signup HTTP/1.1
+POST /customer HTTP/1.1
 Host : http://127.0.0.1:4000
 ```
 
 #### body
 
-| Key         | Description                                                                            | Type   | Required |
-| :---------- | :------------------------------------------------------------------------------------- | :----- | :------: |
-| userId      | User ID                                                                                | String |    O     |
-| password    | User Password                                                                          | String |    O     |
-| nickName    | User Nickname. When user type is "restaurant", it should be a restaurant name.         | String |    O     |
-| address     | User Address                                                                           | String |    O     |
-| phoneNumber | User Phone Number                                                                      | Number |    O     |
-| type        | User type. "Restaurant" type is 1, "Delivery Man" type is 2, and "Customer" type is 3. | Number |    O     |
+| Key             | Description                                                                        | Type   | Required |
+| :-------------- | :--------------------------------------------------------------------------------- | :----- | :------: |
+| userId          | Customer ID                                                                        | String |    O     |
+| password        | Customer Password                                                                  | String |    O     |
+| customerName    | Customer Nickname. When user type is "restaurant", it should be a restaurant name. | String |    O     |
+| customerAddress | Customer Address                                                                   | String |    O     |
+| customerNumber  | Customer Phone Number                                                              | String |    O     |
 
 ### [Response]
 
-| Name          | Type    | Description                                                                            | Required |
-| :------------ | :------ | :------------------------------------------------------------------------------------- | :------: |
-| userId        | String  | User ID                                                                                |    O     |
-| nickName      | String  | User Nickname. When user type is "restaurant", it should be a restaurant name.         |    O     |
-| walletAddress | Address | Wallet Address. This address is created on the server side.                            |    O     |
-| privateKey    | Address | Private Key. This key is created on the server side.                                   |    O     |
-| type          | Number  | User type. "Restaurant" type is 1, "Delivery Man" type is 2, and "Customer" type is 3. |    O     |
+| Name          | Type   | Description                                                                                              | Required |
+| :------------ | :----- | :------------------------------------------------------------------------------------------------------- | :------: |
+| message       | String | Message. "Created" or "Fail".                                                                            |    O     |
+| customerName  | String | Customer Nickname.                                                                                       |    O     |
+| walletAddress | String | Wallet Address. This address and key are created on the server side. Only address is sent to the client. |    O     |
+
+---
+
+## Create Restaurant Account
+
+### [Request]
+
+#### URL
+
+```
+POST /restaurant HTTP/1.1
+Host : http://127.0.0.1:4000
+```
+
+#### body
+
+| Key               | Description         | Type   | Required |
+| :---------------- | :------------------ | :----- | :------: |
+| userId            | Restaurant ID       | String |    O     |
+| password          | Restaurant Password | String |    O     |
+| restaurantName    | Restaurant Name.    | String |    O     |
+| restaurantAddress | Restaurant Address  | String |    O     |
+| restaurantNumber  | Restaurant Number   | String |    O     |
+
+### [Response]
+
+| Name           | Type   | Description                                                                                              | Required |
+| :------------- | :----- | :------------------------------------------------------------------------------------------------------- | :------: |
+| message        | String | Message. "Created" or "Fail".                                                                            |    O     |
+| restaurantName | String | It should be a restaurant nickname.                                                                      |    O     |
+| walletAddress  | String | Wallet Address. This address and key are created on the server side. Only address is sent to the client. |    O     |
 
 ### [Sample]
 
@@ -38,12 +66,11 @@ Host : http://127.0.0.1:4000
 
 ```
 {
-  "userId": "USER ID",
-  "password": "USER PASSWORD",
-  "nickName": "USER NICKNAME",
-  "address": "USER ADDRESS",
-  "phoneNumber": "USER PHONE NUMBER",
-  "type": "USER TYPE"
+  "userId": "RestaurantID",
+  "password": "RestaurantPassword",
+  "restaurantName": "RestaurantNickname",
+  "restaurantAddress": "Restaurant Address",
+  "restaurantNumber": "01012345678",
 }
 ```
 
@@ -52,48 +79,69 @@ Host : http://127.0.0.1:4000
 ```
 HTTP/1.1 200 OK
 {
-  "userId": "USER ID",
-  "nickName": "USER NICKNAME",
-  "walletAddress": "WALLET ADDRESS",
-  "privateKey": "WALLET PRIVATEKEY",
-  "type": "USER TYPE"
+  "message": "Created",
+  "restaurantName": "RestaurantNickname",
+  "walletAddress": "Wallet Address",
 }
 ```
 
 ---
 
-## Login
+## Create Delivery Man Account
 
 ### [Request]
 
 #### URL
 
 ```
-POST /account/login HTTP/1.1
+POST /deliveryman HTTP/1.1
 Host : http://127.0.0.1:4000
 ```
 
 #### body
 
-| Key      | Description                                                                            | Type   | Required |
-| :------- | :------------------------------------------------------------------------------------- | :----- | :------: |
-| userId   | User ID                                                                                | String |    O     |
-| password | User Password                                                                          | String |    O     |
-| type     | User type. "Restaurant" type is 1, "Delivery Man" type is 2, and "Customer" type is 3. | Number |    O     |
+| Key                | Description               | Type   | Required |
+| :----------------- | :------------------------ | :----- | :------: |
+| userId             | Delivery Man ID           | String |    O     |
+| password           | Delivery Man Password     | String |    O     |
+| deliveryManName    | Delivery Man Nickname.    | String |    O     |
+| deliveryManAddress | Delivery Man Address      | String |    O     |
+| deliveryManNumber  | Delivery Man Phone Number | String |    O     |
 
 ### [Response]
 
-| Name          | Type    | Description                                                                                                                                                                                           | Required |
-| :------------ | :------ | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :------: |
-| userId        | String  | User ID                                                                                                                                                                                               |    O     |
-| nickName      | Object  | User Nickname. When user type is "restaurant", it should be a restaurant name.                                                                                                                        |    O     |
-| address       | String  | User Address                                                                                                                                                                                          |    O     |
-| walletAddress | Address | Wallet Address. This address is created on the server side.                                                                                                                                           |    O     |
-| privateKey    | Address | Private Key. This key is created on the server side.                                                                                                                                                  |    O     |
-| type          | Number  | User type. "Restaurant" type is 1, "Delivery Man" type is 2, and "Customer" type is 3.                                                                                                                |    O     |
-| token         | Array   | The first element is the number of DEDE tokens that is in the user's wallet. The second element is the number of KLAY that is in the user's wallet. <br/><br/> **[{BalanceOfDEDE}, {BalanceOfKLAY}]** |    O     |
-| staking       | Number  | The number of DEDE tokens that have been staked.                                                                                                                                                      |    O     |
-| nft           | Array   | The list of NFTs that is in the user's wallet.                                                                                                                                                        |    O     |
+| Name            | Type   | Description                                                                                              | Required |
+| :-------------- | :----- | :------------------------------------------------------------------------------------------------------- | :------: |
+| message         | String | Message. "Created" or "Fail".                                                                            |    O     |
+| deliveryManName | String | Delivery Man Nickname.                                                                                   |    O     |
+| walletAddress   | String | Wallet Address. This address and key are created on the server side. Only address is sent to the client. |    O     |
+
+---
+
+## Login Customer
+
+### [Request]
+
+#### URL
+
+```
+POST /customer/login HTTP/1.1
+Host : http://127.0.0.1:4000
+```
+
+#### body
+
+| Key      | Description   | Type   | Required |
+| :------- | :------------ | :----- | :------: |
+| userId   | User ID       | String |    O     |
+| password | User Password | String |    O     |
+
+### [Response]
+
+| Name         | Type   | Description                                                                                                | Required |
+| :----------- | :----- | :--------------------------------------------------------------------------------------------------------- | :------: |
+| userId       | String | Customer ID                                                                                                |    O     |
+| jsonWebToken | String | JWT. If the customer receives JWT completely, customer can put it in req.header and send it to the server. |    O     |
 
 ### [Sample]
 
@@ -101,9 +149,8 @@ Host : http://127.0.0.1:4000
 
 ```
 {
-  "userId": "USER ID",
-  "password": "USER PASSWORD",
-  "type": "USER TYPE"
+  "userId": "Customer ID",
+  "password": "Customer Password",
 }
 ```
 
@@ -112,30 +159,123 @@ Host : http://127.0.0.1:4000
 ```
 HTTP/1.1 200 OK
 {
-  "userId": "USER ID",
-  "nickName": "USER NICKNAME",
-  "address": "USER ADDRESS",
-  "walletAddress": "WALLET ADDRESS",
-  "privateKey": "WALLET PRIVATEKEY",
-  "type": "USER TYPE",
-  "token": ["BALANCE OF DEDE Token", "Balance Of KLAY"],
-  "staking": "BALANCE OF STAKING",
-  "nft": "USER COLLECTED NFT",
+  "userId": "Customer ID",
+  "jsonWebToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c"
 }
 ```
 
 ---
 
-## Get History
+## Login Restaurant
 
 ### [Request]
 
 #### URL
 
 ```
-GET /history HTTP/1.1
+POST /restaurant/login HTTP/1.1
 Host : http://127.0.0.1:4000
 ```
+
+#### body
+
+| Key      | Description   | Type   | Required |
+| :------- | :------------ | :----- | :------: |
+| userId   | User ID       | String |    O     |
+| password | User Password | String |    O     |
+
+### [Response]
+
+| Name         | Type   | Description                                                                                                    | Required |
+| :----------- | :----- | :------------------------------------------------------------------------------------------------------------- | :------: |
+| userId       | String | Restaurant ID                                                                                                  |    O     |
+| jsonWebToken | String | JWT. If the Restaurant receives JWT completely, restaurant can put it in req.header and send it to the server. |    O     |
+
+### [Sample]
+
+#### req.body
+
+```
+{
+  "userId": "Restaurant ID",
+  "password": "Restaurant Password",
+}
+```
+
+#### Response: success
+
+```
+HTTP/1.1 200 OK
+{
+  "userId": "Restaurant ID",
+  "jsonWebToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c"
+}
+```
+
+---
+
+## Login Delivery Man
+
+### [Request]
+
+#### URL
+
+```
+POST /deliveryman/login HTTP/1.1
+Host : http://127.0.0.1:4000
+```
+
+#### body
+
+| Key      | Description           | Type   | Required |
+| :------- | :-------------------- | :----- | :------: |
+| userId   | Delivery Man ID       | String |    O     |
+| password | Delivery Man Password | String |    O     |
+
+### [Response]
+
+| Name         | Type   | Description                                                                                                        | Required |
+| :----------- | :----- | :----------------------------------------------------------------------------------------------------------------- | :------: |
+| userId       | String | Delivery Man ID                                                                                                    |    O     |
+| jsonWebToken | String | JWT. If the Delivery Man receives JWT completely, Delivery Man can put it in req.header and send it to the server. |    O     |
+
+### [Sample]
+
+#### req.body
+
+```
+{
+  "userId": "Delivery Man ID",
+  "password": "Delivery Man Password",
+}
+```
+
+#### Response: success
+
+```
+HTTP/1.1 200 OK
+{
+  "userId": "Delivery Man ID",
+  "jsonWebToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c"
+}
+```
+
+---
+
+## Get Customer Information
+
+### [Request]
+
+#### URL
+
+```
+GET /customer/:userId HTTP/1.1
+Host : http://127.0.0.1:4000
+```
+
+#### Required Header
+
+`Authorization: Bearer jsonWebToken`
 
 #### body
 
@@ -145,9 +285,190 @@ Host : http://127.0.0.1:4000
 
 ### [Response]
 
-| Name   | Type  | Description                                                                                                                                                                                   | Required |
-| :----- | :---- | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :------: |
-| orders | Array | Orders is an array of order objects. Order object contains the data of {customer, restaurant, address, price, status, deliveryMan}. <br/> **Default**: Orders are sorted in the latest order. |    O     |
+| Name            | Type   | Description                                                                                                                                                                                           | Required |
+| :-------------- | :----- | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :------: |
+| userId          | String | User ID                                                                                                                                                                                               |    O     |
+| customerName    | String | Customer Nickname.                                                                                                                                                                                    |    O     |
+| customerAddress | String | Customer Address                                                                                                                                                                                      |    O     |
+| customerNumber  | String | Customer Phone Number                                                                                                                                                                                 |    O     |
+| walletAddress   | String | Wallet Address. This address was created on the server side.                                                                                                                                          |    O     |
+| token           | Array  | The first element is the number of DEDE tokens that is in the user's wallet. The second element is the number of KLAY that is in the user's wallet. <br/><br/> **[{BalanceOfDEDE}, {BalanceOfKLAY}]** |    O     |
+| staking         | Number | The number of DEDE tokens that have been staked.                                                                                                                                                      |    O     |
+| nft             | Array  | The list of NFT metadata URIs that is in the user's wallet.                                                                                                                                           |    O     |
+
+### [Sample]
+
+#### Response: success
+
+```
+HTTP/1.1 200 OK
+{
+  "userId": "CustomerId",
+  "customerName": "Customer Name",
+  "customerAddress": "Customer Address",
+  "customerNumber": "Customer Phone Number",
+  "walletAddress": "Customer Wallet Address",
+  token: [3000, 150],
+  nft: ["https://cryptowatchbearclub.mypinata.cloud/ipfs/QmX8kGmiRD5crgp3WZHgch2M7wEhCyStev9vpqxycQ713p/1752", "https://api.mooncat.community/traits/15581"]
+}
+```
+
+---
+
+## Get Restaurants
+
+### [Request]
+
+#### URL
+
+```
+GET /restaurant HTTP/1.1
+Host : http://127.0.0.1:4000
+```
+
+### [Response]
+
+| Name        | Type  | Description                                                                                                                                     | Required |
+| :---------- | :---- | :---------------------------------------------------------------------------------------------------------------------------------------------- | :------: |
+| restaurants | Array | The Array of restaurant objects. <br/><br/> **[{userId: String, restaurantName: String, restaurantAddress: String, restaurantNumber: String}]** |    O     |
+
+---
+
+## Get Restaurant Information
+
+### [Request]
+
+#### URL
+
+```
+GET /restaurant/:userId HTTP/1.1
+Host : http://127.0.0.1:4000
+```
+
+#### Required Header
+
+`Authorization: Bearer jsonWebToken`
+
+#### body
+
+```
+
+```
+
+### [Response]
+
+| Name              | Type   | Description                                                                                                                                                                                           | Required |
+| :---------------- | :----- | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :------: |
+| restaurantUserId  | String | Restaurant User ID                                                                                                                                                                                    |    O     |
+| restaurantName    | String | Restaurant Nickname                                                                                                                                                                                   |    O     |
+| restaurantAddress | String | Restaurant Address                                                                                                                                                                                    |    O     |
+| restaurantNumber  | String | Restaurant Phone Number                                                                                                                                                                               |    O     |
+| menu              | Array  | The list of menu data objects that is written by the restaurant. <br/><br/> **[{menuName: String, menuDescription: String, menuPrice: Number}]**                                                      |    O     |
+| walletAddress     | String | Wallet Address. This address was created on the server side.                                                                                                                                          |    O     |
+| token             | Array  | The first element is the number of DEDE tokens that is in the user's wallet. The second element is the number of KLAY that is in the user's wallet. <br/><br/> **[{BalanceOfDEDE}, {BalanceOfKLAY}]** |    O     |
+| staking           | Number | The number of DEDE tokens that have been staked.                                                                                                                                                      |    O     |
+| sellingNft        | Array  | The list of NFT data objects that is written by the restaurant. <br/><br/> **[{restaurantId: ObjectId, restaurantName: String, discountRate: Number, nftPrice: Number}]**                             |    O     |
+
+### [Sample]
+
+#### Response: success
+
+```
+HTTP/1.1 200 OK
+{
+  "restaurantUserId": "RestaurantId",
+  "restaurantName": "RestaurantName",
+  "restaurantAddress": "Restaurant Address",
+  "restaurantNumber": "Restaurant Phone Number",
+  "menu": [{"menuName": "pasta", "menuDescription": "Very delicious", "menuPrice": 12500}, {"menuName": "salad", "menuDescription": "Very fresh", "menuPrice": 8000}],
+  "walletAddress": "Restaurant Wallet Address",
+  "token": [3000, 150],
+  "staking": 1000,
+  "sellingNft": [{"restaurantId": "RestaurantObjectId", "restaurantName": "RestaurantName", "discountRate": 10, "nftPrice": 300}]
+}
+```
+
+---
+
+## Get Delivery Man Information
+
+### [Request]
+
+#### URL
+
+```
+GET /deliveryman/:userId HTTP/1.1
+Host : http://127.0.0.1:4000
+```
+
+#### Required Header
+
+`Authorization: Bearer jsonWebToken`
+
+#### body
+
+```
+
+```
+
+### [Response]
+
+| Name              | Type   | Description                                                                                                                                                                                           | Required |
+| :---------------- | :----- | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :------: |
+| userId            | String | Delivery Man ID                                                                                                                                                                                       |    O     |
+| deliveryManName   | String | Delivery Man Nickname.                                                                                                                                                                                |    O     |
+| deliveryManNumber | String | Delivery Man Phone Number                                                                                                                                                                             |    O     |
+| walletAddress     | String | Wallet Address. This address was created on the server side.                                                                                                                                          |    O     |
+| token             | Array  | The first element is the number of DEDE tokens that is in the user's wallet. The second element is the number of KLAY that is in the user's wallet. <br/><br/> **[{BalanceOfDEDE}, {BalanceOfKLAY}]** |    O     |
+| staking           | Number | The number of DEDE tokens that have been staked.                                                                                                                                                      |    O     |
+
+### [Sample]
+
+#### Response: success
+
+```
+HTTP/1.1 200 OK
+{
+  "deliveryManUserId": "DeliveryManId",
+  "deliveryManName": "Delivery Man Name",
+  "deliveryManAddress": "Delivery Man Address",
+  "deliveryManNumber": "Delivery Man Phone Number",
+  "walletAddress": "Delivery Man Wallet Address",
+  "token": "["3000, 150"]",
+  "staking": 1000
+}
+```
+
+---
+
+## Get Orders
+
+### [Request] : Use Json Web Token
+
+#### URL
+
+```
+GET /order HTTP/1.1
+Host : http://127.0.0.1:4000
+```
+
+#### Header\_
+
+| Name          | Description                                                                           | Required |
+| ------------- | ------------------------------------------------------------------------------------- | :------: |
+| Authorization | 사용자 인증 수단, Json Web Token <br/><br/> **Authorization: Bearer ${JsonWebToken}** |    O     |
+
+#### body
+
+```
+
+```
+
+### [Response]
+
+| Name   | Type  | Description                                                                                                                                                                                                                                                                                                    | Required |
+| :----- | :---- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :------: |
+| orders | Array | Orders is an array of order objects. Each object contains the data of the order. <br/> **Default**: Orders are sorted in the latest order.<br/><br/> **[{customerUserId: String, restaurantUserId: String, deliveryManUserId: String, orderedMenu: [{menuName: String, menuPrice: Number}], status: String}]** |    O     |
 
 ### [Sample]
 
@@ -164,19 +485,17 @@ HTTP/1.1 200 OK
 {
   "orders": [
     {
-      "customer": "CUSTOMER 1 OBJECT ID",
-      "restaurant": "RESTAURANT 1 OBJECT ID",
-      "address": "CUSTOMER 1 ADDRESS",
-      "price": {TOTAL PRICE 1},
-      "status": "Pending" or "Rejected" or "In delivery" or "Complete",
-      "deliveryMan": "DELIVERYMAN 1 OBJECT ID"
+      "customerUserId": "Customer 1 userId",
+      "restaurantUserId": "Restaurant 1 userId",
+      "deliveryManUserId": "Delivery 1 userId",
+      "orderedMenu": [{"menuName": "pasta", "menuPrice": 1250}],
+      "status": "Pending" or "Rejected" or "Cooking" or "Delivery" or "Complete",
     }, {
-      "customer": "CUSTOMER 2 OBJECT ID",
-      "restaurant": "RESTAURANT 2 OBJECT ID",
-      "address": "CUSTOMER 2 ADDRESS",
-      "price": {TOTAL PRICE 2},
-      "status": "Pending" or "Rejected" or "In delivery" or "Complete",
-      "deliveryMan": "DELIVERYMAN 2 OBJECT ID"
+      "customerUserId": "Customer 2 userId",
+      "restaurantUserId": "Restaurant 2 userId",
+      "deliveryManUserId": "Delivery 2 userId",
+      "orderedMenu": [{"menuName": "salad", "menuPrice": 750}],
+      "status": "Pending" or "Rejected" or "Cooking" or "Delivery" or "Complete",
     }
   ]
 }
@@ -184,59 +503,7 @@ HTTP/1.1 200 OK
 
 ---
 
-## Place Order
-
-### [Request]
-
-#### URL
-
-```
-POST /order HTTP/1.1
-Host : http://127.0.0.1:4000
-```
-
-#### body
-
-| Key            | Description                                                         | Type          | Required |
-| :------------- | :------------------------------------------------------------------ | :------------ | :------: |
-| restaurantName | Restaurant Name                                                     | String        |    O     |
-| orderList      | Customer's order list that is the selected menus at the restaurant. | Array<number> |    O     |
-| totalPrice     | The total price of selected menus.                                  | Number        |    O     |
-
-### [Response]
-
-| Name   | Type   | Description                                                                   | Required |
-| :----- | :----- | :---------------------------------------------------------------------------- | :------: |
-| status | String | "Pending" or "Rejected"                                                       |    O     |
-| data   | Object | Order's Object ID. When "status" is rejected, data should be an empty object. |    O     |
-
-### [Sample]
-
-#### req.body
-
-```
-{
-  "restaurant": "RESTAURANT NAME",
-  "orderList": [{MENU NUMBER}],
-  "totalPrice": {TOTAL PRICE}
-}
-```
-
-#### Response: success
-
-```
-HTTP/1.1 200 OK
-{
-  "status": "Pending or Rejected",
-  "data": {
-    "orderId": "Order's Object ID"
-  }
-}
-```
-
----
-
-## Get Orders By ID
+## Get Order By ID
 
 ### [Request]
 
@@ -255,24 +522,76 @@ Host : http://127.0.0.1:4000
 
 ### [Response]
 
-| Name   | Type   | Description                                                                   | Required |
-| :----- | :----- | :---------------------------------------------------------------------------- | :------: |
-| status | String | "Pending" or "Rejected" or "In delivery" or "Complete"                        |    O     |
-| data   | Object | Order's Object ID. When "status" is rejected, data should be an empty object. |    O     |
+| Name              | Type   | Description                                                                                                                                     | Required |
+| :---------------- | :----- | :---------------------------------------------------------------------------------------------------------------------------------------------- | :------: |
+| customerUserId    | String | Customer User ID                                                                                                                                |    O     |
+| restaurantUserId  | String | Restaurant User ID                                                                                                                              |    O     |
+| deliveryManUserId | String | Delivery Man User ID                                                                                                                            |    O     |
+| orderedMenu       | Array  | orderedMenu is an array of menu data objects. Each object contains the data of the menu. <br/><br/> **[{menuName: String, menuPrice: Number}]** |    O     |
+| status            | String | "Pending" or "Rejected" or "Cooking" or "Delivery" or "Complete"                                                                                |    O     |
 
 #### Response: success
 
 ```
 HTTP/1.1 200 OK
 {
-  "status": "pending or rejected or complete",
-  "data": {
-      "id": "Order's Object ID",
-      "restaurant": "RESTAURANT NAME",
-      "orderList": ["MENU NUMBER"],
-      "totalPrice": "Total Price",
-      "createdAt": "2022-04-21T05:22:05.709Z"
-  }
+    "customerUserId": "Customer userId",
+    "restaurantUserId": "Restaurant userId",
+    "deliveryManUserId": "Delivery userId",
+    "orderedMenu": [{"menuName": "pasta", "menuPrice": 1250}],
+    "status": "Pending" or "Rejected" or "Cooking" or "Delivery" or "Complete",
+}
+```
+
+---
+
+## Create Order
+
+### [Request]
+
+#### URL
+
+```
+POST /order HTTP/1.1
+Host : http://127.0.0.1:4000
+```
+
+#### Header\_
+
+| Name          | Description                                                                           | Required |
+| ------------- | ------------------------------------------------------------------------------------- | :------: |
+| Authorization | 사용자 인증 수단, Json Web Token <br/><br/> **Authorization: Bearer ${JsonWebToken}** |    O     |
+
+#### body
+
+| Key              | Description                                                                                                                | Type          | Required |
+| :--------------- | :------------------------------------------------------------------------------------------------------------------------- | :------------ | :------: |
+| restaurantUserId | Restaurant User ID                                                                                                         | String        |    O     |
+| orderedMenu      | The array of menu data objects that is the selected by the customer. <br/><br/>**[{menuName: String, menuPrice: Number}]** | Array<number> |    O     |
+
+### [Response]
+
+| Name    | Type   | Description | Required |
+| :------ | :----- | :---------- | :------: |
+| message | String | "Created"   |    O     |
+
+### [Sample]
+
+#### req.body
+
+```
+{
+  "restaurantUserId": "Restaurant User ID",
+  "orderedMenu": [{"menuName": "pasta", "menuPrice": 740}],
+}
+```
+
+#### Response: success
+
+```
+HTTP/1.1 200 OK
+{
+  "message": "Created"
 }
 ```
 
@@ -285,7 +604,7 @@ HTTP/1.1 200 OK
 #### URL
 
 ```
-GET /menus/:restaurantId HTTP/1.1
+GET restaurant/menu/:restaurantId(ObjectId) HTTP/1.1
 Host : http://127.0.0.1:4000
 ```
 
@@ -297,9 +616,9 @@ Host : http://127.0.0.1:4000
 
 ### [Response]
 
-| Name  | Type  | Description                                                          | Required |
-| :---- | :---- | :------------------------------------------------------------------- | :------: |
-| menus | Array | This value is an array of menu objects registered at the restaurant. |    O     |
+| Name  | Type  | Description                                                                                                                                                  | Required |
+| :---- | :---- | :----------------------------------------------------------------------------------------------------------------------------------------------------------- | :------: |
+| menus | Array | This is an array of menu objects registered at the restaurant. <br/><br/>**[{menuName: String, menuDescription: String, menuPrice: Number}, { ... }, ... ]** |    O     |
 
 ### [Sample]
 
@@ -308,13 +627,13 @@ Host : http://127.0.0.1:4000
 ```
 HTTP/1.1 200 OK
 {
-  "menus": [{MENU}]
+  "menus": [{"menuName": "pasta", "menuDescription": "Very delicious food", "menuPrice": 400}]
 }
 ```
 
 ---
 
-## Add Menu
+## Create Menu
 
 Restaurant-type user can add menus. The menu will be added to the menu list.
 
@@ -323,26 +642,23 @@ Restaurant-type user can add menus. The menu will be added to the menu list.
 #### URL
 
 ```
-POST /menus/:restaurantId HTTP/1.1
+POST restaurant/menu/:restaurantId(ObjectId) HTTP/1.1
 Host : http://127.0.0.1:4000
 ```
 
 #### body
 
-| Key             | Description                               | Type   | Required |
-| :-------------- | :---------------------------------------- | :----- | :------: |
-| menuName        | The name of this menu                     | String |    O     |
-| menuDescription | Default: "We serve delicious food." <br/> | String |    X     |
-| price           | The price of this menu. The unit is KRW.  | Number |    O     |
+| Key             | Description                                     | Type   | Required |
+| :-------------- | :---------------------------------------------- | :----- | :------: |
+| menuName        | The name of this menu                           | String |    O     |
+| menuDescription | Default: "We serve delicious food." <br/>       | String |    X     |
+| menuPrice       | The price of this menu. The unit is DEDE token. | Number |    O     |
 
 ### [Response]
 
-| Name            | Type   | Description                                                                                                                                                                                                                                           | Required |
-| :-------------- | :----- | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :------: |
-| menuName        | String | The name of this menu                                                                                                                                                                                                                                 |    O     |
-| menuDescription | String | Default: "We serve delicious food." <br/>                                                                                                                                                                                                             |    O     |
-| price           | Number | The price of this menu. The unit is KRW.                                                                                                                                                                                                              |    O     |
-| message         | String | If the same menu name exists, adding a menu fails. <br/> When restaurant-type user added menu successfully on the menu list, the message is "Add Menu Successfully". When restaurant-type user failed to add menu, the message is "Fail to Add Menu". |    O     |
+| Name    | Type   | Description                                                                                                                                                                                                                                                    | Required |
+| :------ | :----- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :------: |
+| message | String | If the same menu name exists, adding a menu fails. <br/> When restaurant-type user added menu successfully on the menu list, the message is "Create Menu Successfully". When restaurant-type user failed to create menu, the message is "Fail to Create Menu". |    O     |
 
 ### [Sample]
 
@@ -350,9 +666,9 @@ Host : http://127.0.0.1:4000
 
 ```
 {
-  "menuName": "MENU NAME",
-  "menuDescription": "MENU DESCRIPTION",
-  "price": "MENU PRICE
+  "menuName": "Pasta",
+  "menuDescription": "Very Delicious",
+  "menuPrice": 400
 }
 ```
 
@@ -361,11 +677,317 @@ Host : http://127.0.0.1:4000
 ```
 HTTP/1.1 200 OK
 {
-  "menuName": "MENU NAME",
-  "menuDescription": "MENU DESCRIPTION",
-  "price": "MENU PRICE
-  "message": "Add Menu Successfully"
+    "message": "Create Menu Successfully"
 }
+```
+
+---
+
+## List NFT on the restaurant
+
+### [Request]
+
+#### URL
+
+```
+POST /restaurant/nft/:restaurantId HTTP/1.1
+Host : http://127.0.0.1:4000
+```
+
+#### body
+
+```
+{
+  "restaurantName": "RestaurantName", "discountRate": 10, "nftPrice": 300
+}
+```
+
+### [Response]
+
+```
+{
+  "message": "Success"
+}
+```
+
+---
+
+## Accept or Reject Order
+
+### [Request]
+
+#### URL
+
+```
+PATCH /order/:orderId(ObjectId) HTTP/1.1
+Host : http://127.0.0.1:4000
+```
+
+#### Header\_
+
+`Authorization: Bearer jsonWebToken`
+
+#### Required Body
+
+```
+{
+  status: 'Cooking' or 'Rejected'
+}
+```
+
+### [Response]
+
+```
+{
+  customerUserId: String,
+  restaurantUserId: String,
+  deliveryManUserId: String,
+  orderedMenu: [{menuName: String, menuPrice: Number}],
+  status: 'Cooking' or 'Rejected'
+}
+```
+
+---
+
+## Take Order for Delivery
+
+### [Request]
+
+#### URL
+
+```
+PATCH /order/:orderId(ObjectId) HTTP/1.1
+Host : http://127.0.0.1:4000
+```
+
+#### Header\_
+
+`Authorization: Bearer jsonWebToken`
+
+#### Required Body
+
+```
+{
+  status: 'Delivery'
+}
+```
+
+### [Response]
+
+```
+{
+  customerUserId: String,
+  restaurantUserId: String,
+  deliveryManUserId: String,
+  orderedMenu: [{menuName: String, menuPrice: Number}],
+  status: 'Delivery'
+}
+```
+
+---
+
+## Finish Order
+
+### [Request]
+
+#### URL
+
+```
+PATCH /order/:orderId(ObjectId) HTTP/1.1
+Host : http://127.0.0.1:4000
+```
+
+#### Header\_
+
+`Authorization: Bearer jsonWebToken`
+
+#### Required Body
+
+```
+{
+  status: 'Completed'
+}
+```
+
+### [Response]
+
+```
+{
+  customerUserId: String,
+  restaurantUserId: String,
+  deliveryManUserId: String,
+  orderedMenu: [{menuName: String, menuPrice: Number}],
+  status: 'Completed'
+}
+```
+
+---
+
+## Deploy Contract: Server
+
+### [Request]
+
+#### URL
+
+```
+POST /deploy HTTP/1.1
+Host : http://127.0.0.1:4000
+```
+
+#### body
+
+```
+{
+    "adminId": "Admin's Id",
+    "adminPassword": "Admin's Password"
+}
+```
+
+### [Response]
+
+```
+{
+  "status": "Success"
+}
+```
+
+---
+
+## Swap Token
+
+### [Request]
+
+#### URL
+
+```
+POST /swap HTTP/1.1
+Host : http://127.0.0.1:4000
+```
+
+#### Header\_
+
+`Authorization: Bearer jsonWebToken`
+
+#### body
+
+```
+{
+    "userId": "UserObjectId",
+    "type": "DEDEtoKLAY"
+    "amount": Number
+}
+```
+
+### [Response]
+
+```
+{
+    "message": "Success"
+}
+```
+
+---
+
+## Transfer Token
+
+### [Request]
+
+#### URL
+
+```
+POST /transfer HTTP/1.1
+Host : http://127.0.0.1:4000
+```
+
+#### Header\_
+
+`Authorization: Bearer jsonWebToken`
+
+#### body
+
+```
+{
+    "userId": "UserObjectId",
+    "to": "Address"
+    "amount": Number
+}
+```
+
+### [Response]
+
+```
+{
+    "message": "Success"
+}
+```
+
+---
+
+## Staking Token
+
+### [Request]
+
+#### URL
+
+```
+POST /stake HTTP/1.1
+Host : http://127.0.0.1:4000
+```
+
+#### Header\_
+
+`Authorization: Bearer jsonWebToken`
+
+#### body
+
+```
+{
+    "userId": "UserObjectId",
+    "amount": Number
+}
+```
+
+### [Response]
+
+```
+{
+    "message": "Success"
+}
+```
+
+---
+
+## Create and Buy NFT
+
+### [Request]
+
+#### URL
+
+```
+POST /nft HTTP/1.1
+Host : http://127.0.0.1:4000
+```
+
+#### Header\_
+
+`Authorization: Bearer jsonWebToken`
+
+#### body
+
+```
+{
+  "restaurantId": "RestaurantObjectId",
+  "restaurantName": "RestaurantName",
+  "discountRate": 10,
+  "nftPrice": 300
+}
+```
+
+### [Response]
+
+```
+{
+  "message": "Success"
 ```
 
 ---
