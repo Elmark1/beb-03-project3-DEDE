@@ -126,6 +126,64 @@ HTTP/1.1 200 OK
 
 ---
 
+## Get History
+
+### [Request]
+
+#### URL
+
+```
+GET /history HTTP/1.1
+Host : http://127.0.0.1:4000
+```
+
+#### body
+
+```
+
+```
+
+### [Response]
+
+| Name   | Type  | Description                                                                                                                                                                                   | Required |
+| :----- | :---- | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :------: |
+| orders | Array | Orders is an array of order objects. Order object contains the data of {customer, restaurant, address, price, status, deliveryMan}. <br/> **Default**: Orders are sorted in the latest order. |    O     |
+
+### [Sample]
+
+#### req.body
+
+```
+
+```
+
+#### Response: success
+
+```
+HTTP/1.1 200 OK
+{
+  "orders": [
+    {
+      "customer": "CUSTOMER 1 OBJECT ID",
+      "restaurant": "RESTAURANT 1 OBJECT ID",
+      "address": "CUSTOMER 1 ADDRESS",
+      "price": {TOTAL PRICE 1},
+      "status": "Pending" or "Rejected" or "In delivery" or "Complete",
+      "deliveryMan": "DELIVERYMAN 1 OBJECT ID"
+    }, {
+      "customer": "CUSTOMER 2 OBJECT ID",
+      "restaurant": "RESTAURANT 2 OBJECT ID",
+      "address": "CUSTOMER 2 ADDRESS",
+      "price": {TOTAL PRICE 2},
+      "status": "Pending" or "Rejected" or "In delivery" or "Complete",
+      "deliveryMan": "DELIVERYMAN 2 OBJECT ID"
+    }
+  ]
+}
+```
+
+---
+
 ## Place Order
 
 ### [Request]
