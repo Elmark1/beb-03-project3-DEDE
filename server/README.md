@@ -11,23 +11,23 @@ POST /customer HTTP/1.1
 Host : http://127.0.0.1:4000
 ```
 
-#### body
+#### Body
 
-| Key             | Description                                                                        | Type   | Required |
-| :-------------- | :--------------------------------------------------------------------------------- | :----- | :------: |
-| userId          | Customer ID                                                                        | String |    O     |
-| password        | Customer Password                                                                  | String |    O     |
-| customerName    | Customer Nickname. When user type is "restaurant", it should be a restaurant name. | String |    O     |
-| customerAddress | Customer Address                                                                   | String |    O     |
-| customerNumber  | Customer Phone Number                                                              | String |    O     |
+| Key             | Description           | Type   | Required |
+| :-------------- | :-------------------- | :----- | :------: |
+| customerUserId  | Customer User ID      | String |    O     |
+| password        | Customer Password     | String |    O     |
+| customerName    | Customer Nickname     | String |    O     |
+| customerAddress | Customer Address      | String |    O     |
+| customerNumber  | Customer Phone Number | String |    O     |
 
 ### [Response]
 
-| Name          | Type   | Description                                                                                              | Required |
-| :------------ | :----- | :------------------------------------------------------------------------------------------------------- | :------: |
-| message       | String | Message. "Created" or "Fail".                                                                            |    O     |
-| customerName  | String | Customer Nickname.                                                                                       |    O     |
-| walletAddress | String | Wallet Address. This address and key are created on the server side. Only address is sent to the client. |    O     |
+| Name          | Type   | Description                                                                                                          | Required |
+| :------------ | :----- | :------------------------------------------------------------------------------------------------------------------- | :------: |
+| message       | String | Message. "Created" or "Fail".                                                                                        |    O     |
+| customerName  | String | Customer Nickname.                                                                                                   |    O     |
+| walletAddress | String | Wallet Address. This address and private key are created on the server side. The only address is sent to the client. |    O     |
 
 ---
 
@@ -42,23 +42,23 @@ POST /restaurant HTTP/1.1
 Host : http://127.0.0.1:4000
 ```
 
-#### body
+#### Body
 
-| Key               | Description         | Type   | Required |
-| :---------------- | :------------------ | :----- | :------: |
-| userId            | Restaurant ID       | String |    O     |
-| password          | Restaurant Password | String |    O     |
-| restaurantName    | Restaurant Name.    | String |    O     |
-| restaurantAddress | Restaurant Address  | String |    O     |
-| restaurantNumber  | Restaurant Number   | String |    O     |
+| Key               | Description             | Type   | Required |
+| :---------------- | :---------------------- | :----- | :------: |
+| restaurantUserId  | Restaurant User ID      | String |    O     |
+| password          | Restaurant Password     | String |    O     |
+| restaurantName    | Restaurant Name         | String |    O     |
+| restaurantAddress | Restaurant Address      | String |    O     |
+| restaurantNumber  | Restaurant Phone Number | String |    O     |
 
 ### [Response]
 
-| Name           | Type   | Description                                                                                              | Required |
-| :------------- | :----- | :------------------------------------------------------------------------------------------------------- | :------: |
-| message        | String | Message. "Created" or "Fail".                                                                            |    O     |
-| restaurantName | String | It should be a restaurant nickname.                                                                      |    O     |
-| walletAddress  | String | Wallet Address. This address and key are created on the server side. Only address is sent to the client. |    O     |
+| Name           | Type   | Description                                                                                                          | Required |
+| :------------- | :----- | :------------------------------------------------------------------------------------------------------------------- | :------: |
+| message        | String | Message. "Created" or "Fail".                                                                                        |    O     |
+| restaurantName | String | It should be a restaurant name.                                                                                      |    O     |
+| walletAddress  | String | Wallet Address. This address and private key are created on the server side. The only address is sent to the client. |    O     |
 
 ### [Sample]
 
@@ -66,9 +66,9 @@ Host : http://127.0.0.1:4000
 
 ```
 {
-  "userId": "RestaurantID",
+  "restaurantUserId": "RestaurantUserID",
   "password": "RestaurantPassword",
-  "restaurantName": "RestaurantNickname",
+  "restaurantName": "RestaurantName",
   "restaurantAddress": "Restaurant Address",
   "restaurantNumber": "01012345678",
 }
@@ -80,8 +80,8 @@ Host : http://127.0.0.1:4000
 HTTP/1.1 200 OK
 {
   "message": "Created",
-  "restaurantName": "RestaurantNickname",
-  "walletAddress": "Wallet Address",
+  "restaurantName": "RestaurantName",
+  "walletAddress": "WalletAddress",
 }
 ```
 
@@ -98,23 +98,23 @@ POST /deliveryman HTTP/1.1
 Host : http://127.0.0.1:4000
 ```
 
-#### body
+#### Body
 
 | Key                | Description               | Type   | Required |
 | :----------------- | :------------------------ | :----- | :------: |
-| userId             | Delivery Man ID           | String |    O     |
+| deliveryManUserId  | Delivery Man User ID      | String |    O     |
 | password           | Delivery Man Password     | String |    O     |
-| deliveryManName    | Delivery Man Nickname.    | String |    O     |
+| deliveryManName    | Delivery Man Nickname     | String |    O     |
 | deliveryManAddress | Delivery Man Address      | String |    O     |
 | deliveryManNumber  | Delivery Man Phone Number | String |    O     |
 
 ### [Response]
 
-| Name            | Type   | Description                                                                                              | Required |
-| :-------------- | :----- | :------------------------------------------------------------------------------------------------------- | :------: |
-| message         | String | Message. "Created" or "Fail".                                                                            |    O     |
-| deliveryManName | String | Delivery Man Nickname.                                                                                   |    O     |
-| walletAddress   | String | Wallet Address. This address and key are created on the server side. Only address is sent to the client. |    O     |
+| Name            | Type   | Description                                                                                                          | Required |
+| :-------------- | :----- | :------------------------------------------------------------------------------------------------------------------- | :------: |
+| message         | String | Message. "Created" or "Fail"                                                                                         |    O     |
+| deliveryManName | String | Delivery Man Nickname                                                                                                |    O     |
+| walletAddress   | String | Wallet Address. This address and private key are created on the server side. The only address is sent to the client. |    O     |
 
 ---
 
@@ -129,19 +129,19 @@ POST /customer/login HTTP/1.1
 Host : http://127.0.0.1:4000
 ```
 
-#### body
+#### Body
 
-| Key      | Description   | Type   | Required |
-| :------- | :------------ | :----- | :------: |
-| userId   | User ID       | String |    O     |
-| password | User Password | String |    O     |
+| Key            | Description      | Type   | Required |
+| :------------- | :--------------- | :----- | :------: |
+| customerUserId | Customer User ID | String |    O     |
+| password       | User Password    | String |    O     |
 
 ### [Response]
 
-| Name         | Type   | Description                                                                                                | Required |
-| :----------- | :----- | :--------------------------------------------------------------------------------------------------------- | :------: |
-| userId       | String | Customer ID                                                                                                |    O     |
-| jsonWebToken | String | JWT. If the customer receives JWT completely, customer can put it in req.header and send it to the server. |    O     |
+| Name           | Type   | Description                                                                                                | Required |
+| :------------- | :----- | :--------------------------------------------------------------------------------------------------------- | :------: |
+| customerUserId | String | Customer User ID                                                                                           |    O     |
+| jsonWebToken   | String | JWT. If the customer receives JWT completely, customer can put it in req.header and send it to the server. |    O     |
 
 ### [Sample]
 
@@ -149,7 +149,7 @@ Host : http://127.0.0.1:4000
 
 ```
 {
-  "userId": "Customer ID",
+  "customerUserId": "Customer User ID",
   "password": "Customer Password",
 }
 ```
@@ -159,7 +159,7 @@ Host : http://127.0.0.1:4000
 ```
 HTTP/1.1 200 OK
 {
-  "userId": "Customer ID",
+  "customerUserId": "Customer User ID",
   "jsonWebToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c"
 }
 ```
@@ -177,19 +177,19 @@ POST /restaurant/login HTTP/1.1
 Host : http://127.0.0.1:4000
 ```
 
-#### body
+#### Body
 
-| Key      | Description   | Type   | Required |
-| :------- | :------------ | :----- | :------: |
-| userId   | User ID       | String |    O     |
-| password | User Password | String |    O     |
+| Key              | Description        | Type   | Required |
+| :--------------- | :----------------- | :----- | :------: |
+| restaurantUserId | restaurant User ID | String |    O     |
+| password         | User Password      | String |    O     |
 
 ### [Response]
 
-| Name         | Type   | Description                                                                                                    | Required |
-| :----------- | :----- | :------------------------------------------------------------------------------------------------------------- | :------: |
-| userId       | String | Restaurant ID                                                                                                  |    O     |
-| jsonWebToken | String | JWT. If the Restaurant receives JWT completely, restaurant can put it in req.header and send it to the server. |    O     |
+| Name             | Type   | Description                                                                                                    | Required |
+| :--------------- | :----- | :------------------------------------------------------------------------------------------------------------- | :------: |
+| restaurantUserId | String | Restaurant User ID                                                                                             |    O     |
+| jsonWebToken     | String | JWT. If the Restaurant receives JWT completely, restaurant can put it in req.header and send it to the server. |    O     |
 
 ### [Sample]
 
@@ -197,7 +197,7 @@ Host : http://127.0.0.1:4000
 
 ```
 {
-  "userId": "Restaurant ID",
+  "restaurantUserId": "Restaurant User ID",
   "password": "Restaurant Password",
 }
 ```
@@ -207,7 +207,7 @@ Host : http://127.0.0.1:4000
 ```
 HTTP/1.1 200 OK
 {
-  "userId": "Restaurant ID",
+  "restaurantUserId": "Restaurant User ID",
   "jsonWebToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c"
 }
 ```
@@ -225,19 +225,19 @@ POST /deliveryman/login HTTP/1.1
 Host : http://127.0.0.1:4000
 ```
 
-#### body
+#### Body
 
-| Key      | Description           | Type   | Required |
-| :------- | :-------------------- | :----- | :------: |
-| userId   | Delivery Man ID       | String |    O     |
-| password | Delivery Man Password | String |    O     |
+| Key               | Description           | Type   | Required |
+| :---------------- | :-------------------- | :----- | :------: |
+| deliveryManUserId | Delivery Man User ID  | String |    O     |
+| password          | Delivery Man Password | String |    O     |
 
 ### [Response]
 
-| Name         | Type   | Description                                                                                                        | Required |
-| :----------- | :----- | :----------------------------------------------------------------------------------------------------------------- | :------: |
-| userId       | String | Delivery Man ID                                                                                                    |    O     |
-| jsonWebToken | String | JWT. If the Delivery Man receives JWT completely, Delivery Man can put it in req.header and send it to the server. |    O     |
+| Name              | Type   | Description                                                                                                        | Required |
+| :---------------- | :----- | :----------------------------------------------------------------------------------------------------------------- | :------: |
+| deliveryManUserId | String | Delivery Man User ID                                                                                               |    O     |
+| jsonWebToken      | String | JWT. If the Delivery Man receives JWT completely, Delivery Man can put it in req.header and send it to the server. |    O     |
 
 ### [Sample]
 
@@ -245,7 +245,7 @@ Host : http://127.0.0.1:4000
 
 ```
 {
-  "userId": "Delivery Man ID",
+  "deliveryManUserId": "Delivery Man User ID",
   "password": "Delivery Man Password",
 }
 ```
@@ -255,7 +255,7 @@ Host : http://127.0.0.1:4000
 ```
 HTTP/1.1 200 OK
 {
-  "userId": "Delivery Man ID",
+  "deliveryManUserId": "Delivery Man User ID",
   "jsonWebToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c"
 }
 ```
@@ -273,22 +273,18 @@ GET /customer/:userId HTTP/1.1
 Host : http://127.0.0.1:4000
 ```
 
-#### Required Header
+#### Request Header
 
-`Authorization: Bearer jsonWebToken`
-
-#### body
-
-```
-
-```
+| Name          | Description                                                                           | Required |
+| ------------- | ------------------------------------------------------------------------------------- | :------: |
+| Authorization | 사용자 인증 수단, Json Web Token <br/><br/> **Authorization: Bearer ${JsonWebToken}** |    O     |
 
 ### [Response]
 
 | Name            | Type   | Description                                                                                                                                                                                           | Required |
 | :-------------- | :----- | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :------: |
-| userId          | String | User ID                                                                                                                                                                                               |    O     |
-| customerName    | String | Customer Nickname.                                                                                                                                                                                    |    O     |
+| customerUserId  | String | Customer User ID                                                                                                                                                                                      |    O     |
+| customerName    | String | Customer Nickname                                                                                                                                                                                     |    O     |
 | customerAddress | String | Customer Address                                                                                                                                                                                      |    O     |
 | customerNumber  | String | Customer Phone Number                                                                                                                                                                                 |    O     |
 | walletAddress   | String | Wallet Address. This address was created on the server side.                                                                                                                                          |    O     |
@@ -303,8 +299,8 @@ Host : http://127.0.0.1:4000
 ```
 HTTP/1.1 200 OK
 {
-  "userId": "CustomerId",
-  "customerName": "Customer Name",
+  "customerUserId": "CustomerUserId",
+  "customerName": "CustomerNickName",
   "customerAddress": "Customer Address",
   "customerNumber": "Customer Phone Number",
   "walletAddress": "Customer Wallet Address",
@@ -328,9 +324,9 @@ Host : http://127.0.0.1:4000
 
 ### [Response]
 
-| Name        | Type  | Description                                                                                                                                     | Required |
-| :---------- | :---- | :---------------------------------------------------------------------------------------------------------------------------------------------- | :------: |
-| restaurants | Array | The Array of restaurant objects. <br/><br/> **[{userId: String, restaurantName: String, restaurantAddress: String, restaurantNumber: String}]** |    O     |
+| Name        | Type  | Description                                                                                                                                                    | Required |
+| :---------- | :---- | :------------------------------------------------------------------------------------------------------------------------------------------------------------- | :------: |
+| restaurants | Array | The Array of restaurant data objects. <br/><br/> **[{restaurantUserId: String, restaurantName: String, restaurantAddress: String, restaurantNumber: String}]** |    O     |
 
 ---
 
@@ -345,15 +341,11 @@ GET /restaurant/:userId HTTP/1.1
 Host : http://127.0.0.1:4000
 ```
 
-#### Required Header
+#### Request Header
 
-`Authorization: Bearer jsonWebToken`
-
-#### body
-
-```
-
-```
+| Name          | Description                                                                           | Required |
+| ------------- | ------------------------------------------------------------------------------------- | :------: |
+| Authorization | 사용자 인증 수단, Json Web Token <br/><br/> **Authorization: Bearer ${JsonWebToken}** |    O     |
 
 ### [Response]
 
@@ -401,15 +393,11 @@ GET /deliveryman/:userId HTTP/1.1
 Host : http://127.0.0.1:4000
 ```
 
-#### Required Header
+#### Request Header
 
-`Authorization: Bearer jsonWebToken`
-
-#### body
-
-```
-
-```
+| Name          | Description                                                                           | Required |
+| ------------- | ------------------------------------------------------------------------------------- | :------: |
+| Authorization | 사용자 인증 수단, Json Web Token <br/><br/> **Authorization: Bearer ${JsonWebToken}** |    O     |
 
 ### [Response]
 
@@ -452,17 +440,11 @@ GET /order HTTP/1.1
 Host : http://127.0.0.1:4000
 ```
 
-#### Header\_
+#### Request Header
 
 | Name          | Description                                                                           | Required |
 | ------------- | ------------------------------------------------------------------------------------- | :------: |
 | Authorization | 사용자 인증 수단, Json Web Token <br/><br/> **Authorization: Bearer ${JsonWebToken}** |    O     |
-
-#### body
-
-```
-
-```
 
 ### [Response]
 
@@ -471,12 +453,6 @@ Host : http://127.0.0.1:4000
 | orders | Array | Orders is an array of order objects. Each object contains the data of the order. <br/> **Default**: Orders are sorted in the latest order.<br/><br/> **[{customerUserId: String, restaurantUserId: String, deliveryManUserId: String, orderedMenu: [{menuName: String, menuPrice: Number}], status: String}]** |    O     |
 
 ### [Sample]
-
-#### req.body
-
-```
-
-```
 
 #### Response: success
 
@@ -512,12 +488,6 @@ HTTP/1.1 200 OK
 ```
 GET /order/:orderId HTTP/1.1
 Host : http://127.0.0.1:4000
-```
-
-#### body
-
-```
-
 ```
 
 ### [Response]
@@ -556,13 +526,13 @@ POST /order HTTP/1.1
 Host : http://127.0.0.1:4000
 ```
 
-#### Header\_
+#### Request Header
 
 | Name          | Description                                                                           | Required |
 | ------------- | ------------------------------------------------------------------------------------- | :------: |
 | Authorization | 사용자 인증 수단, Json Web Token <br/><br/> **Authorization: Bearer ${JsonWebToken}** |    O     |
 
-#### body
+#### Body
 
 | Key              | Description                                                                                                                | Type          | Required |
 | :--------------- | :------------------------------------------------------------------------------------------------------------------------- | :------------ | :------: |
@@ -608,12 +578,6 @@ GET restaurant/menu/:restaurantId(ObjectId) HTTP/1.1
 Host : http://127.0.0.1:4000
 ```
 
-#### body
-
-```
-
-```
-
 ### [Response]
 
 | Name  | Type  | Description                                                                                                                                                  | Required |
@@ -646,7 +610,7 @@ POST restaurant/menu/:restaurantId(ObjectId) HTTP/1.1
 Host : http://127.0.0.1:4000
 ```
 
-#### body
+#### Body
 
 | Key             | Description                                     | Type   | Required |
 | :-------------- | :---------------------------------------------- | :----- | :------: |
@@ -694,7 +658,7 @@ POST /restaurant/nft/:restaurantId HTTP/1.1
 Host : http://127.0.0.1:4000
 ```
 
-#### body
+#### Body
 
 ```
 {
@@ -723,11 +687,13 @@ PATCH /order/:orderId(ObjectId) HTTP/1.1
 Host : http://127.0.0.1:4000
 ```
 
-#### Header\_
+#### Request Header
 
-`Authorization: Bearer jsonWebToken`
+| Name          | Description                                                                           | Required |
+| ------------- | ------------------------------------------------------------------------------------- | :------: |
+| Authorization | 사용자 인증 수단, Json Web Token <br/><br/> **Authorization: Bearer ${JsonWebToken}** |    O     |
 
-#### Required Body
+#### Body
 
 ```
 {
@@ -760,11 +726,13 @@ PATCH /order/:orderId(ObjectId) HTTP/1.1
 Host : http://127.0.0.1:4000
 ```
 
-#### Header\_
+#### Request Header
 
-`Authorization: Bearer jsonWebToken`
+| Name          | Description                                                                           | Required |
+| ------------- | ------------------------------------------------------------------------------------- | :------: |
+| Authorization | 사용자 인증 수단, Json Web Token <br/><br/> **Authorization: Bearer ${JsonWebToken}** |    O     |
 
-#### Required Body
+#### Body
 
 ```
 {
@@ -797,11 +765,13 @@ PATCH /order/:orderId(ObjectId) HTTP/1.1
 Host : http://127.0.0.1:4000
 ```
 
-#### Header\_
+#### Request Header
 
-`Authorization: Bearer jsonWebToken`
+| Name          | Description                                                                           | Required |
+| ------------- | ------------------------------------------------------------------------------------- | :------: |
+| Authorization | 사용자 인증 수단, Json Web Token <br/><br/> **Authorization: Bearer ${JsonWebToken}** |    O     |
 
-#### Required Body
+#### Body
 
 ```
 {
@@ -834,12 +804,12 @@ POST /deploy HTTP/1.1
 Host : http://127.0.0.1:4000
 ```
 
-#### body
+#### Body
 
 ```
 {
-    "adminId": "Admin's Id",
-    "adminPassword": "Admin's Password"
+    adminId: "Admin's Id",
+    adminPassword: "Admin's Password"
 }
 ```
 
@@ -847,7 +817,7 @@ Host : http://127.0.0.1:4000
 
 ```
 {
-  "status": "Success"
+  "message": "Success"
 }
 ```
 
@@ -864,17 +834,19 @@ POST /swap HTTP/1.1
 Host : http://127.0.0.1:4000
 ```
 
-#### Header\_
+#### Request Header
 
-`Authorization: Bearer jsonWebToken`
+| Name          | Description                                                                           | Required |
+| ------------- | ------------------------------------------------------------------------------------- | :------: |
+| Authorization | 사용자 인증 수단, Json Web Token <br/><br/> **Authorization: Bearer ${JsonWebToken}** |    O     |
 
-#### body
+#### Body
 
 ```
 {
-    "userId": "UserObjectId",
-    "type": "DEDEtoKLAY"
-    "amount": Number
+    userId: "UserId",
+    type: "DEDEtoKLAY"
+    amount: Number
 }
 ```
 
@@ -899,17 +871,19 @@ POST /transfer HTTP/1.1
 Host : http://127.0.0.1:4000
 ```
 
-#### Header\_
+#### Request Header
 
-`Authorization: Bearer jsonWebToken`
+| Name          | Description                                                                           | Required |
+| ------------- | ------------------------------------------------------------------------------------- | :------: |
+| Authorization | 사용자 인증 수단, Json Web Token <br/><br/> **Authorization: Bearer ${JsonWebToken}** |    O     |
 
-#### body
+#### Body
 
 ```
 {
-    "userId": "UserObjectId",
-    "to": "Address"
-    "amount": Number
+    userId: "UserId",
+    to: "Address"
+    amount: Number
 }
 ```
 
@@ -934,16 +908,18 @@ POST /stake HTTP/1.1
 Host : http://127.0.0.1:4000
 ```
 
-#### Header\_
+#### Request Header
 
-`Authorization: Bearer jsonWebToken`
+| Name          | Description                                                                           | Required |
+| ------------- | ------------------------------------------------------------------------------------- | :------: |
+| Authorization | 사용자 인증 수단, Json Web Token <br/><br/> **Authorization: Bearer ${JsonWebToken}** |    O     |
 
-#### body
+#### Body
 
 ```
 {
-    "userId": "UserObjectId",
-    "amount": Number
+    userId: "UserId",
+    amount: Number
 }
 ```
 
@@ -968,18 +944,20 @@ POST /nft HTTP/1.1
 Host : http://127.0.0.1:4000
 ```
 
-#### Header\_
+#### Request Header
 
-`Authorization: Bearer jsonWebToken`
+| Name          | Description                                                                           | Required |
+| ------------- | ------------------------------------------------------------------------------------- | :------: |
+| Authorization | 사용자 인증 수단, Json Web Token <br/><br/> **Authorization: Bearer ${JsonWebToken}** |    O     |
 
-#### body
+#### Body
 
 ```
 {
-  "restaurantId": "RestaurantObjectId",
-  "restaurantName": "RestaurantName",
-  "discountRate": 10,
-  "nftPrice": 300
+  restaurantId: "RestaurantId",
+  restaurantName: "RestaurantName",
+  discountRate: 10,
+  nftPrice: 300
 }
 ```
 
