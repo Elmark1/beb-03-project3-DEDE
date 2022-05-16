@@ -1,18 +1,18 @@
 ## User Model
 
-| Name            | Type             | Description                                                                                                                                  | Required |
-| --------------- | ---------------- | -------------------------------------------------------------------------------------------------------------------------------------------- | :------: |
-| type            | Number           | User type. <br/>**Customer type is 1, restaurant type is 2, and delivery man type is 3**.                                                    |    O     |
-| userId          | String           | User ID                                                                                                                                      |    O     |
-| password        | String           | User Password                                                                                                                                |    O     |
-| userName        | String           | User Nickname                                                                                                                                |    O     |
-| phoneNumber     | String           | User Phone Number                                                                                                                            |    O     |
-| roadNameAddress | String           | User Road Name Address                                                                                                                       |    O     |
-| walletAddress   | String           | User Wallet Address                                                                                                                          |    O     |
-| privateKey      | String           | User wallet Private Key                                                                                                                      |    O     |
-| token           | [Number, Number] | Balance of Tokens <br/><br/> **[{DEDEToken}, {KLAY}]**                                                                                       |    O     |
-| stakedToken     | Number           | Balance of Staked DEDE Tokens                                                                                                                |    O     |
-| collectedNft    | [String, ...]    | The list of NFT metadata URIs that is in the user's wallet. It is always **undefined** for type2 (restaurant) or type3 (delivery man) users. |    O     |
+| Name              | Type             | Description                                                                                                                                  | Required |
+| ----------------- | ---------------- | -------------------------------------------------------------------------------------------------------------------------------------------- | :------: |
+| userType          | Number           | User type. <br/>**Customer type is 1, restaurant type is 2, and delivery man type is 3**.                                                    |    O     |
+| userId            | String           | User ID                                                                                                                                      |    O     |
+| password          | String           | User Password                                                                                                                                |    O     |
+| userName          | String           | User Nickname                                                                                                                                |    O     |
+| phoneNumber       | String           | User Phone Number                                                                                                                            |    O     |
+| roadNameAddress   | String           | User Road Name Address                                                                                                                       |    O     |
+| sigungu           | String           | This field's value is gotten from [Daum Postcode Service](https://postcode.map.daum.net/guide).                                              |    O     |
+| encryptedKeystore | String           | User Encrypted Keystore. It will be used to get a keyring by decrypting the keystore.                                                        |    O     |
+| token             | [Number, Number] | Balance of Tokens <br/><br/> **[{DEDEToken}, {KLAY}]**                                                                                       |    O     |
+| stakedToken       | Number           | Balance of Staked DEDE Tokens                                                                                                                |    O     |
+| collectedNft      | [String, ...]    | The list of NFT metadata URIs that is in the user's wallet. It is always **undefined** for type2 (restaurant) or type3 (delivery man) users. |    O     |
 
 ---
 
@@ -20,9 +20,9 @@
 
 | Name        | Type           | Description                                                                                                                                                                                                          | Required |
 | ----------- | -------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :------: |
-| user1_id    | String         | Customer Object ID                                                                                                                                                                                                   |    O     |
-| user2_id    | String         | Restaurant Object ID                                                                                                                                                                                                 |    O     |
-| user3_id    | String         | Delivery Man Object ID                                                                                                                                                                                               |    O     |
+| user1_id    | ObjectId       | Customer Object ID                                                                                                                                                                                                   |    O     |
+| user2_id    | ObjectId       | Restaurant Object ID                                                                                                                                                                                                 |    O     |
+| user3_id    | ObjectId       | Delivery Man Object ID                                                                                                                                                                                               |    O     |
 | status      | String         | "Pending", "Rejected", "Cooking", "Delivery", "Completed" <br/><br/> **Default:** "Pending"                                                                                                                          |    O     |
 | orderedMenu | [Object, ... ] | Each Object contains **menuName, menuDescription, menuPrice**. This data is on the Menu Model, and it is given by Client Side. (이전에 레스토랑 정보를 띄우면서, customer에게 메뉴를 보여줬던 정보를 기반으로 해서 ) |    O     |
 
@@ -30,32 +30,32 @@
 
 ## Menu Model
 
-| Name            | Type             | Description                                                                                                               | Required |
-| --------------- | ---------------- | ------------------------------------------------------------------------------------------------------------------------- | :------: |
-| user_id         | String(ObjectId) | Each ObjectId means user model object ID. It is used to read a **users** collection, and get data of **restaurant** user. |    O     |
-| menuName        | String           | Restaurant Menu Name                                                                                                      |    O     |
-| menuPrice       | Number           | Restaurant Menu Price                                                                                                     |    O     |
-| menuDescription | String           | Restaurant Menu Description                                                                                               |    O     |
+| Name            | Type     | Description                                                                                                               | Required |
+| --------------- | -------- | ------------------------------------------------------------------------------------------------------------------------- | :------: |
+| user_id         | ObjectId | Each ObjectId means user model object ID. It is used to read a **users** collection, and get data of **restaurant** user. |    O     |
+| menuName        | String   | Restaurant Menu Name                                                                                                      |    O     |
+| menuPrice       | Number   | Restaurant Menu Price                                                                                                     |    O     |
+| menuDescription | String   | Restaurant Menu Description                                                                                               |    O     |
 
 ---
 
 ## CustomMadeNFT Model
 
-| Name         | Type             | Description                                                                                                                  | Required |
-| ------------ | ---------------- | ---------------------------------------------------------------------------------------------------------------------------- | :------: |
-| user_id      | String(ObjectId) | Each ObjectId means **restaurnt object ID**. It is used to read a **users** collection, and get data of **restaurant** user. |    O     |
-| nftName      | String           | Restaurant NFT Name                                                                                                          |    O     |
-| nftPrice     | Number           | Restaurant NFT Price                                                                                                         |    O     |
-| discountRate | Number           | Restaurant NFT Discount Rate for discounting food prices.                                                                    |    O     |
+| Name         | Type     | Description                                                                                                                  | Required |
+| ------------ | -------- | ---------------------------------------------------------------------------------------------------------------------------- | :------: |
+| user_id      | ObjectId | Each ObjectId means **restaurnt object ID**. It is used to read a **users** collection, and get data of **restaurant** user. |    O     |
+| nftName      | String   | Restaurant NFT Name                                                                                                          |    O     |
+| nftPrice     | Number   | Restaurant NFT Price                                                                                                         |    O     |
+| discountRate | Number   | Restaurant NFT Discount Rate for discounting food prices.                                                                    |    O     |
 
 ---
 
 ## Contract Model
 
-| Name    | Type   | Description                                      | Required |
-| ------- | ------ | ------------------------------------------------ | :------: |
-| type    | String | Determine whether this contract is "FT" or "NFT" |    O     |
-| address | String | This Contract's Address                          |    O     |
+| Name         | Type   | Description                                      | Required |
+| ------------ | ------ | ------------------------------------------------ | :------: |
+| contractType | String | Determine whether this contract is "FT" or "NFT" |    O     |
+| address      | String | This Contract's Address                          |    O     |
 
 ---
 
@@ -63,7 +63,7 @@
 
 | Name       | Type   | Description                                | Required |
 | ---------- | ------ | ------------------------------------------ | :------: |
-| type       | String | Determine what the admin's account is for. |    O     |
+| adminType  | String | Determine what the admin's account is for. |    O     |
 | address    | String | This Account's Address                     |    O     |
 | privateKey | String | This Account's Private Key                 |    O     |
 
@@ -86,7 +86,7 @@ Host : http://127.0.0.1:4000
 
 | Key             | Description                                       | Type   | Required |
 | :-------------- | :------------------------------------------------ | :----- | :------: |
-| type            | Customer: 1<br/>Restaurant: 2<br/>Delivery Man: 3 | Number |    O     |
+| userType        | Customer: 1<br/>Restaurant: 2<br/>Delivery Man: 3 | Number |    O     |
 | userId          | User ID                                           | String |    O     |
 | password        | User Password                                     | String |    O     |
 | userName        | User Nickname                                     | String |    O     |
@@ -98,7 +98,7 @@ Host : http://127.0.0.1:4000
 | Name          | Type   | Description                                                                                                          | Required |
 | :------------ | :----- | :------------------------------------------------------------------------------------------------------------------- | :------: |
 | message       | String | Message. "Created" or "Fail".                                                                                        |    O     |
-| type          | Number | User type. **Customer type is 1, restaurant type is 2, and delivery man type is 3**.                                 |    O     |
+| userType      | Number | User type. **Customer type is 1, restaurant type is 2, and delivery man type is 3**.                                 |    O     |
 | userName      | String | User Nickname                                                                                                        |    O     |
 | walletAddress | String | Wallet Address. This address and private key are created on the server side. The only address is sent to the client. |    O     |
 
@@ -108,7 +108,7 @@ Host : http://127.0.0.1:4000
 
 ```
 {
-  "type": 1,
+  "userType": 1,
   "userId": "UserID",
   "password": "UserPassword",
   "userName": "UserName",
@@ -152,9 +152,10 @@ Host : http://127.0.0.1:4000
 
 | Name         | Type   | Description                                                                                   | Required |
 | :----------- | :----- | :-------------------------------------------------------------------------------------------- | :------: |
-| type         | Number | Customer: 1<br/>Restaurant: 2<br/>Delivery Man: 3                                             |    O     |
-| user_id      | String | User Object ID                                                                                |    O     |
-| jsonWebToken | String | If the user receives JWT completely, user can put it in req.header and send it to the server. |    O     |
+| userType     | Number | Customer: 1<br/>Restaurant: 2<br/>Delivery Man: 3                                             |    O     |
+| userObjectId | String | User Object ID                                                                                |    O     |
+| accessToken  | String | If the user receives JWT completely, user can put it in req.header and send it to the server. |    O     |
+| refreshToken | String | If the user receives JWT completely, user can put it in req.header and send it to the server. |    O     |
 
 ### [Sample]
 
@@ -172,9 +173,10 @@ Host : http://127.0.0.1:4000
 ```
 HTTP/1.1 200 OK
 {
-  "type": 2,
-  "user_id": "User Object ID",
-  "jsonWebToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c"
+  "userType": 2,
+  "userObjectId": "User Object ID",
+  "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c",
+  "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyLCJ0b2tlblR5cGUiOiJyZWZyZXNoIn0.4BaFhrfDsHiqDIGBB6FubGHhH-7RPvoW7zDjzYBslCU"
 }
 ```
 
@@ -187,7 +189,7 @@ HTTP/1.1 200 OK
 #### URL
 
 ```
-GET /users/:userId HTTP/1.1
+GET /users/:userId(ObjectId) HTTP/1.1
 Host : http://127.0.0.1:4000
 ```
 
@@ -199,36 +201,49 @@ Host : http://127.0.0.1:4000
 
 ### [Response]
 
-| Name            | Type   | Description                                                                                                                                                                                           | Required |
-| :-------------- | :----- | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :------: |
-| type            | Number | User type. **Customer type is 1, restaurant type is 2, and delivery man type is 3**.                                                                                                                  |    O     |
-| userId          | String | User ID                                                                                                                                                                                               |    O     |
-| userName        | String | User Nickname                                                                                                                                                                                         |    O     |
-| roadNameAddress | String | User Road Name Address                                                                                                                                                                                |    O     |
-| phoneNumber     | String | User Phone Number                                                                                                                                                                                     |    O     |
-| walletAddress   | String | Wallet Address. This address was created on the server side.                                                                                                                                          |    O     |
-| token           | Array  | The first element is the number of DEDE tokens that is in the user's wallet. The second element is the number of KLAY that is in the user's wallet. <br/><br/> **[{BalanceOfDEDE}, {BalanceOfKLAY}]** |    O     |
-| stakedToken     | Number | The number of DEDE tokens that have been staked.                                                                                                                                                      |    O     |
-| collectedNft    | Array  | The list of NFT metadata URIs that is in the user's wallet.                                                                                                                                           |    O     |
-| user_menus      | Array  | The list of menu datas that is found from Menu Collections. <br/><br/> **[{menuName: String, menuPrice: Number, menuDescription: String}, ... ]**                                                     |    O     |
+| Name            | Type   | Description                                                                                                                                                                                                                |                Required                |
+| :-------------- | :----- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :------------------------------------: |
+| userType        | Number | User type. **Customer type is 1, restaurant type is 2, and delivery man type is 3**.                                                                                                                                       |                   O                    |
+| userId          | String | User ID                                                                                                                                                                                                                    |                   O                    |
+| userName        | String | User Nickname                                                                                                                                                                                                              |                   O                    |
+| roadNameAddress | String | User Road Name Address                                                                                                                                                                                                     |                   O                    |
+| sigungu         | String | This field's value is gotten from [Daum Postcode Service](https://postcode.map.daum.net/guide).                                                                                                                            |                   O                    |
+| phoneNumber     | String | User Phone Number                                                                                                                                                                                                          |                   O                    |
+| walletAddress   | String | Wallet Address. This address was created on the server side.                                                                                                                                                               |                   O                    |
+| token           | Array  | The first element is the number of DEDE tokens that is in the user's wallet. The second element is the number of KLAY that is in the user's wallet. <br/><br/> **[{BalanceOfDEDE}, {BalanceOfKLAY}]**                      |                   O                    |
+| stakedToken     | Number | The number of DEDE tokens that have been staked.                                                                                                                                                                           |                   O                    |
+| collectedNft    | Array  | The list of NFT metadata URIs that is in the user's wallet.                                                                                                                                                                |  △ <br/>(Only required for customers)  |
+| customMadeNft   | Array  | The list of custom-made NFT datas that is found from CustomMadeNFT Collections. **This field is returned only for restaurant-type user.** <br/><br/> **[{nftName: String, nftPrice: Number, discountRate: String}, ... ]** | △ <br/>(Only required for restaurants) |
+| restaurantMenu  | Array  | The list of menu datas that is found from Menu Collections. **This field is returned only for restaurant-type user.** <br/><br/> **[{menuName: String, menuPrice: Number, menuDescription: String}, ... ]**                | △ <br/>(Only required for restaurants) |
 
 ### [Sample]
 
-#### Response: success
+#### Response: success - restaurant user
 
 ```
 HTTP/1.1 200 OK
 {
-  "type": 3,
+  "userType": 2,
   "userId": "UserId",
   "userName": "UserNickName",
   "roadNameAddress": "User Road Name Address",
+  "sigungu": "성남시 분당구",
   "phoneNumber": "User Phone Number",
   "walletAddress": "User Wallet Address",
   "token": [3000, 150],
   "stakedToken": 1000,
-  "collectedNft": ["https://cryptowatchbearclub.mypinata.cloud/ipfs/QmX8kGmiRD5crgp3WZHgch2M7wEhCyStev9vpqxycQ713p/1752", "https://api.mooncat.community/traits/15581"],
-  "user_menus": [
+  "customMadedNft": [
+    {
+      "nftName": "NFT 1 Name",
+      "discountRate": 10,
+      "nftPrice": 300
+    },{
+      "nftName": "NFT 2 Name",
+      "discountRate": 20,
+      "nftPrice": 500
+    }
+  ],
+  "restaurantMenu": [
     {
       "menuName": "Pasta",
       "menuDescription": "Very Delicious",
@@ -281,32 +296,32 @@ HTTP/1.1 200 OK
       "deliveryManName": "Delivery 1 User Name",
       "status": "Pending",
       "orderedMenu": [
-      {
-        "menuName": "Pasta",
-        "menuDescription": "Very Delicious",
-        "menuPrice": 400
-      }, {
-        "menuName": "Salad",
-        "menuDescription": "Very Nice",
-        "menuPrice": 150
-      }
-    ],,
+        {
+          "menuName": "Pasta",
+          "menuDescription": "Very Delicious",
+          "menuPrice": 400
+        }, {
+          "menuName": "Salad",
+          "menuDescription": "Very Nice",
+          "menuPrice": 150
+        }
+      ]
     }, {
       "customerName": "Customer 2 User Name",
       "restaurantName": "Restaurant 2 User Name",
       "deliveryManName": "Delivery 2 User Name",
       "status": "Cooking",
       "orderedMenu": [
-      {
-        "menuName": "Pasta",
-        "menuDescription": "Very Delicious",
-        "menuPrice": 400
-      }, {
-        "menuName": "Salad",
-        "menuDescription": "Very Nice",
-        "menuPrice": 150
-      }
-    ],,
+        {
+          "menuName": "Pasta",
+          "menuDescription": "Very Delicious",
+          "menuPrice": 400
+        }, {
+          "menuName": "Salad",
+          "menuDescription": "Very Nice",
+          "menuPrice": 150
+        }
+      ]
     }
   ]
 }
@@ -433,7 +448,7 @@ HTTP/1.1 200 OK
 #### URL
 
 ```
-GET restaurants/menus/:restaurantId(ObjectId) HTTP/1.1
+GET restaurants/:restaurantId(ObjectId)/menus HTTP/1.1
 Host : http://127.0.0.1:4000
 ```
 
@@ -465,7 +480,7 @@ Restaurant-type user can add menus. The menu will be added to the menu list.
 #### URL
 
 ```
-POST restaurants/menus/:restaurantId(ObjectId) HTTP/1.1
+POST restaurants/:restaurantId(ObjectId)/menus HTTP/1.1
 Host : http://127.0.0.1:4000
 ```
 
@@ -513,7 +528,7 @@ HTTP/1.1 200 OK
 #### URL
 
 ```
-POST /restaurants/nfts/:restaurantId HTTP/1.1
+POST /restaurants/:restaurantId(ObjectId)/nfts HTTP/1.1
 Host : http://127.0.0.1:4000
 ```
 
@@ -619,18 +634,33 @@ Host : http://127.0.0.1:4000
 
 #### Body
 
+| Name          | Description    | Type   | Required |
+| ------------- | -------------- | ------ | :------: |
+| adminId       | Admin Id       | String |    O     |
+| adminPassword | Admin Password | String |    O     |
+
+### [Response]
+
+| Name    | Type   | Description       | Required |
+| ------- | ------ | ----------------- | :------: |
+| message | String | "Success", "Fail" |    O     |
+
+### [Sample]
+
+#### req.body
+
 ```
 {
-    adminId: "Admin's Id",
+    adminId: "Admin Id",
     adminPassword: "Admin's Password"
 }
 ```
 
-### [Response]
+#### Response: success
 
 ```
 {
-  "message": "Success"
+    "message": "Success"
 }
 ```
 
@@ -655,15 +685,31 @@ Host : http://127.0.0.1:4000
 
 #### Body
 
+| Name         | Description                                                         | Type   | Required |
+| ------------ | ------------------------------------------------------------------- | ------ | :------: |
+| userObjectId | User Object Id                                                      | String |    O     |
+| swapType     | **1**: Swap KLAY to DEDE token <br/> **2**: Swap DEDE token to KLAY | Number |    O     |
+| amount       | Amount of Tokens to transfer                                        | Number |    O     |
+
+### [Response]
+
+| Name    | Type   | Description       | Required |
+| ------- | ------ | ----------------- | :------: |
+| message | String | "Success", "Fail" |    O     |
+
+### [Sample]
+
+#### req.body
+
 ```
 {
-    userId: "UserId",
-    type: "DEDEtoKLAY"
+    userObjectId: "User Object Id",
+    swapType: 2,
     amount: Number
 }
 ```
 
-### [Response]
+#### Response: success
 
 ```
 {
@@ -692,15 +738,30 @@ Host : http://127.0.0.1:4000
 
 #### Body
 
+| Name         | Description                              | Type   | Required |
+| ------------ | ---------------------------------------- | ------ | :------: |
+| userObjectId | User Object Id                           | String |    O     |
+| to           | **Address** that tokens will be sent to. | String |    O     |
+| amount       | Amount of Tokens to transfer             | Number |    O     |
+
+### [Response]
+
+| Name    | Type   | Description       | Required |
+| ------- | ------ | ----------------- | :------: |
+| message | String | "Success", "Fail" |    O     |
+
+### [Sample]
+
+#### req.body
+
 ```
 {
-    userId: "UserId",
-    to: "Address"
+    userObjectId: "User Object Id",
     amount: Number
 }
 ```
 
-### [Response]
+#### Response: success
 
 ```
 {
@@ -729,14 +790,29 @@ Host : http://127.0.0.1:4000
 
 #### Body
 
+| Name         | Description               | Type   | Required |
+| ------------ | ------------------------- | ------ | :------: |
+| userObjectId | User Object Id            | String |    O     |
+| amount       | Amount of Tokens to stake | Number |    O     |
+
+### [Response]
+
+| Name    | Type   | Description       | Required |
+| ------- | ------ | ----------------- | :------: |
+| message | String | "Success", "Fail" |    O     |
+
+### [Sample]
+
+#### req.body
+
 ```
 {
-    userId: "UserId",
+    userObjectId: "User Object Id",
     amount: Number
 }
 ```
 
-### [Response]
+#### Response: success
 
 ```
 {
@@ -753,7 +829,7 @@ Host : http://127.0.0.1:4000
 #### URL
 
 ```
-POST /nft HTTP/1.1
+POST /nfts HTTP/1.1
 Host : http://127.0.0.1:4000
 ```
 
@@ -765,20 +841,36 @@ Host : http://127.0.0.1:4000
 
 #### Body
 
+| Name               | Description                                          | Type   | Required |
+| ------------------ | ---------------------------------------------------- | ------ | :------: |
+| restaurantObjectId | Restaurant Object Id                                 | String |    O     |
+| nftName            | NFT Name                                             | String |    O     |
+| discountRate       | **Discount Rate** to be applied when ordering a menu | String |    O     |
+| nftPrice           | NFT Price                                            | Number |    O     |
+
+### [Response]
+
+| Name    | Type   | Description       | Required |
+| ------- | ------ | ----------------- | :------: |
+| message | String | "Success", "Fail" |    O     |
+
+### [Sample]
+
+#### req.body
+
 ```
 {
-  restaurantId: "RestaurantId",
-  restaurantName: "RestaurantName",
+  restaurantObjectId: "Restaurant Object Id",
+  nftName: "NFT Name",
   discountRate: 10,
   nftPrice: 300
 }
 ```
 
-### [Response]
+#### Response: success
 
 ```
 {
-  "message": "Success"
+    "message": "Success"
+}
 ```
-
----
