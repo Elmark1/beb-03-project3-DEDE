@@ -15,7 +15,7 @@ contract DEDEKIP17 is KIP17Token, Ownable {
   }
 
   function mintNFT(address recipient, string memory tokenURI, uint256 nftPrice) public onlyOwner returns(uint256) {
-	require(token.balanceOf(recipient) > nftPrice, "DEDEKIP17: Insufficient tokens to mint NFT");
+	require(token.balanceOf(recipient) >= nftPrice, "DEDEKIP17: Insufficient tokens to mint NFT");
 
 	token.delegatedTransferFrom(recipient, msg.sender, nftPrice);
 
