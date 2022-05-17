@@ -1743,7 +1743,7 @@
   },
   "networks": {},
   "schemaVersion": "3.4.6",
-  "updatedAt": "2022-05-16T08:15:05.989Z",
+  "updatedAt": "2022-05-17T05:54:31.072Z",
   "devdoc": {
     "details": "KIP17 minting logic with metadata.",
     "methods": {

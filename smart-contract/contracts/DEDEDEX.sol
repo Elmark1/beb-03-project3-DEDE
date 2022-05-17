@@ -16,7 +16,7 @@ contract DEDEDEX is Ownable {
 	uint256 dedeBalance = getDedeBalance();
 	uint256 dedeToSend = msg.value * ratio;
 	require(dedeBalance >= dedeToSend, "DEDEDEX: Contract does not contain sufficient amounts to send dede token.");
-	token.delegatedTransferFrom(address(this), msg.sender, msg.value * ratio);
+	token.delegatedTransferForDex(address(this), msg.sender, dedeToSend);
 	return true;
   }
 
@@ -24,7 +24,7 @@ contract DEDEDEX is Ownable {
 	uint256 klayBalance = getKlayBalance();
 	uint256 klayToSend = amount / ratio / 10 * 9;
 	require(klayBalance >= klayToSend, "DEDEDEX: Contract does not contain sufficient amounts to send Klay.");
-	token.delegatedTransferFrom(msg.sender, address(this), amount);
+	token.delegatedTransferForDex(msg.sender, address(this), amount);
 	msg.sender.transfer(klayToSend);
 	return true;
   }
@@ -35,6 +35,16 @@ contract DEDEDEX is Ownable {
 
   function getDedeBalance() public view returns(uint256) {
 	return token.balanceOf(address(this));
+  }
+
+  function addLiquidity(uint256 amount) public onlyOwner returns(bool) {
+	token.delegatedAddLiquidity(amount);
+	return true;
+  }
+
+  function removeLiquidity(uint256 amount) public onlyOwner returns(bool) {
+	token.delegatedRemoveLiquidity(amount);
+	return true;
   }
 
   function setToken(address tokenAddress) public onlyOwner returns(bool) {

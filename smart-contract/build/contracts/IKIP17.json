@@ -2867,7 +2867,7 @@
   },
   "networks": {},
   "schemaVersion": "3.4.6",
-  "updatedAt": "2022-05-16T08:15:05.961Z",
+  "updatedAt": "2022-05-17T05:54:31.051Z",
   "devdoc": {
     "details": "Required interface of an KIP17 compliant contract.",
     "methods": {

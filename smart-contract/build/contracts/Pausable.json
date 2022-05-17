@@ -552,10 +552,10 @@
                       "name": "require",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [
-                        3719,
-                        3720
+                        3905,
+                        3906
                       ],
-                      "referencedDeclaration": 3720,
+                      "referencedDeclaration": 3906,
                       "src": "1312:7:6",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_require_pure$_t_bool_$_t_string_memory_ptr_$returns$__$",
@@ -657,10 +657,10 @@
                       "name": "require",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [
-                        3719,
-                        3720
+                        3905,
+                        3906
                       ],
-                      "referencedDeclaration": 3720,
+                      "referencedDeclaration": 3906,
                       "src": "1504:7:6",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_require_pure$_t_bool_$_t_string_memory_ptr_$returns$__$",
@@ -774,7 +774,7 @@
                           "name": "msg",
                           "nodeType": "Identifier",
                           "overloadedDeclarations": [],
-                          "referencedDeclaration": 3716,
+                          "referencedDeclaration": 3902,
                           "src": "1744:3:6",
                           "typeDescriptions": {
                             "typeIdentifier": "t_magic_message",
@@ -967,7 +967,7 @@
                           "name": "msg",
                           "nodeType": "Identifier",
                           "overloadedDeclarations": [],
-                          "referencedDeclaration": 3716,
+                          "referencedDeclaration": 3902,
                           "src": "1949:3:6",
                           "typeDescriptions": {
                             "typeIdentifier": "t_magic_message",
@@ -1543,10 +1543,10 @@
                                 }
                               ],
                               "overloadedDeclarations": [
-                                3719,
-                                3720
+                                3905,
+                                3906
                               ],
-                              "referencedDeclaration": 3720,
+                              "referencedDeclaration": 3906,
                               "type": "function (bool,string memory) pure",
                               "value": "require"
                             },
@@ -1677,10 +1677,10 @@
                                 }
                               ],
                               "overloadedDeclarations": [
-                                3719,
-                                3720
+                                3905,
+                                3906
                               ],
-                              "referencedDeclaration": 3720,
+                              "referencedDeclaration": 3906,
                               "type": "function (bool,string memory) pure",
                               "value": "require"
                             },
@@ -1937,7 +1937,7 @@
                                   "overloadedDeclarations": [
                                     null
                                   ],
-                                  "referencedDeclaration": 3716,
+                                  "referencedDeclaration": 3902,
                                   "type": "msg",
                                   "value": "msg"
                                 },
@@ -2163,7 +2163,7 @@
                                   "overloadedDeclarations": [
                                     null
                                   ],
-                                  "referencedDeclaration": 3716,
+                                  "referencedDeclaration": 3902,
                                   "type": "msg",
                                   "value": "msg"
                                 },
@@ -2212,7 +2212,7 @@
   },
   "networks": {},
   "schemaVersion": "3.4.6",
-  "updatedAt": "2022-05-16T08:15:05.948Z",
+  "updatedAt": "2022-05-17T05:54:31.046Z",
   "devdoc": {
     "details": "Contract module which allows children to implement an emergency stop mechanism that can be triggered by an authorized account. * This module is used through inheritance. It will make available the modifiers `whenNotPaused` and `whenPaused`, which can be applied to the functions of your contract. Note that they will not be pausable by simply including this module, only once the modifiers are put in place.",
     "methods": {

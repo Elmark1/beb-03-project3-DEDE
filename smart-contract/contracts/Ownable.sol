@@ -24,6 +24,16 @@ contract Ownable {
 	  _;
 	}
 
+	modifier onlyKip17() {
+	  require(isKip17(), "Ownable: caller is not the kip17");
+	  _;
+	}
+
+	modifier onlyDedeDex() {
+	  require(isDedeDex(), "Ownable: caller is not the dede dex");
+	  _;
+	}
+
     /**
      * @dev Returns true if the caller is the current KIP-17 smart contract account.
      */

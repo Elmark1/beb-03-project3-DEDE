@@ -1017,7 +1017,7 @@
   },
   "networks": {},
   "schemaVersion": "3.4.6",
-  "updatedAt": "2022-05-16T08:15:05.964Z",
+  "updatedAt": "2022-05-17T05:54:31.052Z",
   "devdoc": {
     "details": "See http://kips.klaytn.com/KIPs/kip-17-non_fungible_token",
     "methods": {
