@@ -913,10 +913,10 @@
                       "name": "require",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [
-                        3319,
-                        3320
+                        3905,
+                        3906
                       ],
-                      "referencedDeclaration": 3320,
+                      "referencedDeclaration": 3906,
                       "src": "1850:7:15",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_require_pure$_t_bool_$_t_string_memory_ptr_$returns$__$",
@@ -1325,10 +1325,10 @@
                       "name": "require",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [
-                        3319,
-                        3320
+                        3905,
+                        3906
                       ],
-                      "referencedDeclaration": 3320,
+                      "referencedDeclaration": 3906,
                       "src": "2641:7:15",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_require_pure$_t_bool_$_t_string_memory_ptr_$returns$__$",
@@ -1551,7 +1551,7 @@
                         "name": "super",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 3363,
+                        "referencedDeclaration": 3949,
                         "src": "3219:5:15",
                         "typeDescriptions": {
                           "typeIdentifier": "t_super$_KIP17Enumerable_$1859",
@@ -1894,7 +1894,7 @@
                         "name": "super",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 3363,
+                        "referencedDeclaration": 3949,
                         "src": "3693:5:15",
                         "typeDescriptions": {
                           "typeIdentifier": "t_super$_KIP17Enumerable_$1859",
@@ -2193,7 +2193,7 @@
                         "name": "super",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 3363,
+                        "referencedDeclaration": 3949,
                         "src": "4167:5:15",
                         "typeDescriptions": {
                           "typeIdentifier": "t_super$_KIP17Enumerable_$1859",
@@ -5148,10 +5148,10 @@
                                 }
                               ],
                               "overloadedDeclarations": [
-                                3319,
-                                3320
+                                3905,
+                                3906
                               ],
-                              "referencedDeclaration": 3320,
+                              "referencedDeclaration": 3906,
                               "type": "function (bool,string memory) pure",
                               "value": "require"
                             },
@@ -5592,10 +5592,10 @@
                                 }
                               ],
                               "overloadedDeclarations": [
-                                3319,
-                                3320
+                                3905,
+                                3906
                               ],
-                              "referencedDeclaration": 3320,
+                              "referencedDeclaration": 3906,
                               "type": "function (bool,string memory) pure",
                               "value": "require"
                             },
@@ -5930,7 +5930,7 @@
                                   "overloadedDeclarations": [
                                     null
                                   ],
-                                  "referencedDeclaration": 3363,
+                                  "referencedDeclaration": 3949,
                                   "type": "contract super KIP17Enumerable",
                                   "value": "super"
                                 },
@@ -6294,7 +6294,7 @@
                                   "overloadedDeclarations": [
                                     null
                                   ],
-                                  "referencedDeclaration": 3363,
+                                  "referencedDeclaration": 3949,
                                   "type": "contract super KIP17Enumerable",
                                   "value": "super"
                                 },
@@ -6626,7 +6626,7 @@
                                   "overloadedDeclarations": [
                                     null
                                   ],
-                                  "referencedDeclaration": 3363,
+                                  "referencedDeclaration": 3949,
                                   "type": "contract super KIP17Enumerable",
                                   "value": "super"
                                 },
@@ -9105,7 +9105,7 @@
   },
   "networks": {},
   "schemaVersion": "3.4.6",
-  "updatedAt": "2022-05-16T02:07:02.982Z",
+  "updatedAt": "2022-05-17T05:54:31.065Z",
   "devdoc": {
     "details": "See http://kips.klaytn.com/KIPs/kip-17-non_fungible_token",
     "methods": {

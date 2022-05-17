@@ -7,20 +7,28 @@ import "./Ownable.sol";
 contract DEDEKIP7 is KIP7Token, Ownable {
   constructor() public KIP7Token("DEDE FT", "DEDE", 18, 10000000000e18) {}
 
-  function delegatedTransferFrom(address sender, address recipient, uint256 amount) public onlyKip17 returns (bool) {
+  function delegatedTransferForStaking(address sender, address recipient, uint256 amount) public returns(bool) {
 	_transfer(sender, recipient, amount);
 	return true;
   }
 
-  function klayToDedeToken() public payable returns(bool) {
-	owner().transfer(msg.value);
-	_transfer(owner(), msg.sender, msg.value * 1000);
+  function delegatedTransferForKip17(address sender, address recipient, uint256 amount) public onlyKip17 returns(bool) {
+	_transfer(sender, recipient, amount);
 	return true;
   }
 
-  function dedeTokenToKlay(address payable receiver, uint256 amount) public payable onlyOwner returns(bool) {
-	_transfer(receiver, msg.sender, amount);
-	receiver.transfer(5e18);
+  function delegatedTransferForDex(address sender, address recipient, uint256 amount) public onlyDedeDex returns(bool) {
+	_transfer(sender, recipient, amount);
+	return true;
+  }
+
+  function delegatedAddLiquidity(uint256 amount) public onlyDedeDex returns(bool) {
+	_transfer(owner(), msg.sender, amount);
+	return true;
+  }
+
+  function delegatedRemoveLiquidity(uint256 amount) public onlyDedeDex returns(bool) {
+	_transfer(msg.sender, owner(), amount);
 	return true;
   }
 

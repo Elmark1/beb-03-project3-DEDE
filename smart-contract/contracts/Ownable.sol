@@ -4,6 +4,7 @@ pragma solidity 0.5.6;
 contract Ownable {
     address payable private _owner;
 	address private _kip17;
+	address private _dedeDex;
 
     event OwnershipTransferred(address indexed previousOwner, address indexed newOwner);
 
@@ -16,10 +17,20 @@ contract Ownable {
     }
 
     /**
-     * @dev Throws if called by any account other than the KIP-17 smart contract account.
+     * @dev Throws if called by any account other than the KIP-17 or DEDE DEX smart contract account.
      */
+	modifier onlyKip17OrDedeDex() {
+	  require(isDedeDex() || isKip17(), "Ownable: caller is nor the kip17 neither dede dex");
+	  _;
+	}
+
 	modifier onlyKip17() {
 	  require(isKip17(), "Ownable: caller is not the kip17");
+	  _;
+	}
+
+	modifier onlyDedeDex() {
+	  require(isDedeDex(), "Ownable: caller is not the dede dex");
 	  _;
 	}
 
@@ -35,6 +46,20 @@ contract Ownable {
 	  */
 	function setKip17(address kip17) public onlyOwner {
 	  _kip17 = kip17;
+	}
+
+    /**
+     * @dev Returns true if the caller is the current DEDE DEX smart contract account.
+     */
+	function isDedeDex() public view returns(bool) {
+	  return msg.sender == _dedeDex;
+	}
+
+	/**
+	  * @dev Set DEDE DEX smart contract account by owner.
+	  */
+	function setDedeDex(address dedeDex) public onlyOwner {
+	  _dedeDex = dedeDex;
 	}
 
     /**
