@@ -4,9 +4,9 @@ import cors from "cors";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
 import cookieParser from "cookie-parser";
-
 import rootRouter from "./src/routers/rootRouter.js";
 import userRouter from "./src/routers/userRouter.js";
+import restaurantRouter from "./src/routers/restaurantRouter.js";
 import testRouter from "./test/test.js";
 
 dotenv.config();
@@ -25,6 +25,7 @@ const PORT = process.env.PORT || 4000;
 // Routes
 app.use("/", rootRouter);
 app.use("/users", userRouter);
+app.use("/restaurants", restaurantRouter);
 app.use("/test", testRouter);
 
 app.get("/", (req, res) => {
