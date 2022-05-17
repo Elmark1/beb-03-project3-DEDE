@@ -78,7 +78,7 @@ export const postSignIn = async (req, res) => {
   const accessToken = generateToken(
     accessTokenPayload,
     process.env.ACCESS_TOKEN_SECRET,
-    "5m"
+    "15m"
   );
 
   if (!user) {
