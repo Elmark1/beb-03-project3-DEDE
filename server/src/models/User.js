@@ -4,10 +4,11 @@ import bcrypt from "bcrypt";
 const userSchema = new mongoose.Schema({
   userType: { type: Number, required: true },
   userId: { type: String, required: true, unique: true },
-  password: { type: String, required: true, unique: true },
-  userName: { type: String, required: true, unique: true },
+  password: { type: String, required: true },
+  userName: { type: String, required: true },
   phoneNumber: { type: String, required: true, unique: true },
   roadNameAddress: { type: String, required: true },
+  sigungu: { type: String },
   encryptedKeystore: {
     version: { type: Number, required: true },
     id: { type: String, required: true, unique: true },
@@ -16,7 +17,9 @@ const userSchema = new mongoose.Schema({
   },
   token: { type: Number, default: 0 },
   stakedToken: { type: Number, default: 0 },
-  collectedNft: { type: Array, default: [] },
+  collectedNft: { type: Array },
+  customMadeNft: { type: Array },
+  restaurantMenu: { type: Array },
 });
 
 userSchema.pre("save", async function () {

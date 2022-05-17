@@ -1,6 +1,8 @@
 import dotenv from "dotenv";
 import bcrypt from "bcrypt";
 import User from "../models/User.js";
+import Menu from "../models/Menu.js";
+import CustomMadeNft from "../models/CustomMadeNft.js";
 import Caver from "caver-js";
 import jwt from "jsonwebtoken";
 
@@ -8,15 +10,10 @@ dotenv.config();
 
 const caver = new Caver("https://api.baobab.klaytn.net:8651/");
 
-const generateAccessToken = (payload) => {
-  return jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET, {
-    expiresIn: "15m",
-  });
-};
-
-const generateRefreshToken = (payload) => {
-  return jwt.sign(payload, process.env.REFRESH_TOKEN_SECRET, {
-    expiresIn: "90 days",
+const generateToken = (payload, secret, expiration) => {
+  return jwt.sign(payload, secret, {
+    expiresIn: expiration,
+    issuer: "localhost",
   });
 };
 
@@ -25,12 +22,12 @@ const decryptKeystore = (encryptedKeystore, password) => {
 };
 //const decryptedKeyring = decryptKeystore(encryptedKeystore, password); <- 이거 사용하면 됩니다.
 
-export const postJoin = async (req, res) => {
+export const postSignUp = async (req, res) => {
   const { userType, userId, password, userName, roadNameAddress, phoneNumber } =
     req.body;
 
   const userExists = await User.find({
-    $or: [{ userId }, { userName }],
+    userId,
   });
 
   const keyring = caver.wallet.keyring.generate();
@@ -45,9 +42,6 @@ export const postJoin = async (req, res) => {
 
   try {
     const encryptedKeystore = keyring.encrypt(password);
-
-    // ⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️ DB에 그냥 encryptedKeystore만 저장하는게 났겠는데..?
-    // 왜냐면 DB가 해커의 손에 들어가더라도, publicKey를 보호하므로써 조금 더 보안을 높여줄 수 있는 거 같다..!
 
     await User.create({
       userType,
@@ -69,17 +63,23 @@ export const postJoin = async (req, res) => {
   } catch (error) {
     console.log("error:", error);
 
-    return res.status(400).json({ errorMessage: error });
+    return res.status(400).json({ message: "Fail" });
   }
 };
 
-export const postLogin = async (req, res) => {
+export const postSignIn = async (req, res) => {
   const { userId, password } = req.body;
   const user = await User.findOne({ userId });
   const passwordComparision = await bcrypt.compare(password, user.password);
-  const payload = { userObjectId: user._id, userType: user.userType };
-  const accessToken = generateAccessToken(payload);
-  const refreshToken = generateRefreshToken(payload);
+  const accessTokenPayload = {
+    userObjectId: user._id,
+    userType: user.userType,
+  };
+  const accessToken = generateToken(
+    accessTokenPayload,
+    process.env.ACCESS_TOKEN_SECRET,
+    "5m"
+  );
 
   if (!user) {
     console.log("❌ User doesn't exist!");
@@ -95,19 +95,26 @@ export const postLogin = async (req, res) => {
     });
   }
 
+  res.cookie("accessToken", accessToken, { httpOnly: true });
+  // ⭐️⭐️⭐️⭐️⭐️ option 설정 이유를 명확히 알고 가자!
+  // ⭐️⭐️⭐️⭐️⭐️ 쿠키에도 maxAge를 설정해줘야하나?!
+
   return res.json({
     userType: user.userType,
     userObjectId: user._id,
-    accessToken,
-    refreshToken,
   });
+};
+
+export const getSignOut = async (req, res) => {
+  return res
+    .clearCookie("accessToken")
+    .json({ message: "✅ Sign Out Successfully!" });
 };
 
 export const getUserInfo = async (req, res) => {
   const { userId } = req.params;
-
+  const accessToken = req.decoded;
   const user = await User.findById(userId);
-  let restaurantMenu = []; // undefined로 할 수 있는지 궁금합니다.
 
   if (!user) {
     console.log("404 Error: ❌ Not Found!");
@@ -115,27 +122,96 @@ export const getUserInfo = async (req, res) => {
     return res.status(404).json("❌ Not Found!");
   }
 
-  //⭐️⭐️⭐️⭐️⭐️⭐️ jwt와 유저 정보가 일치하는지 verify 하는 과정이 들어가야 합니다.
-
   try {
-    if (user.userType === 2) {
-      restaurantMenu = "";
-      // ⭐️⭐️⭐️⭐️⭐️⭐️ Menu Model 일단 만들어서 이 파일로 import 해야함. import 됐다면, Menu model에서 userId(ObjectId 임)를 이용해서 메뉴를 들고옵니다.
-    }
-    return res.json({
+    let responseUser = {
       userType: user.userType,
       userId: user.userId,
       userName: user.userName,
       roadNameAddress: user.roadNameAddress,
       phoneNumber: user.phoneNumber,
-      walletAddress: user.walletAddress,
+      walletAddress: user.encryptedKeystore.address,
       token: user.token,
       stakedToken: user.stakedToken,
-      collectedNft: user.collectedNft,
-    });
+    };
+
+    if (accessToken.userType === 1) {
+      responseUser.collectedNft = user.collectedNft;
+    }
+
+    if (accessToken.userType === 2) {
+      responseUser.customMadeNft = await CustomMadeNft.find({
+        user_id: user._id, // ⭐️⭐️⭐️⭐️⭐️ user_id는 제외하고 불러오는건지 확인 작업해야함
+      });
+
+      responseUser.restaurantMenu = await Menu.find({
+        user_id: user._id, // ⭐️⭐️⭐️⭐️⭐️ user_id는 제외하고 불러오는건지 확인 작업해야함
+      });
+    }
+
+    return res.json(responseUser);
   } catch (error) {
     console.log("Error:", error);
 
     return res.status(400).json({ errorMessage: error });
+  }
+};
+
+export const postMenu = async (req, res) => {
+  const { menuName, menuDescription, menuPrice } = req.body;
+  const accessToken = req.decoded;
+
+  if (accessToken.userType !== 2) {
+    return res
+      .status(403)
+      .json({ message: "❌ You do not have permission to use this feature!" });
+  }
+
+  try {
+    await Menu.create({
+      user_id: accessToken.userObjectId,
+      menuName,
+      menuDescription,
+      menuPrice,
+    });
+
+    return res.json({ message: "Create Menu Successfully!" });
+  } catch (error) {
+    return res.status(400).json({ message: "Fail to Create Menu!" });
+  }
+};
+
+export const getMenus = async (req, res) => {
+  const { restaurantId } = req.params;
+  const menuList = await Menu.find({ user_id: restaurantId });
+
+  if (!menuList) {
+    return res.status(400).json({ message: "❌ No Menu List!" });
+  }
+
+  return res.send({ menuList }); // ⭐️⭐️⭐️⭐️⭐️ user_id가 제외되어 response 되는지 확인해야합니다
+};
+
+export const postCustomMadeNft = async (req, res) => {
+  const { restaurantId } = req.params;
+  const { nftName, discountRate, nftPrice } = req.body;
+  const accessToken = req.decoded;
+
+  if (restaurantId !== accessToken.userObjectId || accessToken.userType !== 2) {
+    return res
+      .status(403)
+      .json({ message: "❌ You do not have permission to use this feature!" });
+  }
+
+  try {
+    await CustomMadeNft.create({
+      user_id: accessToken.userObjectId,
+      nftName,
+      discountRate,
+      nftPrice,
+    });
+
+    return res.json({ message: "Created!" });
+  } catch (error) {
+    return res.status(400).json({ message: "Fail to Create!" });
   }
 };
