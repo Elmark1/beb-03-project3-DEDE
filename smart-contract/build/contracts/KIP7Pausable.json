@@ -736,7 +736,7 @@
                         "name": "super",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 3389,
+                        "referencedDeclaration": 3789,
                         "src": "1132:5:28",
                         "typeDescriptions": {
                           "typeIdentifier": "t_super$_KIP7Pausable_$3058",
@@ -975,7 +975,7 @@
                         "name": "super",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 3389,
+                        "referencedDeclaration": 3789,
                         "src": "1286:5:28",
                         "typeDescriptions": {
                           "typeIdentifier": "t_super$_KIP7Pausable_$3058",
@@ -1224,7 +1224,7 @@
                         "name": "super",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 3389,
+                        "referencedDeclaration": 3789,
                         "src": "1436:5:28",
                         "typeDescriptions": {
                           "typeIdentifier": "t_super$_KIP7Pausable_$3058",
@@ -1887,7 +1887,7 @@
                                   "overloadedDeclarations": [
                                     null
                                   ],
-                                  "referencedDeclaration": 3389,
+                                  "referencedDeclaration": 3789,
                                   "type": "contract super KIP7Pausable",
                                   "value": "super"
                                 },
@@ -2158,7 +2158,7 @@
                                   "overloadedDeclarations": [
                                     null
                                   ],
-                                  "referencedDeclaration": 3389,
+                                  "referencedDeclaration": 3789,
                                   "type": "contract super KIP7Pausable",
                                   "value": "super"
                                 },
@@ -2412,7 +2412,7 @@
                                   "overloadedDeclarations": [
                                     null
                                   ],
-                                  "referencedDeclaration": 3389,
+                                  "referencedDeclaration": 3789,
                                   "type": "contract super KIP7Pausable",
                                   "value": "super"
                                 },
@@ -2489,7 +2489,7 @@
   },
   "networks": {},
   "schemaVersion": "3.4.6",
-  "updatedAt": "2022-05-16T02:07:03.011Z",
+  "updatedAt": "2022-05-16T08:15:06.012Z",
   "devdoc": {
     "details": "KIP7 modified with pausable transfers. See http://kips.klaytn.com/KIPs/kip-7-fungible_token",
     "methods": {

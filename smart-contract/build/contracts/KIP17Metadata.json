@@ -1098,10 +1098,10 @@
                       "name": "require",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [
-                        3319,
-                        3320
+                        3719,
+                        3720
                       ],
-                      "referencedDeclaration": 3320,
+                      "referencedDeclaration": 3720,
                       "src": "1663:7:17",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_require_pure$_t_bool_$_t_string_memory_ptr_$returns$__$",
@@ -1346,10 +1346,10 @@
                       "name": "require",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [
-                        3319,
-                        3320
+                        3719,
+                        3720
                       ],
-                      "referencedDeclaration": 3320,
+                      "referencedDeclaration": 3720,
                       "src": "2097:7:17",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_require_pure$_t_bool_$_t_string_memory_ptr_$returns$__$",
@@ -1581,7 +1581,7 @@
                         "name": "super",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 3365,
+                        "referencedDeclaration": 3765,
                         "src": "2570:5:17",
                         "typeDescriptions": {
                           "typeIdentifier": "t_super$_KIP17Metadata_$2012",
@@ -2773,10 +2773,10 @@
                                 }
                               ],
                               "overloadedDeclarations": [
-                                3319,
-                                3320
+                                3719,
+                                3720
                               ],
-                              "referencedDeclaration": 3320,
+                              "referencedDeclaration": 3720,
                               "type": "function (bool,string memory) pure",
                               "value": "require"
                             },
@@ -3045,10 +3045,10 @@
                                 }
                               ],
                               "overloadedDeclarations": [
-                                3319,
-                                3320
+                                3719,
+                                3720
                               ],
-                              "referencedDeclaration": 3320,
+                              "referencedDeclaration": 3720,
                               "type": "function (bool,string memory) pure",
                               "value": "require"
                             },
@@ -3359,7 +3359,7 @@
                                   "overloadedDeclarations": [
                                     null
                                   ],
-                                  "referencedDeclaration": 3365,
+                                  "referencedDeclaration": 3765,
                                   "type": "contract super KIP17Metadata",
                                   "value": "super"
                                 },
@@ -3656,7 +3656,7 @@
   },
   "networks": {},
   "schemaVersion": "3.4.6",
-  "updatedAt": "2022-05-16T02:07:02.987Z",
+  "updatedAt": "2022-05-16T08:15:05.987Z",
   "devdoc": {
     "methods": {
       "approve(address,uint256)": {

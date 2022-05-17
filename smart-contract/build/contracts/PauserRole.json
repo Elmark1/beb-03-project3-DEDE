@@ -287,7 +287,7 @@
                           "name": "msg",
                           "nodeType": "Identifier",
                           "overloadedDeclarations": [],
-                          "referencedDeclaration": 3316,
+                          "referencedDeclaration": 3716,
                           "src": "286:3:2",
                           "typeDescriptions": {
                             "typeIdentifier": "t_magic_message",
@@ -393,7 +393,7 @@
                               "name": "msg",
                               "nodeType": "Identifier",
                               "overloadedDeclarations": [],
-                              "referencedDeclaration": 3316,
+                              "referencedDeclaration": 3716,
                               "src": "359:3:2",
                               "typeDescriptions": {
                                 "typeIdentifier": "t_magic_message",
@@ -481,10 +481,10 @@
                       "name": "require",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [
-                        3319,
-                        3320
+                        3719,
+                        3720
                       ],
-                      "referencedDeclaration": 3320,
+                      "referencedDeclaration": 3720,
                       "src": "342:7:2",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_require_pure$_t_bool_$_t_string_memory_ptr_$returns$__$",
@@ -841,7 +841,7 @@
                           "name": "msg",
                           "nodeType": "Identifier",
                           "overloadedDeclarations": [],
-                          "referencedDeclaration": 3316,
+                          "referencedDeclaration": 3716,
                           "src": "713:3:2",
                           "typeDescriptions": {
                             "typeIdentifier": "t_magic_message",
@@ -1604,7 +1604,7 @@
                                   "overloadedDeclarations": [
                                     null
                                   ],
-                                  "referencedDeclaration": 3316,
+                                  "referencedDeclaration": 3716,
                                   "type": "msg",
                                   "value": "msg"
                                 },
@@ -1687,10 +1687,10 @@
                                 }
                               ],
                               "overloadedDeclarations": [
-                                3319,
-                                3320
+                                3719,
+                                3720
                               ],
-                              "referencedDeclaration": 3320,
+                              "referencedDeclaration": 3720,
                               "type": "function (bool,string memory) pure",
                               "value": "require"
                             },
@@ -1750,7 +1750,7 @@
                                       "overloadedDeclarations": [
                                         null
                                       ],
-                                      "referencedDeclaration": 3316,
+                                      "referencedDeclaration": 3716,
                                       "type": "msg",
                                       "value": "msg"
                                     },
@@ -2233,7 +2233,7 @@
                                   "overloadedDeclarations": [
                                     null
                                   ],
-                                  "referencedDeclaration": 3316,
+                                  "referencedDeclaration": 3716,
                                   "type": "msg",
                                   "value": "msg"
                                 },
@@ -2702,7 +2702,7 @@
   },
   "networks": {},
   "schemaVersion": "3.4.6",
-  "updatedAt": "2022-05-16T02:07:02.953Z",
+  "updatedAt": "2022-05-16T08:15:05.939Z",
   "devdoc": {
     "methods": {}
   },
