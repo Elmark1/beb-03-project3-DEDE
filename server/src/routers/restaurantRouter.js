@@ -1,6 +1,6 @@
 import express from "express";
 import {
-  getMenus,
+  getMenusById,
   postMenu,
   postCustomMadeNft,
 } from "../controllers/userController.js";
@@ -10,7 +10,7 @@ const restaurantRouter = express.Router();
 
 restaurantRouter
   .route("/:restaurantId([0-9a-f]{24})/menus")
-  .get(getMenus)
+  .get(getMenusById)
   .post(verifyToken, postMenu);
 
 restaurantRouter.post(
