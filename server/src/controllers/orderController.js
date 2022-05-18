@@ -27,3 +27,10 @@ export const getOrders = async (req, res) => {
 
   return res.json(orderList);
 };
+
+export const getOrder = async (req, res) => {
+  const orderObjectId = req.params;
+  const order = await Order.findById(orderObjectId);
+
+  return res.json(order);
+};
