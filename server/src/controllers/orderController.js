@@ -4,7 +4,10 @@ export const postOrder = async (req, res) => {
   const { customerObjectId, restaurantObjectId, orderedMenu } = req.body;
   const accessToken = req.decoded;
 
-  if (accessToken.userType !== 1) {
+  if (
+    accessToken.userType !== 1 ||
+    customerObjectId !== accessToken.userObjectId
+  ) {
     return res
       .status(403)
       .json({ message: "❌ You do not have permission to use this feature!" });
@@ -17,4 +20,10 @@ export const postOrder = async (req, res) => {
     orderedMenu,
     // ⭐️⭐️⭐️⭐️⭐️ Client로부터 받아올 때, [{menuName, menuDescription, menuPrice} ... ] 형태의 Array로 받아올 거로 예상하고 작성한 코드입니다.
   });
+};
+
+export const getOrders = async (req, res) => {
+  const orderList = await Order.find();
+
+  return res.json(orderList);
 };

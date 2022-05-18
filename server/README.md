@@ -270,12 +270,6 @@ GET /orders HTTP/1.1
 Host : http://127.0.0.1:4000
 ```
 
-#### Request Header
-
-| Name          | Description                                                                           | Required |
-| ------------- | ------------------------------------------------------------------------------------- | :------: |
-| Authorization | 사용자 인증 수단, Json Web Token <br/><br/> **Authorization: Bearer ${JsonWebToken}** |    O     |
-
 ### [Response]
 
 | Name      | Type  | Description                                                                                                                                                                                                                                                                                                                                        | Required |
@@ -289,7 +283,7 @@ Host : http://127.0.0.1:4000
 ```
 HTTP/1.1 200 OK
 {
-  "orders": [
+  "orderList": [
     {
       "customerName": "Customer 1 User Name",
       "restaurantName": "Restaurant 1 User Name",
@@ -834,7 +828,7 @@ Host : http://127.0.0.1:4000
 
 ---
 
-## Create and Buy NFT
+## Buy NFT
 
 ### [Request]
 
