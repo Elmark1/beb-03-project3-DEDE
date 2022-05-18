@@ -188,7 +188,9 @@ export const postMenu = async (req, res) => {
 
 export const getMenusById = async (req, res) => {
   const { restaurantId } = req.params;
-  const menuList = await Menu.find({ user_id: restaurantId });
+  const menuList = await Menu.find({ user_id: restaurantId }).sort({
+    _id: "descending",
+  });
 
   if (!menuList) {
     return res.status(404).json({ message: "❌ No Menu List!" });

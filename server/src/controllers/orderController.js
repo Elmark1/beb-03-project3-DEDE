@@ -32,6 +32,7 @@ export const postOrder = async (req, res) => {
 
 export const getOrders = async (req, res) => {
   const orderList = await Order.find()
+    .sort({ _id: "descending" })
     .populate("user1_id", "userName")
     .populate("user2_id", "userName")
     .populate("user3_id", "userName");
@@ -57,40 +58,57 @@ export const getOrderHistory = async (req, res) => {
       const history = await Order.find({
         user1_id: accessToken.userObjectId,
       })
+        .sort({ _id: "descending" })
         .populate("user1_id", "userName")
         .populate("user2_id", "userName")
         .populate("user3_id", "userName");
 
-      return res.json(history);
+      if (!history) {
+        return res.status(404).json({ message: "❌ Not Found!" });
+      }
+
+      return res.json({ history });
     }
 
     if (accessToken.userType === 2) {
       const history = await Order.find({
         user2_id: accessToken.userObjectId,
       })
+        .sort({ _id: "descending" })
         .populate("user1_id", "userName")
         .populate("user2_id", "userName")
         .populate("user3_id", "userName");
 
-      return res.json(history);
+      if (!history) {
+        return res.status(404).json({ message: "❌ Not Found!" });
+      }
+
+      return res.json({ history });
     }
 
     if (accessToken.userType === 3) {
       const history = await Order.find({
         user3_id: accessToken.userObjectId,
       })
+        .sort({ _id: "descending" })
         .populate("user1_id", "userName")
         .populate("user2_id", "userName")
         .populate("user3_id", "userName");
 
-      return res.json(history);
+      if (!history) {
+        return res.status(404).json({ message: "❌ Not Found!" });
+      }
+
+      return res.json({ history });
     }
 
     return res.status(404).json({ message: "❌ Not Found!" });
   } catch (error) {
     console.log("error:", error);
 
-    return res.status(400).json({ message: "❌ Fail" });
+    return res
+      .status(403)
+      .json({ message: "❌ You do not have permission to use this feature!" });
   }
 };
 
