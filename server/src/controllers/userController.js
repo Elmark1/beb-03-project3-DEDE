@@ -162,6 +162,14 @@ export const getUserInfo = async (req, res) => {
   }
 };
 
+export const getRestaurants = async (req, res) => {
+  const restaurantList = await User.find({ userType: 2 });
+
+  if (!restaurantList) {
+    return res.status(404).json({ message: "❌ No Restaurant List!" });
+  }
+};
+
 export const postMenu = async (req, res) => {
   const { menuName, menuDescription, menuPrice } = req.body;
   const accessToken = req.decoded;
