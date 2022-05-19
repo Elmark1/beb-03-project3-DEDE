@@ -6,7 +6,7 @@ dotenv.config();
 export const verifyToken = (req, res, next) => {
   const token = req.cookies.accessToken;
 
-  if (token === undefined) {
+  if (!token) {
     return res
       .status(401)
       .json({ message: "❌ You do not have permission to use API" });

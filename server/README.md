@@ -182,6 +182,42 @@ HTTP/1.1 200 OK
 
 ---
 
+## Sign Out
+
+### [Request]
+
+#### URL
+
+```
+POST /signout HTTP/1.1
+Host : http://127.0.0.1:4000
+```
+
+#### Request Header
+
+| Name          | Description                                                                           | Required |
+| ------------- | ------------------------------------------------------------------------------------- | :------: |
+| Authorization | 사용자 인증 수단, Json Web Token <br/><br/> **Authorization: Bearer ${JsonWebToken}** |    O     |
+
+### [Response]
+
+| Name    | Type   | Description                               | Required |
+| :------ | :----- | :---------------------------------------- | :------: |
+| message | String | "✅ Sign Out Successfully!" or "❌ Fail!" |    O     |
+
+### [Sample]
+
+#### Response: success
+
+```
+HTTP/1.1 200 OK
+{
+  "message": "✅ Sign Out Successfully!"
+}
+```
+
+---
+
 ## Get User Information
 
 ### [Request]
@@ -259,14 +295,14 @@ HTTP/1.1 200 OK
 
 ---
 
-## Get Orders
+## Listing Custom-Made NFT on the restaurant
 
-### [Request] : Use Json Web Token
+### [Request]
 
 #### URL
 
 ```
-GET /orders HTTP/1.1
+POST /restaurants/:restaurantId(ObjectId)/nfts HTTP/1.1
 Host : http://127.0.0.1:4000
 ```
 
@@ -276,79 +312,113 @@ Host : http://127.0.0.1:4000
 | ------------- | ------------------------------------------------------------------------------------- | :------: |
 | Authorization | 사용자 인증 수단, Json Web Token <br/><br/> **Authorization: Bearer ${JsonWebToken}** |    O     |
 
+#### Body
+
+| Name         | Description   | Type   | Required |
+| :----------- | :------------ | :----- | :------: |
+| nftName      | NFT Name      | String |    O     |
+| discountRate | Discount Rate | Number |    O     |
+| nftPrice     | NFT Price     | Number |    O     |
+
 ### [Response]
 
-| Name      | Type  | Description                                                                                                                                                                                                                                                                                                                                        | Required |
-| :-------- | :---- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :------: |
-| orderList | Array | OrderList is an array of orders. Each order object contains the data of the order. <br/> **Default**: OrderList is sorted in the latest order.<br/><br/> **[{customerName: String, restaurantName: String, deliveryManName: String, status: String, orderedMenu: {menuName: String, menuDescription: String, menuPrice: Number}}, { ... }, ... ]** |    O     |
+| Name    | Type   | Description                     | Required |
+| :------ | :----- | :------------------------------ | :------: |
+| message | String | "Created!" or "Fail to Create!" |    O     |
 
 ### [Sample]
+
+#### req.body
+
+```
+{
+  "nftName": "NFT Name", "discountRate": 10, "nftPrice": 300
+}
+```
 
 #### Response: success
 
 ```
 HTTP/1.1 200 OK
 {
-  "orders": [
-    {
-      "customerName": "Customer 1 User Name",
-      "restaurantName": "Restaurant 1 User Name",
-      "deliveryManName": "Delivery 1 User Name",
-      "status": "Pending",
-      "orderedMenu": [
-        {
-          "menuName": "Pasta",
-          "menuDescription": "Very Delicious",
-          "menuPrice": 400
-        }, {
-          "menuName": "Salad",
-          "menuDescription": "Very Nice",
-          "menuPrice": 150
-        }
-      ]
-    }, {
-      "customerName": "Customer 2 User Name",
-      "restaurantName": "Restaurant 2 User Name",
-      "deliveryManName": "Delivery 2 User Name",
-      "status": "Cooking",
-      "orderedMenu": [
-        {
-          "menuName": "Pasta",
-          "menuDescription": "Very Delicious",
-          "menuPrice": 400
-        }, {
-          "menuName": "Salad",
-          "menuDescription": "Very Nice",
-          "menuPrice": 150
-        }
-      ]
-    }
-  ]
+  "message": "Created"
 }
 ```
 
 ---
 
-## Get Order By ID
+## Create Menu
+
+Restaurant-type user can add menus. The menu will be added to the menu list.
 
 ### [Request]
 
 #### URL
 
 ```
-GET /orders/:orderId(ObjectId) HTTP/1.1
+POST restaurants/:restaurantId(ObjectId)/menus HTTP/1.1
+Host : http://127.0.0.1:4000
+```
+
+#### Request Header
+
+| Name          | Description                                                                           | Required |
+| ------------- | ------------------------------------------------------------------------------------- | :------: |
+| Authorization | 사용자 인증 수단, Json Web Token <br/><br/> **Authorization: Bearer ${JsonWebToken}** |    O     |
+
+#### Body
+
+| Key             | Description                                     | Type   | Required |
+| :-------------- | :---------------------------------------------- | :----- | :------: |
+| menuName        | The name of this menu                           | String |    O     |
+| menuDescription | Default: "We serve delicious food." <br/>       | String |    X     |
+| menuPrice       | The price of this menu. The unit is DEDE token. | Number |    O     |
+
+### [Response]
+
+| Name    | Type   | Description                                                                                                                                                                                                                                                    | Required |
+| :------ | :----- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :------: |
+| message | String | If the same menu name exists, adding a menu fails. <br/> When restaurant-type user added menu successfully on the menu list, the message is "Create Menu Successfully". When restaurant-type user failed to create menu, the message is "Fail to Create Menu". |    O     |
+
+### [Sample]
+
+#### req.body
+
+```
+{
+  "menuName": "Pasta",
+  "menuDescription": "Very Delicious",
+  "menuPrice": 400
+}
+```
+
+#### Response: success
+
+```
+HTTP/1.1 200 OK
+{
+    "message": "Create Menu Successfully"
+}
+```
+
+---
+
+## Get Menus By Id
+
+### [Request]
+
+#### URL
+
+```
+GET restaurants/:restaurantId(ObjectId)/menus HTTP/1.1
 Host : http://127.0.0.1:4000
 ```
 
 ### [Response]
 
-| Name            | Type   | Description                                                                                                                                                                                      | Required |
-| :-------------- | :----- | :----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :------: |
-| customerName    | String | Customer User Name                                                                                                                                                                               |    O     |
-| restaurantName  | String | Restaurant User Name                                                                                                                                                                             |    O     |
-| deliveryManName | String | Delivery Man User Name                                                                                                                                                                           |    O     |
-| status          | String | "Pending", "Rejected", "Cooking", "Delivery", "Complete"<br/><br/>**Default: "Pending"**                                                                                                         |    O     |
-| orderedMenu     | Array  | orderedMenu is an array of object. Each object contains menuName, menuDescriptioin and menuPrice. <br/><br/> **[{menuName: String, menuDescription: String, menuPrice: Number}, { ... }, ... ]** |    O     |
+| Name     | Type  | Description                                                                                                                                                  | Required |
+| :------- | :---- | :----------------------------------------------------------------------------------------------------------------------------------------------------------- | :------: |
+| menuList | Array | This is an array of menu objects registered at the restaurant. <br/><br/>**[{menuName: String, menuDescription: String, menuPrice: Number}, { ... }, ... ]** |    O     |
 
 ### [Sample]
 
@@ -357,21 +427,7 @@ Host : http://127.0.0.1:4000
 ```
 HTTP/1.1 200 OK
 {
-    "customerName": "Customer User Name",
-    "restaurantName": "Restaurant User Name",
-    "deliveryManName": "Delivery Man User Name",
-    "status": "Cooking",
-    "orderedMenu": [
-      {
-        "menuName": "Pasta",
-        "menuDescription": "Very Delicious",
-        "menuPrice": 400
-      }, {
-        "menuName": "Salad",
-        "menuDescription": "Very Nice",
-        "menuPrice": 150
-      }
-    ],
+  "menuList": [{"menuName": "pasta", "menuDescription": "Very delicious food", "menuPrice": 400}]
 }
 ```
 
@@ -441,22 +497,22 @@ HTTP/1.1 200 OK
 
 ---
 
-## Get Menus By Id
+## Get Orders
 
-### [Request]
+### [Request] : Use Json Web Token
 
 #### URL
 
 ```
-GET restaurants/:restaurantId(ObjectId)/menus HTTP/1.1
+GET /orders HTTP/1.1
 Host : http://127.0.0.1:4000
 ```
 
 ### [Response]
 
-| Name     | Type  | Description                                                                                                                                                  | Required |
-| :------- | :---- | :----------------------------------------------------------------------------------------------------------------------------------------------------------- | :------: |
-| menuList | Array | This is an array of menu objects registered at the restaurant. <br/><br/>**[{menuName: String, menuDescription: String, menuPrice: Number}, { ... }, ... ]** |    O     |
+| Name      | Type  | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     | Required |
+| :-------- | :---- | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :------: |
+| orderList | Array | OrderList is an array of orders. Each order object contains the data of the order. **If status is "Pending", there is no value of user3_id which contains user3 Object ID and userName (Delivery Man Name).** Please refer to the sample below. <br/><br/> **Default**: OrderList is sorted in the latest order.<br/><br/> **[{ \_id: ObjectId(Order), <br/>user1_id: { \_id: ObjectId(customer), userName: String }, user2_id: { \_id: ObjectId(restaurant), userName: String }, user3_id: { \_id: ObjectId(delivery man), userName: String }, status: String, orderedMenu: [{menuName: String, menuDescription: String, menuPrice: Number}, { ... }], ... ]** |    O     |
 
 ### [Sample]
 
@@ -465,22 +521,53 @@ Host : http://127.0.0.1:4000
 ```
 HTTP/1.1 200 OK
 {
-  "menuList": [{"menuName": "pasta", "menuDescription": "Very delicious food", "menuPrice": 400}]
+  "orderList": [
+    {
+      "user1_id": { _id: "Customer1 Object Id", userName: "Customer1 Name" },
+      "user2_id": { _id: "Restaurant1 Object Id", userName: "Restaurant1 Name" },
+      "status": "Pending",
+      "orderedMenu": [
+        {
+          "menuName": "Pasta",
+          "menuDescription": "Very Delicious",
+          "menuPrice": 400
+        }, {
+          "menuName": "Salad",
+          "menuDescription": "Very Nice",
+          "menuPrice": 150
+        }
+      ]
+    }, {
+      "user1_id": { _id: "Customer2 Object Id", userName: "Customer2 Name" },
+      "user2_id": { _id: "Restaurant2 Object Id", userName: "Restaurant2 Name" },
+      "user3_id": { _id: "DeliveryMan2 Object Id", userName: "DeliveryMan2 Name" },
+      "status": "Cooking",
+      "orderedMenu": [
+        {
+          "menuName": "Pasta",
+          "menuDescription": "Very Delicious",
+          "menuPrice": 400
+        }, {
+          "menuName": "Salad",
+          "menuDescription": "Very Nice",
+          "menuPrice": 150
+        }
+      ]
+    }
+  ]
 }
 ```
 
 ---
 
-## Create Menu
-
-Restaurant-type user can add menus. The menu will be added to the menu list.
+## Get Order History
 
 ### [Request]
 
 #### URL
 
 ```
-POST restaurants/:restaurantId(ObjectId)/menus HTTP/1.1
+GET /orders/history HTTP/1.1
 Host : http://127.0.0.1:4000
 ```
 
@@ -490,90 +577,57 @@ Host : http://127.0.0.1:4000
 | ------------- | ------------------------------------------------------------------------------------- | :------: |
 | Authorization | 사용자 인증 수단, Json Web Token <br/><br/> **Authorization: Bearer ${JsonWebToken}** |    O     |
 
-#### Body
-
-| Key             | Description                                     | Type   | Required |
-| :-------------- | :---------------------------------------------- | :----- | :------: |
-| menuName        | The name of this menu                           | String |    O     |
-| menuDescription | Default: "We serve delicious food." <br/>       | String |    X     |
-| menuPrice       | The price of this menu. The unit is DEDE token. | Number |    O     |
-
 ### [Response]
 
-| Name    | Type   | Description                                                                                                                                                                                                                                                    | Required |
-| :------ | :----- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :------: |
-| message | String | If the same menu name exists, adding a menu fails. <br/> When restaurant-type user added menu successfully on the menu list, the message is "Create Menu Successfully". When restaurant-type user failed to create menu, the message is "Fail to Create Menu". |    O     |
-
-### [Sample]
-
-#### req.body
-
-```
-{
-  "menuName": "Pasta",
-  "menuDescription": "Very Delicious",
-  "menuPrice": 400
-}
-```
-
-#### Response: success
-
-```
-HTTP/1.1 200 OK
-{
-    "message": "Create Menu Successfully"
-}
-```
+| Name    | Type  | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       | Required |
+| :------ | :---- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | :------: |
+| history | Array | "history" is an array of **orders of the user who requested.** Each order object contains the data of the order. **If status is "Pending", there is no value of user3_id which contains user3 Object ID and userName (Delivery Man Name).** Please refer to the sample below. <br/><br/> **Default**: OrderList is sorted in the latest order.<br/><br/> **[{ \_id: ObjectId(Order), <br/>user1_id: { \_id: ObjectId(customer), userName: String }, user2_id: { \_id: ObjectId(restaurant), userName: String }, user3_id: { \_id: ObjectId(delivery man), userName: String }, status: String, orderedMenu: [{menuName: String, menuDescription: String, menuPrice: Number}, { ... }], { ... } ]** |    O     |
 
 ---
 
-## Listing Custom-Made NFT on the restaurant
+## Get Order By ID
 
 ### [Request]
 
 #### URL
 
 ```
-POST /restaurants/:restaurantId(ObjectId)/nfts HTTP/1.1
+GET /orders/:orderId(ObjectId) HTTP/1.1
 Host : http://127.0.0.1:4000
 ```
 
-#### Request Header
-
-| Name          | Description                                                                           | Required |
-| ------------- | ------------------------------------------------------------------------------------- | :------: |
-| Authorization | 사용자 인증 수단, Json Web Token <br/><br/> **Authorization: Bearer ${JsonWebToken}** |    O     |
-
-#### Body
-
-| Name         | Description   | Type   | Required |
-| :----------- | :------------ | :----- | :------: |
-| nftName      | NFT Name      | String |    O     |
-| discountRate | Discount Rate | Number |    O     |
-| nftPrice     | NFT Price     | Number |    O     |
-
 ### [Response]
 
-| Name    | Type   | Description                     | Required |
-| :------ | :----- | :------------------------------ | :------: |
-| message | String | "Created!" or "Fail to Create!" |    O     |
+| Name        | Type   | Description                                                                                                                                                                                      | Required |
+| :---------- | :----- | :----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :------: |
+| user1_id    | Object | { \_id: "Customer Object Id", userName: "Customer Name" }                                                                                                                                        |    O     |
+| user2_id    | Object | { \_id: "Restaurant Object Id", userName: "Restaurant Name" }                                                                                                                                    |    O     |
+| user3_id    | Object | { \_id: "DeliveryMan Object Id", userName: "DeliveryMan Name" }                                                                                                                                  |    O     |
+| status      | String | "Pending", "Rejected", "Cooking", "Delivery", "Complete"<br/><br/>**Default: "Pending"**                                                                                                         |    O     |
+| orderedMenu | Array  | orderedMenu is an array of object. Each object contains menuName, menuDescriptioin and menuPrice. <br/><br/> **[{menuName: String, menuDescription: String, menuPrice: Number}, { ... }, ... ]** |    O     |
 
 ### [Sample]
-
-#### req.body
-
-```
-{
-  "nftName": "NFT Name", "discountRate": 10, "nftPrice": 300
-}
-```
 
 #### Response: success
 
 ```
 HTTP/1.1 200 OK
 {
-  "message": "Created"
+     "user1_id": { _id: "Customer Object Id", userName: "Customer Name" },
+      "user2_id": { _id: "Restaurant Object Id", userName: "Restaurant Name" },
+      "user3_id": { _id: "DeliveryMan Object Id", userName: "DeliveryMan Name" },
+    "status": "Cooking",
+    "orderedMenu": [
+      {
+        "menuName": "Pasta",
+        "menuDescription": "Very Delicious",
+        "menuPrice": 400
+      }, {
+        "menuName": "Salad",
+        "menuDescription": "Very Nice",
+        "menuPrice": 150
+      }
+    ],
 }
 ```
 
@@ -623,11 +677,7 @@ Host : http://127.0.0.1:4000
 ```
 {
   "message": "👨‍🍳 배달원이 도착하기 전까지 레스토랑이 음식을 조리합니다!",
-  "customerName": "Customer User Name",
-  "restaurantName": "Restaurant User Name",
-  "deliveryManName": "DeliveryMan User Name",
-  "orderedMenu": [{"menuName": "Pasta", "menuDescription": "Very Delicious", "menuPrice": 350}],
-  "status": 'Cooking"
+
 }
 ```
 
@@ -834,7 +884,7 @@ Host : http://127.0.0.1:4000
 
 ---
 
-## Create and Buy NFT
+## Buy NFT
 
 ### [Request]
 

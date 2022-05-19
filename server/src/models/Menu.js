@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 
 const menuSchema = new mongoose.Schema({
-  user_id: { type: mongoose.ObjectId, required: true },
+  user_id: { type: mongoose.ObjectId, required: true, ref: "User" },
   menuName: { type: String, required: true },
   menuPrice: { type: Number, required: true },
   menuDescription: { type: String, required: true },
