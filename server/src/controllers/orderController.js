@@ -115,6 +115,7 @@ export const getOrderHistory = async (req, res) => {
 export const getOrderById = async (req, res) => {
   const { orderId } = req.params;
   const order = await Order.findById(orderId)
+    .sort({ _id: "descending" })
     .populate("user1_id", "userName")
     .populate("user2_id", "userName")
     .populate("user3_id", "userName");

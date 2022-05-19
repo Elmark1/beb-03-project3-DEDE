@@ -510,9 +510,9 @@ Host : http://127.0.0.1:4000
 
 ### [Response]
 
-| Name      | Type  | Description                                                                                                                                                                                                                                                                                                                                        | Required |
-| :-------- | :---- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :------: |
-| orderList | Array | OrderList is an array of orders. Each order object contains the data of the order. <br/> **Default**: OrderList is sorted in the latest order.<br/><br/> **[{customerName: String, restaurantName: String, deliveryManName: String, status: String, orderedMenu: {menuName: String, menuDescription: String, menuPrice: Number}}, { ... }, ... ]** |    O     |
+| Name      | Type  | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     | Required |
+| :-------- | :---- | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :------: |
+| orderList | Array | OrderList is an array of orders. Each order object contains the data of the order. **If status is "Pending", there is no value of user3_id which contains user3 Object ID and userName (Delivery Man Name).** Please refer to the sample below. <br/><br/> **Default**: OrderList is sorted in the latest order.<br/><br/> **[{ \_id: ObjectId(Order), <br/>user1_id: { \_id: ObjectId(customer), userName: String }, user2_id: { \_id: ObjectId(restaurant), userName: String }, user3_id: { \_id: ObjectId(delivery man), userName: String }, status: String, orderedMenu: [{menuName: String, menuDescription: String, menuPrice: Number}, { ... }], ... ]** |    O     |
 
 ### [Sample]
 
@@ -523,9 +523,8 @@ HTTP/1.1 200 OK
 {
   "orderList": [
     {
-      "customerName": "Customer 1 User Name",
-      "restaurantName": "Restaurant 1 User Name",
-      "deliveryManName": "Delivery 1 User Name",
+      "user1_id": { _id: "Customer1 Object Id", userName: "Customer1 Name" },
+      "user2_id": { _id: "Restaurant1 Object Id", userName: "Restaurant1 Name" },
       "status": "Pending",
       "orderedMenu": [
         {
@@ -539,9 +538,9 @@ HTTP/1.1 200 OK
         }
       ]
     }, {
-      "customerName": "Customer 2 User Name",
-      "restaurantName": "Restaurant 2 User Name",
-      "deliveryManName": "Delivery 2 User Name",
+      "user1_id": { _id: "Customer2 Object Id", userName: "Customer2 Name" },
+      "user2_id": { _id: "Restaurant2 Object Id", userName: "Restaurant2 Name" },
+      "user3_id": { _id: "DeliveryMan2 Object Id", userName: "DeliveryMan2 Name" },
       "status": "Cooking",
       "orderedMenu": [
         {
@@ -561,6 +560,31 @@ HTTP/1.1 200 OK
 
 ---
 
+## Get Order History
+
+### [Request]
+
+#### URL
+
+```
+GET /orders/history HTTP/1.1
+Host : http://127.0.0.1:4000
+```
+
+#### Request Header
+
+| Name          | Description                                                                           | Required |
+| ------------- | ------------------------------------------------------------------------------------- | :------: |
+| Authorization | 사용자 인증 수단, Json Web Token <br/><br/> **Authorization: Bearer ${JsonWebToken}** |    O     |
+
+### [Response]
+
+| Name    | Type  | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       | Required |
+| :------ | :---- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | :------: |
+| history | Array | "history" is an array of **orders of the user who requested.** Each order object contains the data of the order. **If status is "Pending", there is no value of user3_id which contains user3 Object ID and userName (Delivery Man Name).** Please refer to the sample below. <br/><br/> **Default**: OrderList is sorted in the latest order.<br/><br/> **[{ \_id: ObjectId(Order), <br/>user1_id: { \_id: ObjectId(customer), userName: String }, user2_id: { \_id: ObjectId(restaurant), userName: String }, user3_id: { \_id: ObjectId(delivery man), userName: String }, status: String, orderedMenu: [{menuName: String, menuDescription: String, menuPrice: Number}, { ... }], { ... } ]** |    O     |
+
+---
+
 ## Get Order By ID
 
 ### [Request]
@@ -574,13 +598,13 @@ Host : http://127.0.0.1:4000
 
 ### [Response]
 
-| Name            | Type   | Description                                                                                                                                                                                      | Required |
-| :-------------- | :----- | :----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :------: |
-| customerName    | String | Customer User Name                                                                                                                                                                               |    O     |
-| restaurantName  | String | Restaurant User Name                                                                                                                                                                             |    O     |
-| deliveryManName | String | Delivery Man User Name                                                                                                                                                                           |    O     |
-| status          | String | "Pending", "Rejected", "Cooking", "Delivery", "Complete"<br/><br/>**Default: "Pending"**                                                                                                         |    O     |
-| orderedMenu     | Array  | orderedMenu is an array of object. Each object contains menuName, menuDescriptioin and menuPrice. <br/><br/> **[{menuName: String, menuDescription: String, menuPrice: Number}, { ... }, ... ]** |    O     |
+| Name        | Type   | Description                                                                                                                                                                                      | Required |
+| :---------- | :----- | :----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :------: |
+| user1_id    | Object | { \_id: "Customer Object Id", userName: "Customer Name" }                                                                                                                                        |    O     |
+| user2_id    | Object | { \_id: "Restaurant Object Id", userName: "Restaurant Name" }                                                                                                                                    |    O     |
+| user3_id    | Object | { \_id: "DeliveryMan Object Id", userName: "DeliveryMan Name" }                                                                                                                                  |    O     |
+| status      | String | "Pending", "Rejected", "Cooking", "Delivery", "Complete"<br/><br/>**Default: "Pending"**                                                                                                         |    O     |
+| orderedMenu | Array  | orderedMenu is an array of object. Each object contains menuName, menuDescriptioin and menuPrice. <br/><br/> **[{menuName: String, menuDescription: String, menuPrice: Number}, { ... }, ... ]** |    O     |
 
 ### [Sample]
 
@@ -589,9 +613,9 @@ Host : http://127.0.0.1:4000
 ```
 HTTP/1.1 200 OK
 {
-    "customerName": "Customer User Name",
-    "restaurantName": "Restaurant User Name",
-    "deliveryManName": "Delivery Man User Name",
+     "user1_id": { _id: "Customer Object Id", userName: "Customer Name" },
+      "user2_id": { _id: "Restaurant Object Id", userName: "Restaurant Name" },
+      "user3_id": { _id: "DeliveryMan Object Id", userName: "DeliveryMan Name" },
     "status": "Cooking",
     "orderedMenu": [
       {
@@ -653,11 +677,7 @@ Host : http://127.0.0.1:4000
 ```
 {
   "message": "👨‍🍳 배달원이 도착하기 전까지 레스토랑이 음식을 조리합니다!",
-  "customerName": "Customer User Name",
-  "restaurantName": "Restaurant User Name",
-  "deliveryManName": "DeliveryMan User Name",
-  "orderedMenu": [{"menuName": "Pasta", "menuDescription": "Very Delicious", "menuPrice": 350}],
-  "status": 'Cooking"
+
 }
 ```
 
