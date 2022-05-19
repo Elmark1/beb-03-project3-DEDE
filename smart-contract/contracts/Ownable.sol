@@ -5,6 +5,7 @@ contract Ownable {
     address payable private _owner;
 	address private _kip17;
 	address private _dedeDex;
+	address private _dedeStaking;
 
     event OwnershipTransferred(address indexed previousOwner, address indexed newOwner);
 
@@ -32,6 +33,19 @@ contract Ownable {
 	modifier onlyDedeDex() {
 	  require(isDedeDex(), "Ownable: caller is not the dede dex");
 	  _;
+	}
+
+	modifier onlyDedeStaking() {
+	  require(isStaking(), "Ownable: caller is not the staking");
+	  _;
+	}
+
+	function isStaking() public view returns(bool) {
+	  return msg.sender == _dedeStaking;
+	}
+
+	function setDedeStaking(address dedeStaking) public onlyOwner {
+	  _dedeStaking = dedeStaking;
 	}
 
     /**

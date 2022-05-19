@@ -11,8 +11,7 @@ contract DEDEKIP17 is KIP17Token, Ownable {
   Counters.Counter private _tokenIds;
   DEDEKIP7 token;
 
-  constructor() public KIP17Token("DEDE NFT", "DEDENFT") {
-  }
+  constructor() public KIP17Token("DEDE NFT", "DEDENFT") {}
 
   function mintNFT(address recipient, address seller, string memory tokenURI, uint256 nftPrice) public onlyOwner returns(uint256) {
 	require(token.balanceOf(recipient) >= nftPrice, "DEDEKIP17: Insufficient tokens to mint NFT");

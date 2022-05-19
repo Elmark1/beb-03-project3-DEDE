@@ -1415,7 +1415,7 @@
   },
   "networks": {},
   "schemaVersion": "3.4.6",
-  "updatedAt": "2022-05-17T05:54:31.078Z",
+  "updatedAt": "2022-05-17T08:13:21.739Z",
   "devdoc": {
     "methods": {
       "balanceOf(address)": {
