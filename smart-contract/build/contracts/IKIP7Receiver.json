@@ -467,7 +467,7 @@
   },
   "networks": {},
   "schemaVersion": "3.4.6",
-  "updatedAt": "2022-05-17T05:54:31.081Z",
+  "updatedAt": "2022-05-17T08:13:21.743Z",
   "devdoc": {
     "details": "Note: the KIP-13 identifier for this interface is 0x9d188c22. see http://kips.klaytn.com/KIPs/kip-7-fungible_token",
     "methods": {
