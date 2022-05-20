@@ -1,8 +1,5 @@
 import React from "react";
 import "./Search.css";
-import SearchIcon from "@mui/icons-material/Search";
-import ToggleButton from "@mui/material/ToggleButton";
-import ClearIcon from "@mui/icons-material/Clear";
 
 const Search = () => {
   return (
