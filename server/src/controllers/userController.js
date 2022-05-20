@@ -168,6 +168,8 @@ export const getRestaurants = async (req, res) => {
   if (!restaurantList) {
     return res.status(404).json({ message: "❌ No Restaurant List!" });
   }
+
+  return res.json(restaurantList);
 };
 
 export const postMenu = async (req, res) => {
