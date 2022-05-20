@@ -11,13 +11,21 @@ import {
   NavBtn,
   NavBtnLink,
 } from "./NavbarElements";
+import LogoImg from "../../images/logomint.png";
 
 const Navbar = (toggle) => {
   return (
     <>
       <Nav>
         <NavbarContainer>
-          <NavLogo to="/">DEDelivery</NavLogo>
+          <NavLogo to="/">
+            <img
+              style={{
+                width: "10rem",
+              }}
+              src={LogoImg}
+            />
+          </NavLogo>
           <MobileIcon onClick={toggle}>
             <FaBars />
           </MobileIcon>
