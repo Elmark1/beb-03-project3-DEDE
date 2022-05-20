@@ -2,11 +2,11 @@ import "./App.css";
 import { useState } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import NavBar from "./Components/Navbar.js";
-import Home from "./pages/Home.js";
-import Restaurant from "./pages/Restaurant.js";
-import History from "./pages/History.js";
-import Wallet from "./pages/Wallet.js";
-import MyPage from "./pages/MyPage.js";
+import Home from "./Pages/Home.js";
+import Restaurant from "./Pages/Restaurant.js";
+import History from "./Pages/History.js";
+import Wallet from "./Pages/Wallet.js";
+import MyPage from "./Pages/MyPage.js";
 
 function App() {
   const [isSignedIn, setIsSignedIn] = useState(true);

@@ -1,10 +1,8 @@
 import React, { useState } from "react";
-import Video from "../../videos/video.mp4";
 import { Button } from "../ButtonElement";
 import {
   HomeContainer,
   HomeBg,
-  VideoBg,
   HomeContent,
   HomeH1,
   HomeH2,
@@ -23,9 +21,7 @@ const HomeSection = () => {
 
   return (
     <HomeContainer>
-      <HomeBg>
-        <VideoBg autoPlay loop muted src={Video} type="video/mp4" />
-      </HomeBg>
+      <HomeBg></HomeBg>
       <HomeContent>
         <HomeH1>DECENTRALIZED DELIVERY: BEGINS</HomeH1>
         <HomeH2>
