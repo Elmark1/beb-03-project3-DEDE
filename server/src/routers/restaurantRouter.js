@@ -1,5 +1,6 @@
 import express from "express";
 import {
+  getRestaurants,
   getMenusById,
   postMenu,
   postCustomMadeNft,
@@ -8,6 +9,7 @@ import { verifyToken } from "../middlewares.js";
 
 const restaurantRouter = express.Router();
 
+restaurantRouter.get("/", getRestaurants);
 restaurantRouter
   .route("/:restaurantId([0-9a-f]{24})/menus")
   .get(getMenusById)

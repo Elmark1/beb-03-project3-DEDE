@@ -10,10 +10,9 @@ const Home = () => {
   const toggle = () => {
     setIsOpen(!isOpen);
   };
+
   return (
     <>
-      <Sidebar isOpen={isOpen} toggle={toggle} />
-      <Navbar toggle={toggle} />
       <HomeSection />
       <AboutSection />
       <TeamSection />
