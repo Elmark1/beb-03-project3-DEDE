@@ -1,15 +1,15 @@
 import "./App.css";
 import { useState, useEffect } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import NavBar from "./Components/Navbar.js";
-import Home from "./Pages/Home.js";
-import Restaurant from "./Pages/Restaurant.js";
-import History from "./Pages/History.js";
-import Wallet from "./Pages/Wallet.js";
-import MyPage from "./Pages/MyPage.js";
-import SignIn from "./Pages/SignIn";
-import SignUp from "./Pages/SignUp";
-import NotFound from "./Pages/NotFound";
+import NavBar from "./components/Navbar.js";
+import Home from "./pages/Home.js";
+import Restaurant from "./pages/Restaurant.js";
+import History from "./pages/History.js";
+import Wallet from "./pages/Wallet.js";
+import MyPage from "./pages/MyPage.js";
+import SignIn from "./pages/SignIn";
+import SignUp from "./pages/SignUp";
+import NotFound from "./pages/NotFound";
 import { Cookies } from "react-cookie";
 
 function App() {
