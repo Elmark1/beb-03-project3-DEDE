@@ -68,6 +68,13 @@ export const postSignUp = async (req, res) => {
 export const postSignIn = async (req, res) => {
   const { userId, password } = req.body;
   const user = await User.findOne({ userId });
+
+  if (!user) {
+    console.log("❌ User doesn't exist!");
+
+    return res.status(400).json({ message: "❌ User doesn't exist!" });
+  }
+
   const passwordComparision = await bcrypt.compare(password, user.password);
   const accessTokenPayload = {
     userObjectId: user._id,
@@ -78,12 +85,6 @@ export const postSignIn = async (req, res) => {
     process.env.ACCESS_TOKEN_SECRET,
     "15m"
   );
-
-  if (!user) {
-    console.log("❌ User doesn't exist!");
-
-    return res.status(400).json({ message: "❌ User doesn't exist!" });
-  }
 
   if (!passwordComparision) {
     console.log("❌ Password doesn't match with user's password!");
