@@ -8,15 +8,19 @@ import rootRouter from "./src/routers/rootRouter.js";
 import userRouter from "./src/routers/userRouter.js";
 import restaurantRouter from "./src/routers/restaurantRouter.js";
 import orderRouter from "./src/routers/orderRouter.js";
-import adminRouter from './src/routers/adminRouter.js';
-import dexRouter from './src/routers/dexRouter.js';
+import adminRouter from "./src/routers/adminRouter.js";
+import dexRouter from "./src/routers/dexRouter.js";
 
 dotenv.config();
 
 const app = express();
+const corsOptions = {
+  origin: "http://localhost:3000",
+  credentials: true,
+};
 
 // Apply middleware
-app.use(cors());
+app.use(cors(corsOptions));
 app.use(express.json({ extended: true }));
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
