@@ -32,7 +32,10 @@ const Navbar = ({ isSignedIn }) => {
           <li>Wallet</li>
         </Link>
 
-        <Link to="/mypage" style={{ textDecoration: "none", color: "inherit" }}>
+        <Link
+          to={isSignedIn ? "/mypage" : "/signin"}
+          style={{ textDecoration: "none", color: "inherit" }}
+        >
           <li>My Page</li>
         </Link>
       </ul>
