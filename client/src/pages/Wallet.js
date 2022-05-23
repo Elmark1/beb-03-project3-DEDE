@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import axios from "axios";
 
 const Wallet = ({ userObjectId }) => {
@@ -16,7 +17,7 @@ const Wallet = ({ userObjectId }) => {
         setUser(data);
       })
       .catch((error) => {
-        console.log("❌ ClientGetRestaurantsError:", error);
+        console.log("❌ Client GetWalletInfo Error:", error);
       });
   }, []);
 
@@ -27,7 +28,7 @@ const Wallet = ({ userObjectId }) => {
           <div>
             <br />
             <br />
-            Please Login
+            <Link to="/signin">Please Sign In</Link>
           </div>
         ) : (
           <div>

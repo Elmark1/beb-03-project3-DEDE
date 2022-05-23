@@ -1,9 +1,9 @@
 import React, { useState } from "react";
-import AboutSection from "../Components/AboutSection";
-import HomeSection from "../Components/HomeSection";
-import Navbar from "../Components/Navbar";
-import Sidebar from "../Components/Sidebar";
-import TeamSection from "../Components/TeamSection";
+import AboutSection from "../components/AboutSection";
+import HomeSection from "../components/HomeSection";
+import Navbar from "../components/Navbar";
+import Sidebar from "../components/Sidebar";
+import TeamSection from "../components/TeamSection";
 
 const Home = () => {
   const [isOpen, setIsOpen] = useState(false);
