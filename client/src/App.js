@@ -7,6 +7,7 @@ import Restaurant from "./pages/Restaurant.js";
 import History from "./pages/History.js";
 import Wallet from "./pages/Wallet.js";
 import MyPage from "./pages/MyPage.js";
+import Registration from "./pages/Registration.js";
 import SignIn from "./pages/SignIn";
 import SignUp from "./pages/SignUp";
 import NotFound from "./pages/NotFound";
@@ -15,7 +16,7 @@ import { Cookies } from "react-cookie";
 function App() {
   const cookies = new Cookies();
   const [isSignedIn, setIsSignedIn] = useState(false);
-  const [userType, setUserType] = useState(0); // ⭐️⭐️⭐️⭐️⭐️ userType이 최종적으로 사용되지 않는다면 삭제해주자. 사용할 거 같긴한데.
+  const [userType, setUserType] = useState(0);
   const [userObjectId, setUserObjectId] = useState("");
 
   useEffect(() => {
@@ -47,7 +48,12 @@ function App() {
           <Route
             path="/signin"
             element={
-              <SignIn isSignedIn={isSignedIn} setIsSignedIn={setIsSignedIn} />
+              <SignIn
+                isSignedIn={isSignedIn}
+                setIsSignedIn={setIsSignedIn}
+                setUserType={setUserType}
+                setUserObjectId={setUserObjectId}
+              />
             }
           />
           <Route path="/signup" element={<SignUp isSignedIn={isSignedIn} />} />
@@ -57,6 +63,17 @@ function App() {
               <MyPage
                 cookies={cookies}
                 isSignedIn={isSignedIn}
+                userType={userType}
+                userObjectId={userObjectId}
+              />
+            }
+          ></Route>
+          <Route
+            path="/registration"
+            element={
+              <Registration
+                isSignedIn={isSignedIn}
+                userType={userType}
                 userObjectId={userObjectId}
               />
             }
