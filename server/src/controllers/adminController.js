@@ -68,6 +68,7 @@ export const deployContracts = async (req, res) => {
 	caver.wallet.remove(adminExists.address);
 	res.status(201).json({message: 'Contracts deployed.'});
   } catch(err) {
+	caver.wallet.remove(adminExists.address);
 	res.status(401).json({message: err.message});
   }
 } 
@@ -96,6 +97,8 @@ export const createAdmin = async (req, res) => {
 
 export const buyNft = async (req, res) => {
   const body = req.body;
+  const adminExists = await Admin.findOne({adminType: 'Server'});
+
   try {
 	const nftExists = await CustomMadeNft.findOne({...body});
 
@@ -106,31 +109,79 @@ export const buyNft = async (req, res) => {
 	const metadataAdded = await ipfs.add(metadataJson);
 	const metadataUrl = `https://ipfs.infura.io/ipfs/${metadataAdded.path}`;
 
-	const adminExists = await Admin.findOne({adminType: 'Server'});
-
-	caver.wallet.newKeyring(adminExists.address, adminExists.privateKey);
-
 	const kip17Exists = await Contract.findOne({contractType: 'KIP17'});
-	const kip17 = new caver.contract(kip17Abi, kip17Exists.address);
+	const kip17 = caver.contract.create(kip17Abi, kip17Exists.address);
+	const kip7Exists = await Contract.findOne({contractType: 'KIP7'});
+	const kip7 = caver.contract.create(kip7Abi, kip7Exists.address);
 
 	const customerExists = await User.findById(body.customerId);
 	const restaurantExists = await User.findById(body.restaurantObjectId);
 	const customerAddress = customerExists.encryptedKeystore.address;
 	const restaurantAddress = restaurantExists.encryptedKeystore.address;
 
-	console.log(kip17Exists);
-	console.log(customerAddress);
-	console.log(restaurantAddress);
-	console.log(metadataUrl);
-	console.log(adminExists);
+	caver.wallet.newKeyring(adminExists.address, adminExists.privateKey);
 	kip17.options.from = adminExists.address;
 	kip17.options.gas = 15000000;
+	kip7.options.from = adminExists.address;
+	kip7.options.gas = 15000000;
 
-	await kip17.methods.mintNFT(customerAddress, restaurantAddress, metadataUrl, caver.utils.toBN(caver.utils.toPeb('1'))).send();
+	await kip17.methods.mintNft(customerAddress, metadataUrl, caver.utils.toBN(caver.utils.toPeb(nftExists.nftPrice))).send();
+	await kip7.methods.transfer(customerAddress, restaurantAddress, caver.utils.toBN(caver.utils.toPeb(nftExists.nftPrice))).send();
 	caver.wallet.remove(adminExists.address);
 
 	res.status(201).json({message: "Bought NFT"});
   } catch(err) {
+	caver.wallet.remove(adminExists.address);
+	res.status(401).json({message: err.message});
+  }
+}
+
+export const stake = async (req, res) => {
+  const body = req.body;
+  const adminExists = await Admin.findOne({adminType: 'Server'});
+
+  try {
+	const stakingExists = await Contract.findOne({contractType: 'Staking'});
+	const stakingInstance = caver.contract.create(stakingAbi, stakingExists.address);
+
+
+	caver.wallet.newKeyring(adminExists.address, adminExists.privateKey);
+	stakingInstance.options.from = adminExists.address;
+	stakingInstance.options.gas = 15000000;
+
+	const userExists = await User.findById(body.userObjectId);
+
+	await stakingInstance.methods.stake(userExists.encryptedKeystore.address, caver.utils.toBN(caver.utils.toPeb(body.amount))).send();
+	caver.wallet.remove(adminExists.address);
+
+	res.status(201).json({message: 'staked'});
+  } catch(err) {
+	caver.wallet.remove(adminExists.address);
+	res.status(401).json({message: err.message});
+  }
+}
+
+export const unstake = async (req, res) => {
+  const body = req.body;
+  const adminExists = await Admin.findOne({adminType: 'Server'});
+
+  try {
+	const stakingExists = await Contract.findOne({contractType: 'Staking'});
+	const stakingInstance = caver.contract.create(stakingAbi, stakingExists.address);
+
+
+	caver.wallet.newKeyring(adminExists.address, adminExists.privateKey);
+	stakingInstance.options.from = adminExists.address;
+	stakingInstance.options.gas = 15000000;
+
+	const userExists = await User.findById(body.userObjectId);
+
+	await stakingInstance.methods.unstake(userExists.encryptedKeystore.address, caver.utils.toBN(caver.utils.toPeb(body.amount))).send();
+	caver.wallet.remove(adminExists.address);
+
+	res.status(201).json({message: 'unstaked'});
+  } catch(err) {
+	caver.wallet.remove(adminExists.address);
 	res.status(401).json({message: err.message});
   }
 }

@@ -1995,7 +1995,7 @@
   },
   "networks": {},
   "schemaVersion": "3.4.6",
-  "updatedAt": "2022-05-17T08:13:21.755Z",
+  "updatedAt": "2022-05-23T07:09:28.414Z",
   "devdoc": {
     "details": "Optional functions from the KIP7 standard. See http://kips.klaytn.com/KIPs/kip-7-fungible_token",
     "methods": {

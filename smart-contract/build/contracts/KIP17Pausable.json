@@ -727,7 +727,7 @@
                         "name": "super",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 4108,
+                        "referencedDeclaration": 4180,
                         "src": "1139:5:20",
                         "typeDescriptions": {
                           "typeIdentifier": "t_super$_KIP17Pausable_$2179",
@@ -921,7 +921,7 @@
                         "name": "super",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 4108,
+                        "referencedDeclaration": 4180,
                         "src": "1263:5:20",
                         "typeDescriptions": {
                           "typeIdentifier": "t_super$_KIP17Pausable_$2179",
@@ -1132,7 +1132,7 @@
                         "name": "super",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 4108,
+                        "referencedDeclaration": 4180,
                         "src": "1409:5:20",
                         "typeDescriptions": {
                           "typeIdentifier": "t_super$_KIP17Pausable_$2179",
@@ -1769,7 +1769,7 @@
                                   "overloadedDeclarations": [
                                     null
                                   ],
-                                  "referencedDeclaration": 4108,
+                                  "referencedDeclaration": 4180,
                                   "type": "contract super KIP17Pausable",
                                   "value": "super"
                                 },
@@ -1984,7 +1984,7 @@
                                   "overloadedDeclarations": [
                                     null
                                   ],
-                                  "referencedDeclaration": 4108,
+                                  "referencedDeclaration": 4180,
                                   "type": "contract super KIP17Pausable",
                                   "value": "super"
                                 },
@@ -2230,7 +2230,7 @@
                                   "overloadedDeclarations": [
                                     null
                                   ],
-                                  "referencedDeclaration": 4108,
+                                  "referencedDeclaration": 4180,
                                   "type": "contract super KIP17Pausable",
                                   "value": "super"
                                 },
@@ -2321,7 +2321,7 @@
   },
   "networks": {},
   "schemaVersion": "3.4.6",
-  "updatedAt": "2022-05-17T08:13:21.737Z",
+  "updatedAt": "2022-05-23T07:09:28.311Z",
   "devdoc": {
     "details": "KIP17 modified with pausable transfers.",
     "methods": {

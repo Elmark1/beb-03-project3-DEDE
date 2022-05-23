@@ -553,7 +553,7 @@
                               "name": "msg",
                               "nodeType": "Identifier",
                               "overloadedDeclarations": [],
-                              "referencedDeclaration": 4051,
+                              "referencedDeclaration": 4123,
                               "src": "967:3:14",
                               "typeDescriptions": {
                                 "typeIdentifier": "t_magic_message",
@@ -658,10 +658,10 @@
                       "name": "require",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [
-                        4054,
-                        4055
+                        4126,
+                        4127
                       ],
-                      "referencedDeclaration": 4055,
+                      "referencedDeclaration": 4127,
                       "src": "940:7:14",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_require_pure$_t_bool_$_t_string_memory_ptr_$returns$__$",
@@ -1165,10 +1165,10 @@
                                 }
                               ],
                               "overloadedDeclarations": [
-                                4054,
-                                4055
+                                4126,
+                                4127
                               ],
-                              "referencedDeclaration": 4055,
+                              "referencedDeclaration": 4127,
                               "type": "function (bool,string memory) pure",
                               "value": "require"
                             },
@@ -1232,7 +1232,7 @@
                                       "overloadedDeclarations": [
                                         null
                                       ],
-                                      "referencedDeclaration": 4051,
+                                      "referencedDeclaration": 4123,
                                       "type": "msg",
                                       "value": "msg"
                                     },
@@ -1378,7 +1378,7 @@
   },
   "networks": {},
   "schemaVersion": "3.4.6",
-  "updatedAt": "2022-05-17T08:13:21.710Z",
+  "updatedAt": "2022-05-23T07:09:28.185Z",
   "devdoc": {
     "details": "KIP17 Token that can be irreversibly burned (destroyed). See http://kips.klaytn.com/KIPs/kip-17-non_fungible_token",
     "methods": {
