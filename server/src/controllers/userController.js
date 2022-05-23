@@ -94,11 +94,14 @@ export const postSignIn = async (req, res) => {
     });
   }
 
-  res.cookie("accessToken", accessToken, { httpOnly: true });
+  res.cookie("accessToken", accessToken, {
+    maxAge: 3600000,
+    httpOnly: true,
+  });
   // ⭐️⭐️⭐️⭐️⭐️ option 설정 이유를 명확히 알고 가자!
   // -> httpOnly를 통해서 쿠키가 JS에 의해 읽어져서, 클라이언트가 쿠키를 읽어서 헤더에 넣는 것을 방지합니다.
   // ⭐️⭐️⭐️⭐️⭐️ 쿠키에도 maxAge를 설정해줘야하나?!
-  // -> 굳이 필요없다. 왜냐하면, 토큰에 시간제한을 줬기 때문이다.
+  // -> 필요합니다! 브라우저에 계속해서 남아있다면 로그인 상태로 오해하게 됩니다.
 
   return res.json({
     userType: user.userType,

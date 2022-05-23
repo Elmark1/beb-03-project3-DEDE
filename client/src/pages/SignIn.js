@@ -14,6 +14,12 @@ const SignIn = ({ isSignedIn, setIsSignedIn }) => {
     "userObjectId",
   ]);
 
+  // const cookieOptions = {
+  //   maxAge: 3600,
+  //   // httpOnly: true, // ⭐️⭐️⭐️⭐️⭐️ server에서만 줄 수 있는 옵션입니다.
+  //   sameSite: "strict",
+  // };
+
   const onUserIdHandler = (e) => {
     e.preventDefault();
     setUserId(e.currentTarget.value);
