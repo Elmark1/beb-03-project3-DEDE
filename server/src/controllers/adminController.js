@@ -1,6 +1,9 @@
 import Admin from '../models/Admin.js';
 import Contract from '../models/Contract.js';
+import CustomMadeNft from '../models/CustomMadeNft.js';
+import User from '../models/User.js';
 import Caver from "caver-js";
+import {create} from 'ipfs-http-client';
 import {kip7Abi, kip7ByteCode} from '../abi/kip7ABI.js';
 import {kip17Abi, kip17ByteCode} from '../abi/kip17ABI.js';
 import {dexAbi, dexByteCode} from '../abi/dexABI.js';
@@ -86,6 +89,47 @@ export const createAdmin = async (req, res) => {
 	});
 
 	res.status(201).json({message: 'Admin created.'});
+  } catch(err) {
+	res.status(401).json({message: err.message});
+  }
+}
+
+export const buyNft = async (req, res) => {
+  const body = req.body;
+  try {
+	const nftExists = await CustomMadeNft.findOne({...body});
+
+	const ipfs = create('https://ipfs.infura.io:5001/api/v0');
+
+	const metadataJson = JSON.stringify({...body});
+
+	const metadataAdded = await ipfs.add(metadataJson);
+	const metadataUrl = `https://ipfs.infura.io/ipfs/${metadataAdded.path}`;
+
+	const adminExists = await Admin.findOne({adminType: 'Server'});
+
+	caver.wallet.newKeyring(adminExists.address, adminExists.privateKey);
+
+	const kip17Exists = await Contract.findOne({contractType: 'KIP17'});
+	const kip17 = new caver.contract(kip17Abi, kip17Exists.address);
+
+	const customerExists = await User.findById(body.customerId);
+	const restaurantExists = await User.findById(body.restaurantObjectId);
+	const customerAddress = customerExists.encryptedKeystore.address;
+	const restaurantAddress = restaurantExists.encryptedKeystore.address;
+
+	console.log(kip17Exists);
+	console.log(customerAddress);
+	console.log(restaurantAddress);
+	console.log(metadataUrl);
+	console.log(adminExists);
+	kip17.options.from = adminExists.address;
+	kip17.options.gas = 15000000;
+
+	await kip17.methods.mintNFT(customerAddress, restaurantAddress, metadataUrl, caver.utils.toBN(caver.utils.toPeb('1'))).send();
+	caver.wallet.remove(adminExists.address);
+
+	res.status(201).json({message: "Bought NFT"});
   } catch(err) {
 	res.status(401).json({message: err.message});
   }
