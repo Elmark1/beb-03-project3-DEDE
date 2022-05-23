@@ -14,11 +14,11 @@ const SignIn = ({ isSignedIn, setIsSignedIn }) => {
     "userObjectId",
   ]);
 
-  const cookieOptions = {
-    maxAge: 3600,
-    // httpOnly: true, // ⭐️⭐️⭐️⭐️⭐️ server에서만 줄 수 있는 옵션입니다.
-    sameSite: "strict",
-  };
+  // const cookieOptions = {
+  //   maxAge: 3600,
+  //   // httpOnly: true, // ⭐️⭐️⭐️⭐️⭐️ server에서만 줄 수 있는 옵션입니다.
+  //   sameSite: "strict",
+  // };
 
   const onUserIdHandler = (e) => {
     e.preventDefault();
@@ -41,9 +41,9 @@ const SignIn = ({ isSignedIn, setIsSignedIn }) => {
       .then((res) => {
         const data = res.data;
 
-        setCookie("isSignedIn", true, cookieOptions);
-        setCookie("userType", data.userType, cookieOptions);
-        setCookie("userObjectId", data.userObjectId, cookieOptions);
+        setCookie("isSignedIn", true);
+        setCookie("userType", data.userType);
+        setCookie("userObjectId", data.userObjectId);
       })
       .then(() => {
         setIsSignedIn(true);
