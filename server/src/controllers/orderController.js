@@ -1,21 +1,21 @@
 // Import models
 import Order from "../models/Order.js";
-import Contract from '../models/Contract.js';
-import User from '../models/User.js';
-import Admin from '../models/Admin.js';
+import Contract from "../models/Contract.js";
+import User from "../models/User.js";
+import Admin from "../models/Admin.js";
 
 // Import packages
-import Caver from 'caver-js';
+import Caver from "caver-js";
 
 // Import ABI
-import {kip7Abi} from '../abi/kip7ABI.js';
+import { kip7Abi } from "../abi/kip7ABI.js";
 
 const caver = new Caver("https://api.baobab.klaytn.net:8651/");
 
 export const postOrder = async (req, res) => {
   const { customerObjectId, restaurantObjectId, orderedMenu } = req.body;
   const accessToken = req.decoded;
-  const adminExists = await Admin.findOne({adminType: 'Server'});
+  const adminExists = await Admin.findOne({ adminType: "Server" });
 
   if (
     accessToken.userType !== 1 ||
@@ -35,27 +35,33 @@ export const postOrder = async (req, res) => {
       // ⭐️⭐️⭐️⭐️⭐️ Client로부터 받아올 때, [{menuName, menuDescription, menuPrice} ... ] 형태의 Array로 받아올 거로 예상하고 작성한 코드입니다.
     });
 
-	const totalPrice = orderedMenu.reduce((prev, cur) => {
-	  prev += cur.menuPrice;
-	  return prev;
-	}, 0);
+    const totalPrice = orderedMenu.reduce((prev, cur) => {
+      prev += cur.menuPrice;
+      return prev;
+    }, 0);
 
-	const userExists = await User.findById(customerObjectId);
-	const kip7Exists = await Contract.findOne({contractType: 'KIP7'});
-	const kip7Instance = caver.contract.create(kip7Abi, kip7Exists.address);
+    const userExists = await User.findById(customerObjectId);
+    const kip7Exists = await Contract.findOne({ contractType: "KIP7" });
+    const kip7Instance = caver.contract.create(kip7Abi, kip7Exists.address);
 
-	caver.wallet.newKeyring(adminExists.address, adminExists.privateKey);
+    caver.wallet.newKeyring(adminExists.address, adminExists.privateKey);
 
-	await kip7Instance.methods.transfer(userExists.encryptedKeystore.address, adminExists.address, caver.utils.toBN(caver.utils.toPeb(String(totalPrice)))).send({from: adminExists.address, gas: 15000000});
+    await kip7Instance.methods
+      .transfer(
+        userExists.encryptedKeystore.address,
+        adminExists.address,
+        caver.utils.toBN(caver.utils.toPeb(String(totalPrice)))
+      )
+      .send({ from: adminExists.address, gas: 15000000 });
 
-	userExists.token -= totalPrice;
-	await userExists.save();
+    userExists.token -= totalPrice;
+    await userExists.save();
 
-	caver.wallet.remove(adminExists.address);
+    caver.wallet.remove(adminExists.address);
 
     return res.json({ message: "✅ Create Order Successfully!" });
   } catch (error) {
-	caver.wallet.remove(adminExists.address);
+    caver.wallet.remove(adminExists.address);
     console.log("error:", error);
 
     return res.status(400).json({ message: "❌ Fail" });
@@ -162,9 +168,9 @@ export const getOrderById = async (req, res) => {
 export const patchOrder = async (req, res) => {
   const { orderId } = req.params;
   const accessToken = req.decoded;
-  const { status } = req.body;
+  const { deliveryManObjectId, status } = req.body;
   const order = await Order.findById(orderId);
-  const adminExists = await Admin.findOne({adminType: 'Server'});
+  const adminExists = await Admin.findOne({ adminType: "Server" });
 
   // If userType is undefined, client can't use patchOrder
   if (!accessToken.userType) {
@@ -191,23 +197,29 @@ export const patchOrder = async (req, res) => {
       if (status === "Rejected") {
         await Order.findByIdAndUpdate(orderId, { status });
 
-		const totalPrice = order.orderedMenu.reduce((prev, cur) => {
-		  prev += cur.menuPrice;
-		  return prev;
-		}, 0);
+        const totalPrice = order.orderedMenu.reduce((prev, cur) => {
+          prev += cur.menuPrice;
+          return prev;
+        }, 0);
 
-		const userExists = await User.findById(order.user1_id);
-		const kip7Exists = await Contract.findOne({contractType: 'KIP7'});
-		const kip7Instance = caver.contract.create(kip7Abi, kip7Exists.address);
+        const userExists = await User.findById(order.user1_id);
+        const kip7Exists = await Contract.findOne({ contractType: "KIP7" });
+        const kip7Instance = caver.contract.create(kip7Abi, kip7Exists.address);
 
-		caver.wallet.newKeyring(adminExists.address, adminExists.privateKey);
+        caver.wallet.newKeyring(adminExists.address, adminExists.privateKey);
 
-		await kip7Instance.methods.transfer(adminExists.address, userExists.encryptedKeystore.address, caver.utils.toBN(caver.utils.toPeb(String(totalPrice)))).send({from: adminExists.address, gas: 15000000});
+        await kip7Instance.methods
+          .transfer(
+            adminExists.address,
+            userExists.encryptedKeystore.address,
+            caver.utils.toBN(caver.utils.toPeb(String(totalPrice)))
+          )
+          .send({ from: adminExists.address, gas: 15000000 });
 
-		userExists.token += totalPrice;
-		await userExists.save();
+        userExists.token += totalPrice;
+        await userExists.save();
 
-		caver.wallet.remove(adminExists.address);
+        caver.wallet.remove(adminExists.address);
         return res.json({
           message: "🙅 레스토랑이 해당 주문을 거절하셨습니다!",
         });
@@ -222,7 +234,10 @@ export const patchOrder = async (req, res) => {
     // 2. Deliveryman can change the order status, from "Cooking" to "Delivery"
     if (accessToken.userType === 3 && order.status === "Cooking") {
       if (status === "Delivery") {
-        await Order.findByIdAndUpdate(orderId, { status });
+        await Order.findByIdAndUpdate(orderId, {
+          user3_id: deliveryManObjectId,
+          status,
+        });
 
         return res.json({
           message: "🚴‍♂️ 배달원이 음식을 건네받았습니다!",
@@ -256,7 +271,7 @@ export const patchOrder = async (req, res) => {
         "❌ You do not have permission to change the status as you requested!",
     });
   } catch (error) {
-	caver.wallet.remove(adminExists.address);
+    caver.wallet.remove(adminExists.address);
     console.log("error:", error);
 
     return res.status(400).json({ message: "❌ Bad Request!" });

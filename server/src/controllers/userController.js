@@ -39,12 +39,13 @@ export const postSignUp = async (req, res) => {
   }
 
   try {
+    const hashedPassword = await bcrypt.hash(password, 10);
     const encryptedKeystore = keyring.encrypt(password);
 
     await User.create({
       userType,
       userId,
-      password,
+      password: hashedPassword,
       userName,
       phoneNumber,
       roadNameAddress,
@@ -83,7 +84,7 @@ export const postSignIn = async (req, res) => {
   const accessToken = generateToken(
     accessTokenPayload,
     process.env.ACCESS_TOKEN_SECRET,
-    "15m"
+    "60m"
   );
 
   if (!passwordComparision) {
@@ -133,8 +134,8 @@ export const getUserInfo = async (req, res) => {
   }
 
   try {
-	let klay = await caver.rpc.klay.getBalance(user.encryptedKeystore.address);
-	klay = caver.utils.fromPeb(klay);
+    let klay = await caver.rpc.klay.getBalance(user.encryptedKeystore.address);
+    klay = caver.utils.fromPeb(klay);
 
     let responseUser = {
       userType: user.userType,
@@ -144,12 +145,12 @@ export const getUserInfo = async (req, res) => {
       phoneNumber: user.phoneNumber,
       walletAddress: user.encryptedKeystore.address,
       token: user.token,
-	  klay,
+      klay,
       stakedToken: user.stakedToken,
     };
 
-	user.klay = klay;
-	await user.save();
+    user.klay = klay;
+    await user.save();
 
     if (accessToken.userType === 1) {
       responseUser.collectedNft = user.collectedNft;
