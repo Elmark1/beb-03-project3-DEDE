@@ -15,16 +15,12 @@ const userSchema = new mongoose.Schema({
     address: { type: String, required: true, unique: true },
     keyring: { type: Array, required: true, unique: true },
   },
-  klay: {type: Number, default: 0},
+  klay: { type: Number, default: 0 },
   token: { type: Number, default: 0 },
   stakedToken: { type: Number, default: 0 },
   collectedNft: { type: Array },
   customMadeNft: { type: Array },
   restaurantMenu: { type: Array },
-});
-
-userSchema.pre("save", async function () {
-  this.password = await bcrypt.hash(this.password, 10);
 });
 
 const User = mongoose.model("User", userSchema);
