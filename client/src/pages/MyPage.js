@@ -4,7 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import SignIn from "./SignIn";
 import { Cookies } from "react-cookie";
 
-const MyPage = () => {
+const MyPage = ({ setIsSignedIn }) => {
   const cookies = new Cookies();
   const navigate = useNavigate();
   const [user, setUser] = useState({});
@@ -12,13 +12,14 @@ const MyPage = () => {
   const cookieUserType = cookies.get("userType");
   const cookieUserObjectId = cookies.get("userObjectId");
 
-  const signOutHandler = () => {
+  const signOutHandler = async () => {
     try {
+      await axios.post("/signout");
+
       cookies.remove("isSignedIn");
       cookies.remove("userType");
       cookies.remove("userObjectId");
-
-      axios.post("/signout");
+      setIsSignedIn(false);
 
       return navigate("/");
     } catch (error) {
@@ -27,25 +28,21 @@ const MyPage = () => {
   };
 
   useEffect(() => {
-    console.log("Cookie userType:", cookieUserType);
+    if (cookieUserObjectId) {
+      axios
+        .get(`/users/${cookieUserObjectId}`)
+        .then((res) => {
+          const data = res.data;
 
-    if (!cookieIsSignedIn) {
-      return navigate("/signin");
+          console.log("MyPage Data:", data);
+
+          setUser(data);
+        })
+        .catch((error) => {
+          console.log("❌ Client GetMyPage Error:", error);
+        });
     }
-
-    axios
-      .get(`/users/${cookieUserObjectId}`)
-      .then((res) => {
-        const data = res.data;
-
-        console.log("MyPage Data:", data);
-
-        setUser(data);
-      })
-      .catch((error) => {
-        console.log("❌ Client GetMyPage Error:", error);
-      });
-  }, []);
+  }, [cookieUserObjectId]);
 
   return (
     <>
@@ -77,7 +74,10 @@ const MyPage = () => {
           <button onClick={signOutHandler}>Sign Out</button>
         </div>
       ) : (
-        <SignIn />
+        <div>
+          <br />
+          <Link to="/signin">Please Sign In</Link>
+        </div>
       )}
     </>
   );

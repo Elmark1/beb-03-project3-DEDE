@@ -41,12 +41,16 @@ const SignIn = ({ isSignedIn, setIsSignedIn }) => {
       .then((res) => {
         const data = res.data;
 
-        setCookie("isSignedIn", true);
-        setCookie("userType", data.userType);
-        setCookie("userObjectId", data.userObjectId);
+        setIsSignedIn(true);
+        setCookie("isSignedIn", true, { maxAge: 3600 });
+        setCookie("userType", data.userType, { maxAge: 3600 });
+        setCookie("userObjectId", data.userObjectId, { maxAge: 3600 });
       })
       .then(() => {
-        setIsSignedIn(true);
+        return navigate("/mypage");
+      })
+      .catch((error) => {
+        console.log("❌ Client SignIn Error:", error);
       });
   };
 

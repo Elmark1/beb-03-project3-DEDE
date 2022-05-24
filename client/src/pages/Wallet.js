@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { Cookies } from "react-cookie";
 
@@ -10,6 +10,7 @@ import StakeModal from '../components/StakeModal.js';
 
 const Wallet = () => {
   const cookies = new Cookies();
+  const navigate = useNavigate();
   const [user, setUser] = useState();
   const [tokenArray, setTokenArray] = useState([]); // ⭐️⭐️⭐️⭐️⭐️ token들을 map 사용해서 분리해줘야합니다.
   const cookieUserType = cookies.get("userType");
@@ -20,19 +21,21 @@ const Wallet = () => {
   const [isStakeClicked, setIsStakeClicked] = useState(false);
 
   useEffect(() => {
-    axios
-      .get(`http://localhost:4000/users/${cookieUserObjectId}`)
-      .then((res) => {
-        const data = res.data;
+    if (cookieUserObjectId) {
+      axios
+        .get(`http://localhost:4000/users/${cookieUserObjectId}`)
+        .then((res) => {
+          const data = res.data;
 
-        console.log("data:", data);
+          console.log("data:", data);
 
-        setUser(data);
-      })
-      .catch((error) => {
-        console.log("❌ Client GetWalletInfo Error:", error);
-      });
-  }, []);
+          setUser(data);
+        })
+        .catch((error) => {
+          console.log("❌ Client GetWalletInfo Error:", error);
+        });
+    }
+  }, [cookieUserObjectId]);
 
   const swapButtonHandler = () => {
 	setIsSwapClicked(prevState => !prevState);

@@ -4,6 +4,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import NavBar from "./components/Navbar.js";
 import Home from "./pages/Home.js";
 import Restaurant from "./pages/Restaurant.js";
+import Order from "./pages/Order";
 import History from "./pages/History.js";
 import Wallet from "./pages/Wallet.js";
 import MyPage from "./pages/MyPage.js";
@@ -18,20 +19,17 @@ function App() {
   const [isSignedIn, setIsSignedIn] = useState(false);
   const [userType, setUserType] = useState(0);
   const [userObjectId, setUserObjectId] = useState("");
+  const cookieIsSignedIn = cookies.get("isSignedIn");
+  const cookieUserType = cookies.get("userType");
+  const cookieUserObjectId = cookies.get("userObjectId");
 
   useEffect(() => {
-    console.log("로그인 상태를 쿠키에 저장했다!:", cookies.get("isSignedIn"));
-    const cookieIsSignedIn = cookies.get("isSignedIn");
-    const cookieUserType = cookies.get("userType");
-    const cookieUserObjectId = cookies.get("userObjectId");
-
     if (cookieIsSignedIn) {
-      console.log("App.js 렌더링 됩니다!");
       setIsSignedIn(true);
       setUserType(cookieUserType);
       setUserObjectId(cookieUserObjectId);
     }
-  });
+  }, [isSignedIn]);
 
   return (
     <div className="App">
@@ -40,6 +38,10 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />}></Route>
           <Route path="/restaurant" element={<Restaurant />}></Route>
+          <Route
+            path="/restaurant/:restaurantObjectId/menus"
+            element={<Order userObjectId={userObjectId} />}
+          ></Route>
           <Route path="/history" element={<History />}></Route>
           <Route
             path="/wallet"
@@ -65,6 +67,7 @@ function App() {
                 isSignedIn={isSignedIn}
                 userType={userType}
                 userObjectId={userObjectId}
+                setIsSignedIn={setIsSignedIn}
               />
             }
           ></Route>
