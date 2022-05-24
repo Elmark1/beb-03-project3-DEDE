@@ -100,7 +100,7 @@ export const buyNft = async (req, res) => {
   const adminExists = await Admin.findOne({adminType: 'Server'});
 
   try {
-	const nftExists = await CustomMadeNft.findOne({...body});
+	const nftExists = await CustomMadeNft.findOneAndDelete({...body});
 
 	const ipfs = create('https://ipfs.infura.io:5001/api/v0');
 
@@ -127,6 +127,11 @@ export const buyNft = async (req, res) => {
 
 	await kip17.methods.mintNft(customerAddress, metadataUrl, caver.utils.toBN(caver.utils.toPeb(nftExists.nftPrice))).send();
 	await kip7.methods.transfer(customerAddress, restaurantAddress, caver.utils.toBN(caver.utils.toPeb(nftExists.nftPrice))).send();
+	customerExists.token -= Number(nftExists.nftPrice);
+	restaurantExists.token += Number(nftExists.nftPrice);
+	customerExists.collectedNft.push(metadataUrl);
+	await customerExists.save();
+	await restaurantExists.save();
 	caver.wallet.remove(adminExists.address);
 
 	res.status(201).json({message: "Bought NFT"});
@@ -152,6 +157,9 @@ export const stake = async (req, res) => {
 	const userExists = await User.findById(body.userObjectId);
 
 	await stakingInstance.methods.stake(userExists.encryptedKeystore.address, caver.utils.toBN(caver.utils.toPeb(body.amount))).send();
+	userExists.stakedToken += Number(body.amount);
+	userExists.token -= Number(body.amount);
+	await userExists.save();
 	caver.wallet.remove(adminExists.address);
 
 	res.status(201).json({message: 'staked'});
@@ -177,9 +185,43 @@ export const unstake = async (req, res) => {
 	const userExists = await User.findById(body.userObjectId);
 
 	await stakingInstance.methods.unstake(userExists.encryptedKeystore.address, caver.utils.toBN(caver.utils.toPeb(body.amount))).send();
+	userExists.stakedToken -= Number(body.amount);
+	userExists.token += Number(body.amount);
+	await userExists.save();
 	caver.wallet.remove(adminExists.address);
 
 	res.status(201).json({message: 'unstaked'});
+  } catch(err) {
+	caver.wallet.remove(adminExists.address);
+	res.status(401).json({message: err.message});
+  }
+}
+
+export const transfer = async (req, res) => {
+  const body = req.body;
+  const adminExists = await Admin.findOne({adminType: 'Server'});
+
+  try {
+	const kip7Exists = await Contract.findOne({contractType: 'KIP7'});
+	const sender = await User.findById(body.userId);
+	const recipient = await User.findOne({userId: body.recipientUserId});
+
+	if(!recipient) {
+	  return res.status(401).json({message: 'recipient does not exist'});
+	}
+
+	caver.wallet.newKeyring(adminExists.address, adminExists.privateKey);
+
+	const kip7Instance = caver.contract.create(kip7Abi, kip7Exists.address);
+	await kip7Instance.methods.transfer(sender.encryptedKeystore.address, recipient.encryptedKeystore.address, caver.utils.toBN(caver.utils.toPeb(body.amount))).send({from: adminExists.address, gas: 15000000});
+
+	sender.token -= Number(body.amount);
+	recipient.token += Number(body.amount);
+	await sender.save();
+	await recipient.save();
+
+	caver.wallet.remove(adminExists.address);
+	res.status(201).json({message: 'transferred'});
   } catch(err) {
 	caver.wallet.remove(adminExists.address);
 	res.status(401).json({message: err.message});

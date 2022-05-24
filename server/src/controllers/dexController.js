@@ -32,6 +32,9 @@ export const dedeToKlay = async (req, res) => {
 	  feeDelegation: true,
 	  feePayer: adminExists.address
 	});
+	userExists.klay += Number(amount);
+	userExists.token -= Number(amount);
+	await userExists.save();
 
 	caver.wallet.remove(keyring.address);
 	caver.wallet.remove(adminExists.address);
@@ -65,6 +68,10 @@ export const klayToDede = async (req, res) => {
 	  feeDelegation: true,
 	  feePayer: adminExists.address
 	});
+
+	userExists.klay -= Number(amount);
+	userExists.token += Number(amount) * 1000;
+	await userExists.save();
 
 	caver.wallet.remove(keyring.address);
 	caver.wallet.remove(adminExists.address);
