@@ -13,9 +13,7 @@ contract DEDEKIP7 is KIP7Token, Ownable {
   }
 
   function delegatedTransferForKip17(address sender, address recipient, uint256 amount) public onlyKip17 returns(bool) {
-	uint256 tokenForTax = amount / 10;
-	_transfer(sender, recipient, amount - tokenForTax);
-	_transfer(sender, owner(), tokenForTax);
+	_transfer(sender, recipient, amount);
 	return true;
   }
 

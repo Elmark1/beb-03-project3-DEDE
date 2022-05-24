@@ -3,12 +3,21 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 import { Cookies } from "react-cookie";
 
+// Import components
+import SwapModal from '../components/SwapModal.js';
+import TransferModal from '../components/TransferModal.js';
+import StakeModal from '../components/StakeModal.js';
+
 const Wallet = () => {
   const cookies = new Cookies();
   const [user, setUser] = useState();
   const [tokenArray, setTokenArray] = useState([]); // ⭐️⭐️⭐️⭐️⭐️ token들을 map 사용해서 분리해줘야합니다.
   const cookieUserType = cookies.get("userType");
   const cookieUserObjectId = cookies.get("userObjectId");
+
+  const [isSwapClicked, setIsSwapClicked] = useState(false);
+  const [isTransferClicked, setIsTransferClicked] = useState(false);
+  const [isStakeClicked, setIsStakeClicked] = useState(false);
 
   useEffect(() => {
     axios
@@ -25,8 +34,24 @@ const Wallet = () => {
       });
   }, []);
 
+  const swapButtonHandler = () => {
+	setIsSwapClicked(prevState => !prevState);
+	console.log(isSwapClicked);
+  }
+
+  const transferButtonHandler = () => {
+	setIsTransferClicked(prevState => !prevState);
+  }
+
+  const stakeButtonHandler = () => {
+	setIsStakeClicked(prevState => !prevState);
+  }
+
   return (
     <>
+	  {isSwapClicked ? <SwapModal setIsSwapClicked={setIsSwapClicked} /> : null}
+	  {isTransferClicked ? <TransferModal setIsTransferClicked={setIsTransferClicked} /> : null}
+	  {isStakeClicked ? <StakeModal setIsStakeClicked={setIsStakeClicked} /> : null}
       <div>
         {!user ? (
           <div>
@@ -37,7 +62,8 @@ const Wallet = () => {
         ) : (
           <div>
             <br />
-            {/* <div>My Token : {user.token}</div> */}
+			<div>My Klay : {user.klay}</div>
+            <div>My Token : {user.token}</div>
             <div>My Staking: {user.stakedToken}</div>
             {cookieUserType === "2" ? (
               <div>
@@ -64,9 +90,9 @@ const Wallet = () => {
         )}
       </div>
       <br />
-      <button>Swap</button>
-      <button>Transfer</button>
-      <button>Stake</button>
+      <button onClick={swapButtonHandler} >Swap</button>
+      <button onClick={transferButtonHandler} >Transfer</button>
+      <button onClick={stakeButtonHandler} >Stake</button>
     </>
   );
 };

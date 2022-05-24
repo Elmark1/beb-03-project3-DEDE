@@ -13,17 +13,19 @@ contract DEDEKIP17 is KIP17Token, Ownable {
 
   constructor() public KIP17Token("DEDE NFT", "DEDENFT") {}
 
-  function mintNFT(address recipient, address seller, string memory tokenURI, uint256 nftPrice) public onlyOwner returns(uint256) {
+  function mintNft(address recipient, 
+				  // address seller, 
+				   string memory tokenURI, uint256 nftPrice) public onlyOwner {
 	require(token.balanceOf(recipient) >= nftPrice, "DEDEKIP17: Insufficient tokens to mint NFT");
 
-	token.delegatedTransferForKip17(recipient, seller, nftPrice);
+	// uint256 tax = nftPrice / 10;
+	// token.delegatedTransferForKip17(recipient, seller, nftPrice - tax);
+	// token.delegatedTransferForKip17(recipient, owner(), tax);
 
 	_tokenIds.increment();
 	uint256 newItemId = _tokenIds.current();
 	_mint(recipient, newItemId);
 	_setTokenURI(newItemId, tokenURI);
-
-	return newItemId;
   }
 
   function setToken(address tokenAddress) public onlyOwner returns(bool) {

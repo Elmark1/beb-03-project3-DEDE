@@ -3,6 +3,15 @@ import React, { useState, useEffect } from "react";
 import Search from "./Search";
 import { Link } from "react-router-dom";
 
+// Import packages
+import styled from 'styled-components';
+
+const StyledUl = styled.ul`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+`;
+
 const Navbar = ({ isSignedIn }) => {
   return (
     <div className="navbar FlexRowreact">
@@ -13,8 +22,8 @@ const Navbar = ({ isSignedIn }) => {
       >
         <span className="navbar-title">Decentralised Delivery</span>
       </Link>
-      <Search searchValue={""} />
-      <ul className="link">
+	  {/*<Search searchValue={""} />*/}
+      <StyledUl>
         <Link
           to="/restaurant"
           style={{ textDecoration: "none", color: "inherit" }}
@@ -38,7 +47,7 @@ const Navbar = ({ isSignedIn }) => {
         >
           <li>My Page</li>
         </Link>
-      </ul>
+      </StyledUl>
     </div>
   );
 };
