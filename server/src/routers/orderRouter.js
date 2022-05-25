@@ -15,6 +15,6 @@ orderRouter
   .route("/:orderId([0-9a-f]{24})")
   .get(getOrderById)
   .patch(verifyToken, patchOrder);
-orderRouter.route("/history").get(getOrderHistory);
+orderRouter.route("/history").get(verifyToken, getOrderHistory);
 
 export default orderRouter;
