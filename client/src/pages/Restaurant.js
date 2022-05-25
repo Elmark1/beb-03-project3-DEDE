@@ -23,7 +23,7 @@ const Restaurant = () => {
       {restaurants.map((restaurant) => {
         return (
           <div key={restaurant._id}>
-            <Link to={`/restaurant/${restaurant._id}/menus`}>
+            <Link to={`/restaurants/${restaurant._id}/menus`}>
               <br />
               <div>{restaurant.userName}</div>
               <div>{restaurant.roadNameAddress}</div>

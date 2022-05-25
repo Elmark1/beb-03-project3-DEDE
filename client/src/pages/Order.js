@@ -1,6 +1,6 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 
 const Order = ({ userObjectId }) => {
   const { restaurantObjectId } = useParams();
@@ -8,36 +8,50 @@ const Order = ({ userObjectId }) => {
   const [checkedMenu, setCheckedMenu] = useState([]);
 
   const onCheckHandler = (e) => {
+    let newCheckedMenu = checkedMenu.filter((menu) => {
+      if (menu !== e.currentTarget.value) {
+        return menu;
+      }
+    });
+
     if (e.currentTarget.checked) {
-      setCheckedMenu([...checkedMenu, e.currentTarget.value]);
+      return setCheckedMenu([...checkedMenu, e.currentTarget.value]);
     }
 
-    setCheckedMenu(
-      checkedMenu.filter((menu) => {
-        if (menu !== e.currentTarget.value) {
-          return menu;
-        }
-      })
-    );
+    return setCheckedMenu(newCheckedMenu);
   };
 
   const onOrderHandler = async (e) => {
+    let orderedMenu = [];
+
+    checkedMenu.map((menuObjectId) => {
+      menus.map((menu) => {
+        if (menu._id === menuObjectId) {
+          orderedMenu.push({
+            menuName: menu.menuName,
+            menuDescription: menu.menuDescription,
+            menuPrice: menu.menuPrice,
+          });
+        }
+      });
+    });
+
+    console.log("orderedMenu", orderedMenu);
+
     let body = {
       customerObjectId: userObjectId,
       restaurantObjectId,
-      orderedMenu: checkedMenu,
+      orderedMenu,
     };
 
     await axios.post("/orders", body);
   };
 
   useEffect(() => {
-    console.log(restaurantObjectId);
-
     axios
       .get(`/restaurants/${restaurantObjectId}/menus`)
       .then((res) => {
-        const data = res.data.menuList; // ⭐️⭐️⭐️⭐️⭐️ server에서 get Menus By Id response를 간단하게 수정할 예정입니다!
+        const data = res.data.menuList;
 
         console.log("data:", data);
 
@@ -57,23 +71,25 @@ const Order = ({ userObjectId }) => {
             <div>{menu.menuName}</div>
             <div>{menu.menuDescription}</div>
             <div>{menu.menuPrice} (DEDE)</div>
-
             <input
               type="checkbox"
-              name="menuId"
+              name="menuInfo"
               value={menu._id}
               onChange={onCheckHandler}
             />
-
-            <br />
           </div>
         );
       })}
+      <br />
       <p>
         <button type="submit" value="Submit" onClick={onOrderHandler}>
-          Submit
+          Order
         </button>
       </p>
+      <br />
+      <div>
+        <Link to={`/restaurants/${restaurantObjectId}/nfts`}>Buy NFT</Link>
+      </div>
     </>
   );
 };

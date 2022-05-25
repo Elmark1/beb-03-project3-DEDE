@@ -5,6 +5,7 @@ import NavBar from "./components/Navbar.js";
 import Home from "./pages/Home.js";
 import Restaurant from "./pages/Restaurant.js";
 import Order from "./pages/Order";
+import BuyNFT from "./pages/BuyNFT";
 import History from "./pages/History.js";
 import Wallet from "./pages/Wallet.js";
 import MyPage from "./pages/MyPage.js";
@@ -37,10 +38,14 @@ function App() {
         <NavBar isSignedIn={isSignedIn} />
         <Routes>
           <Route path="/" element={<Home />}></Route>
-          <Route path="/restaurant" element={<Restaurant />}></Route>
+          <Route path="/restaurants" element={<Restaurant />}></Route>
           <Route
-            path="/restaurant/:restaurantObjectId/menus"
+            path="/restaurants/:restaurantObjectId/menus"
             element={<Order userObjectId={userObjectId} />}
+          ></Route>
+          <Route
+            path="/restaurants/:restaurantObjectId/nfts"
+            element={<BuyNFT userObjectId={userObjectId} />}
           ></Route>
           <Route path="/history" element={<History />}></Route>
           <Route

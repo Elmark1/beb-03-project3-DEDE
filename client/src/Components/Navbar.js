@@ -4,7 +4,7 @@ import Search from "./Search";
 import { Link } from "react-router-dom";
 
 // Import packages
-import styled from 'styled-components';
+import styled from "styled-components";
 
 const StyledUl = styled.ul`
   display: flex;
@@ -22,10 +22,10 @@ const Navbar = ({ isSignedIn }) => {
       >
         <span className="navbar-title">Decentralised Delivery</span>
       </Link>
-	  {/*<Search searchValue={""} />*/}
+      {/*<Search searchValue={""} />*/}
       <StyledUl>
         <Link
-          to="/restaurant"
+          to="/restaurants"
           style={{ textDecoration: "none", color: "inherit" }}
         >
           <li>Restaurant</li>
