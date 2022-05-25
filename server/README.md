@@ -347,6 +347,45 @@ HTTP/1.1 200 OK
 
 ---
 
+## Get Custom-Made NFTs By ID
+
+### [Request]
+
+#### URL
+
+```
+GET /restaurants/:restaurantId(ObjectId)/nfts HTTP/1.1
+Host : http://127.0.0.1:4000
+```
+
+### [Response]
+
+| Name    | Type  | Description                                                                                                                                                                          | Required |
+| :------ | :---- | :----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :------: |
+| nftList | Array | This is an array of custom-made nft objects registered at the restaurant. <br/><br/> **[{user_id: String, nftName: String, discountRate: Number, nftPrice: Number}, { ... }, ... ]** |    O     |
+
+### [Sample]
+
+#### Response: success
+
+```
+HTTP/1.1 200 OK
+{
+  "nftList": [{
+      "user_id": "restaurantObjectId",
+      "nftName": NFT1,
+      "discountRate": 10,
+      "nftPrice": 9000
+    }, {
+      ...
+    },
+    ...
+  ]
+}
+```
+
+---
+
 ## Create Menu
 
 Restaurant-type user can add menus. The menu will be added to the menu list.
