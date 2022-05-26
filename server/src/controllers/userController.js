@@ -247,3 +247,24 @@ export const postCustomMadeNft = async (req, res) => {
       .json({ message: "❌ Fail to Create Custom Made NFT!" });
   }
 };
+
+export const getCustomMadeNft = async (req, res) => {
+  const { restaurantId } = req.params;
+  const nftList = await CustomMadeNft.find({ user_id: restaurantId });
+
+  if (!restaurantId) {
+    return res.status(400).json({ message: "❌ Bad Request!" });
+  }
+
+  if (!nftList) {
+    return res.status(404).json({ message: "❌ No Menu List!" });
+  }
+
+  try {
+    return res.json({ nftList });
+  } catch (error) {
+    console.log("❌ Fail to Get Custom Made NFT!");
+
+    return res.status(400).json({ message: "❌ Fail to Get Custom Made NFT!" });
+  }
+};

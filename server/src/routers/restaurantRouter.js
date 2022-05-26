@@ -3,6 +3,7 @@ import {
   getRestaurants,
   getMenusById,
   postMenu,
+  getCustomMadeNft,
   postCustomMadeNft,
 } from "../controllers/userController.js";
 import { verifyToken } from "../middlewares.js";
@@ -15,10 +16,9 @@ restaurantRouter
   .get(getMenusById)
   .post(verifyToken, postMenu);
 
-restaurantRouter.post(
-  "/:restaurantId([0-9a-f]{24})/nfts",
-  verifyToken,
-  postCustomMadeNft
-);
+restaurantRouter
+  .route("/:restaurantId([0-9a-f]{24})/nfts")
+  .get(getCustomMadeNft)
+  .post(verifyToken, postCustomMadeNft);
 
 export default restaurantRouter;
