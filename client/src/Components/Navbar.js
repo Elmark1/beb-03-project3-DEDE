@@ -36,7 +36,12 @@ const Navbar = ({ isSignedIn }) => {
         >
           <li>History</li>
         </Link>
-
+        <Link
+          to="/pending"
+          style={{ textDecoration: "none", color: "inherit" }}
+        >
+          <li>Pending</li>
+        </Link>
         <Link to="/wallet" style={{ textDecoration: "none", color: "inherit" }}>
           <li>Wallet</li>
         </Link>
