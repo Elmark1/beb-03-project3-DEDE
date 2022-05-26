@@ -18,7 +18,7 @@ const Pending = () => {
   };
 
   const onSubmitHandler = async () => {
-    let body = { status };
+	let body = { deliveryManObjectId: cookieUserObjectId, status };
 
     await axios.patch(`/orders/${orderObjectId}`, body).then((res) => {
       const data = res.data;
