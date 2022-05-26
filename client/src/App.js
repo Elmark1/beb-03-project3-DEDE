@@ -7,6 +7,7 @@ import Restaurant from "./pages/Restaurant.js";
 import Order from "./pages/Order";
 import BuyNFT from "./pages/BuyNFT";
 import History from "./pages/History.js";
+import Pending from "./pages/Pending.js";
 import Wallet from "./pages/Wallet.js";
 import MyPage from "./pages/MyPage.js";
 import Registration from "./pages/Registration.js";
@@ -48,6 +49,7 @@ function App() {
             element={<BuyNFT userObjectId={userObjectId} />}
           ></Route>
           <Route path="/history" element={<History />}></Route>
+          <Route path="/pending" element={<Pending />}></Route>
           <Route
             path="/wallet"
             element={<Wallet userObjectId={userObjectId} />}

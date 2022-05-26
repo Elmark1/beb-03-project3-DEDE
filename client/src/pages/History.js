@@ -59,11 +59,15 @@ const History = () => {
                 <div>Status</div>
                 <div>{order.status}</div>
                 <div>Customer</div>
-                <div>{order.user1_id}</div>
+                <div>{order.user1_id.userName}</div>
                 <div>Restaurant</div>
-                <div>{order.user2_id}</div>
+                <div>{order.user2_id.userName}</div>
                 <div>Delivery Man</div>
-                <div>{order.user3_id}</div>
+                <div>
+                  {order.user3_id
+                    ? order.user3_id.userName
+                    : "No Delivery Man!"}
+                </div>
                 <div>Ordered Menu</div>
                 <div>
                   {order.orderedMenu.map((menuInfo, index) => {
@@ -81,38 +85,35 @@ const History = () => {
                   })}
                 </div>
                 <br />
-                {cookieUserType === 2 ? (
+                {cookieUserType === "1" ? (
+                  <div>
+                    <input
+                      type="radio"
+                      name={order._id}
+                      value="Completed"
+                      onClick={onStatusHandler}
+                    />
+                    Completed
+                  </div>
+                ) : (
+                  <></>
+                )}
+                {cookieUserType === "2" ? (
                   <div>
                     <input
                       type="radio"
                       name={order._id}
                       value="Cooking"
                       onClick={onStatusHandler}
-                    >
-                      Cooking
-                    </input>
+                    />
+                    Cooking
                     <input
                       type="radio"
                       name={order._id}
                       value="Reject"
                       onClick={onStatusHandler}
-                    >
-                      Reject
-                    </input>
-                  </div>
-                ) : (
-                  <></>
-                )}
-                {cookieUserType === 3 ? (
-                  <div>
-                    <input
-                      type="radio"
-                      name={order._id}
-                      value="Delivery"
-                      onClick={onStatusHandler}
-                    >
-                      Delivery
-                    </input>
+                    />
+                    Reject
                   </div>
                 ) : (
                   <></>
@@ -120,14 +121,10 @@ const History = () => {
               </div>
             );
           })}
-          {cookieUserType !== 1 ? (
-            <div>
-              <br />
-              <button onClick={onSubmitHandler}>Submit</button>
-            </div>
-          ) : (
-            <></>
-          )}
+          <div>
+            <br />
+            <button onClick={onSubmitHandler}>Submit</button>
+          </div>
         </div>
       ) : (
         <div>
