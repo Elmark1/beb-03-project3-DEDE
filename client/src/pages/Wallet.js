@@ -28,8 +28,9 @@ const Wallet = () => {
           const data = res.data;
 
           console.log("data:", data);
-
+		  
           setUser(data);
+		  return data;
         })
         .catch((error) => {
           console.log("❌ Client GetWalletInfo Error:", error);
@@ -85,7 +86,19 @@ const Wallet = () => {
               <></>
             )}
             {cookieUserType === "1" ? (
-              <div>My NFTs: {user.collectedNft}</div>
+			  <div>NFT: {
+			  user.collectedNft.map(json => {
+				const metadata = JSON.parse(json);
+
+				return (
+				  <div key={metadata._id}>
+					<div>NFT Name: {metadata.nftName}</div>
+					<div>Discount Rate: {metadata.discountRate}</div>
+					<div>Expired by: {new Date(metadata.expired).toString()}</div>
+				  </div>
+				)
+			  })}
+			  </div>
             ) : (
               <></>
             )}

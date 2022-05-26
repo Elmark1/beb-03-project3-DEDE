@@ -255,6 +255,34 @@ export const patchOrder = async (req, res) => {
       if (status === "Completed") {
         await Order.findByIdAndUpdate(orderId, { status: "Completed" });
 
+        const totalPrice = order.orderedMenu.reduce((prev, cur) => {
+          prev += cur.menuPrice;
+          return prev;
+        }, 0);
+
+        const restaurantExists = await User.findById(order.user2_id);
+		const deliveryManExists = await User.findById(order.user3_id);
+        const kip7Exists = await Contract.findOne({ contractType: "KIP7" });
+        const kip7Instance = caver.contract.create(kip7Abi, kip7Exists.address);
+
+        caver.wallet.newKeyring(adminExists.address, adminExists.privateKey);
+
+        await kip7Instance.methods
+          .transfer(
+            adminExists.address,
+            restaurantExists.encryptedKeystore.address,
+            caver.utils.toBN(caver.utils.toPeb(String(totalPrice)))
+          )
+          .send({ from: adminExists.address, gas: 15000000 });
+		await kip7Instance.methods.transfer(adminExists.address, deliveryManExists.encryptedKeystore.address, caver.utils.toBN(caver.utils.toPeb(String(3000)))).send({from: adminExists.address, gas: 15000000});
+
+        restaurantExists.token += totalPrice;
+		deliveryManExists.token += 3000;
+        await restaurantExists.save();
+		await deliveryManExists.save();
+
+        caver.wallet.remove(adminExists.address);
+
         return res.json({
           message: "✅ 해당 주문은 완료되었습니다!",
         });

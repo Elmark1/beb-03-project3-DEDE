@@ -104,7 +104,7 @@ export const buyNft = async (req, res) => {
 
 	const ipfs = create('https://ipfs.infura.io:5001/api/v0');
 
-	const metadataJson = JSON.stringify({...body});
+	const metadataJson = JSON.stringify({...body, expired: Date.now() + 2629800000});
 
 	const metadataAdded = await ipfs.add(metadataJson);
 	const metadataUrl = `https://ipfs.infura.io/ipfs/${metadataAdded.path}`;
@@ -129,7 +129,7 @@ export const buyNft = async (req, res) => {
 	await kip7.methods.transfer(customerAddress, restaurantAddress, caver.utils.toBN(caver.utils.toPeb(nftExists.nftPrice))).send();
 	customerExists.token -= Number(nftExists.nftPrice);
 	restaurantExists.token += Number(nftExists.nftPrice);
-	customerExists.collectedNft.push(metadataUrl);
+	customerExists.collectedNft.push(metadataJson);
 	await customerExists.save();
 	await restaurantExists.save();
 	caver.wallet.remove(adminExists.address);
