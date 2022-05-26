@@ -23,7 +23,7 @@ const decryptKeystore = (encryptedKeystore, password) => {
 //const decryptedKeyring = decryptKeystore(encryptedKeystore, password); <- 이거 사용하면 됩니다.
 
 export const postSignUp = async (req, res) => {
-  const { userType, userId, password, userName, roadNameAddress, phoneNumber } =
+  const { userType, userId, password, userName, roadNameAddress, phoneNumber, sigungu } =
     req.body;
 
   const userExists = await User.find({
@@ -50,6 +50,7 @@ export const postSignUp = async (req, res) => {
       phoneNumber,
       roadNameAddress,
       encryptedKeystore,
+	  sigungu
     });
 
     console.log("✅ User Created!");
