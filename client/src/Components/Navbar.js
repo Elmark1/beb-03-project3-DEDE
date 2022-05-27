@@ -24,28 +24,36 @@ const Navbar = ({ isSignedIn }) => {
       </Link>
       {/*<Search searchValue={""} />*/}
       <StyledUl>
-        <Link
-          to="/restaurants"
-          style={{ textDecoration: "none", color: "inherit" }}
-        >
-          <li>Restaurant</li>
-        </Link>
-        <Link
-          to="/history"
-          style={{ textDecoration: "none", color: "inherit" }}
-        >
-          <li>History</li>
-        </Link>
-        <Link
-          to="/pending"
-          style={{ textDecoration: "none", color: "inherit" }}
-        >
-          <li>Pending</li>
-        </Link>
-        <Link to="/wallet" style={{ textDecoration: "none", color: "inherit" }}>
-          <li>Wallet</li>
-        </Link>
-
+        {isSignedIn ? (
+          <>
+            <Link
+              to="/restaurants"
+              style={{ textDecoration: "none", color: "inherit" }}
+            >
+              <li>Restaurant</li>
+            </Link>
+            <Link
+              to="/history"
+              style={{ textDecoration: "none", color: "inherit" }}
+            >
+              <li>History</li>
+            </Link>
+            <Link
+              to="/pending"
+              style={{ textDecoration: "none", color: "inherit" }}
+            >
+              <li>Pending</li>
+            </Link>
+            <Link
+              to="/wallet"
+              style={{ textDecoration: "none", color: "inherit" }}
+            >
+              <li>Wallet</li>
+            </Link>
+          </>
+        ) : (
+          <></>
+        )}
         <Link
           to={isSignedIn ? "/mypage" : "/signin"}
           style={{ textDecoration: "none", color: "inherit" }}
