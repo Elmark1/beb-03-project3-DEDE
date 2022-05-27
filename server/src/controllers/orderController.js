@@ -71,9 +71,9 @@ export const postOrder = async (req, res) => {
 export const getOrders = async (req, res) => {
   const orderList = await Order.find()
     .sort({ _id: "descending" })
-    .populate("user1_id", "userName")
-    .populate("user2_id", "userName")
-    .populate("user3_id", "userName");
+	.populate({path: "user1_id", select: ["userName", "roadNameAddress"]})
+    .populate({path: "user2_id", select: ["userName", "roadNameAddress", "stakedToken"]})
+    .populate({path: "user3_id", select: ["userName", "roadNameAddress"]});
 
   if (!orderList) {
     return res.status(404).json({ message: "❌ Not Found!" });
@@ -154,9 +154,9 @@ export const getOrderById = async (req, res) => {
   const { orderId } = req.params;
   const order = await Order.findById(orderId)
     .sort({ _id: "descending" })
-    .populate("user1_id", "userName")
-    .populate("user2_id", "userName")
-    .populate("user3_id", "userName");
+	.populate({path: "user1_id", select: ["userName", "roadNameAddress"]})
+    .populate({path: "user2_id", select: ["userName", "roadNameAddress"]})
+    .populate({path: "user3_id", select: ["userName", "roadNameAddress"]});
 
   if (!order) {
     return res.status(404).json({ message: "❌ Not Found!" });

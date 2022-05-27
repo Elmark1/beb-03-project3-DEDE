@@ -11,6 +11,7 @@ const Pending = () => {
   const cookieIsSignedIn = cookies.get("isSignedIn");
   const cookieUserType = cookies.get("userType");
   const cookieUserObjectId = cookies.get("userObjectId");
+  const {kakao} = window;
 
   const onStatusHandler = (e) => {
     setOrderObjectId(e.currentTarget.name);
@@ -31,7 +32,7 @@ const Pending = () => {
     if (cookieUserObjectId) {
       axios
         .get(`/orders`)
-        .then((res) => {
+        .then(async (res) => {
           let pendingOrder = [];
 
           res.data.orderList.map((order) => {
@@ -39,6 +40,35 @@ const Pending = () => {
               pendingOrder.push(order);
             }
           });
+
+		  const coordinates = [];
+
+		  const addressSearch = (addr) => {
+			const geocoder = new kakao.maps.services.Geocoder();
+
+			return new Promise((resolve, reject) => {
+			  geocoder.addressSearch(addr, result => {
+				resolve(result);
+			  });
+			});
+		  }
+
+		  for await(const order of pendingOrder) {
+			const coord = await addressSearch(order.user1_id.roadNameAddress);
+			const co = await addressSearch(order.user2_id.roadNameAddress);
+			const x = coord[0].x;
+			const y = coord[0].y;
+			const xx = co[0].x;
+			const yy = co[0].y;
+			console.log(coord);
+			console.log(x);
+			console.log(y);
+			const polyline = new kakao.maps.Polyline({
+			  path: [new kakao.maps.LatLng(Number(x), Number(y)), new kakao.maps.LatLng(Number(xx), Number(yy))]
+			});
+			const dist = polyline.getLength();
+			order['distance'] = dist;
+		  }
 
           console.log("pendingOrder:", pendingOrder);
 
@@ -64,8 +94,16 @@ const Pending = () => {
             <div>{order.status}</div>
             <div>Customer</div>
             <div>{order.user1_id.userName}</div>
+			<div>Customer Address</div>
+			<div>{order.user1_id.roadNameAddress}</div>
             <div>Restaurant</div>
             <div>{order.user2_id.userName}</div>
+			<div>Restaurant Address</div>
+			<div>{order.user2_id.roadNameAddress}</div>
+			<div>Restaurant Staked Token</div>
+			<div>{order.user2_id.stakedToken}</div>
+			<div>Distance between Customer and Restaurant</div>
+			<div>{order.distance}</div>
             <div>Delivery Man</div>
             <div>
               {order.user3_id
