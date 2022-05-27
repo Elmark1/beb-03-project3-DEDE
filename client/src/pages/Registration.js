@@ -15,27 +15,22 @@ const Registration = ({ isSignedIn, userType, userObjectId }) => {
   const cookieUserType = cookies.get("userType");
 
   const onRegisterTypeHandler = (e) => {
-    e.preventDefault();
     setRegisterType(e.currentTarget.value);
   };
 
   const onNameHandler = (e) => {
-    e.preventDefault();
     setName(e.currentTarget.value);
   };
 
   const onDiscountRateHandler = (e) => {
-    e.preventDefault();
     setDiscountRate(e.currentTarget.value);
   };
 
   const onDescriptionHandler = (e) => {
-    e.preventDefault();
     setDescription(e.currentTarget.value);
   };
 
   const onPriceHandler = (e) => {
-    e.preventDefault();
     setPrice(e.currentTarget.value);
   };
 

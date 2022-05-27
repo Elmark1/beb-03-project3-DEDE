@@ -11,15 +11,15 @@ const BuyNFT = () => {
   const cookies = new Cookies();
 
   const onNftHandler = (e) => {
-    e.preventDefault();
     setSelectedNft(e.currentTarget.value);
   };
 
   const onBuyHandler = async (nft) => {
-	const customerId = cookies.get("userObjectId");
-	let body = {...nft, restaurantObjectId: nft.user_id, customerId}; // ⭐️⭐️⭐️⭐️⭐️ body에 보낼 키-값을 작성해줘야 합니다.
+    const customerId = cookies.get("userObjectId");
+    let body = { ...nft, restaurantObjectId: nft.user_id, customerId }; // ⭐️⭐️⭐️⭐️⭐️ body에 보낼 키-값을 작성해줘야 합니다.
 
-	console.log(body);
+    console.log(body);
+
     await axios.post("/nfts", body); // ⭐️⭐️⭐️⭐️⭐️ customer의 지갑으로 NFT가 민팅되는 것을 구현해야 합니다.
   };
 
@@ -49,9 +49,13 @@ const BuyNFT = () => {
             <div>{nft.nftName}</div>
             <div>{nft.discountRate} (%)</div>
             <div>{nft.nftPrice} (DEDE)</div>
-			<button onClick={() => {onBuyHandler(nft)}}>
-        	  Buy
-        	</button>
+            <button
+              onClick={() => {
+                onBuyHandler(nft);
+              }}
+            >
+              Buy
+            </button>
           </div>
         );
       })}

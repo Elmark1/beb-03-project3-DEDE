@@ -23,8 +23,15 @@ const decryptKeystore = (encryptedKeystore, password) => {
 //const decryptedKeyring = decryptKeystore(encryptedKeystore, password); <- 이거 사용하면 됩니다.
 
 export const postSignUp = async (req, res) => {
-  const { userType, userId, password, userName, roadNameAddress, phoneNumber, sigungu } =
-    req.body;
+  const {
+    userType,
+    userId,
+    password,
+    userName,
+    roadNameAddress,
+    phoneNumber,
+    sigungu,
+  } = req.body;
 
   const userExists = await User.find({
     userId,
@@ -50,7 +57,7 @@ export const postSignUp = async (req, res) => {
       phoneNumber,
       roadNameAddress,
       encryptedKeystore,
-	  sigungu
+      sigungu,
     });
 
     console.log("✅ User Created!");
@@ -144,6 +151,7 @@ export const getUserInfo = async (req, res) => {
       userName: user.userName,
       roadNameAddress: user.roadNameAddress,
       phoneNumber: user.phoneNumber,
+      sigungu: user.sigungu,
       walletAddress: user.encryptedKeystore.address,
       token: user.token,
       klay,
@@ -176,7 +184,9 @@ export const getUserInfo = async (req, res) => {
 };
 
 export const getRestaurants = async (req, res) => {
-  const restaurantList = await User.find({ userType: 2 });
+  const restaurantList = await User.find({ userType: 2 }).sort({
+    stakedToken: "descending",
+  });
 
   if (!restaurantList) {
     return res.status(404).json({ message: "❌ No Restaurant List!" });
