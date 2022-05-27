@@ -13,7 +13,7 @@ import { kip7Abi } from "../abi/kip7ABI.js";
 const caver = new Caver("https://api.baobab.klaytn.net:8651/");
 
 export const postOrder = async (req, res) => {
-  const { customerObjectId, restaurantObjectId, orderedMenu } = req.body;
+  const { distance, customerObjectId, restaurantObjectId, orderedMenu } = req.body;
   const accessToken = req.decoded;
   const adminExists = await Admin.findOne({ adminType: "Server" });
 
@@ -32,6 +32,7 @@ export const postOrder = async (req, res) => {
       user2_id: restaurantObjectId,
       status: "Pending",
       orderedMenu,
+	  distance
       // ⭐️⭐️⭐️⭐️⭐️ Client로부터 받아올 때, [{menuName, menuDescription, menuPrice} ... ] 형태의 Array로 받아올 거로 예상하고 작성한 코드입니다.
     });
 
@@ -265,6 +266,47 @@ export const patchOrder = async (req, res) => {
         const kip7Exists = await Contract.findOne({ contractType: "KIP7" });
         const kip7Instance = caver.contract.create(kip7Abi, kip7Exists.address);
 
+		let deliveryFee = 0;
+		let incentive = 0;
+		const deliveryStakedToken = deliveryManExists.stakedToken;
+		const restaurantStakedToken = restaurantExists.stakedToken;
+
+		if(order.distance >= 2000) {
+		  deliveryFee = 4000;
+		  if(deliveryStakedToken >= 70000 && deliveryStakedToken < 100000) {
+			deliveryFee = 3000;
+		  }
+		  if(deliveryStakedToken >= 40000 && deliveryStakedToken < 70000) {
+			deliveryFee = 2000;
+		  }
+		  if(deliveryStakedToken < 40000) {
+			deliveryFee = 0;
+		  }
+		} else if(order.distance >= 1000) {
+		  deliveryFee = 3000;
+		  if(deliveryStakedToken >= 40000 && deliveryStakedToken < 70000) {
+			deliveryFee = 2000;
+		  }
+		  if(deliveryStakedToken < 40000) {
+			deliveryFee = 0;
+		  }
+		} else {
+		  deliveryFee = 2000;
+		  if(deliveryStakedToken < 40000) {
+			deliveryFee = 0;
+		  }
+		}
+
+		if(restaurantStakedToken >= 10000) {
+		  incentive = 3;
+		} else if(restaurantStakedToken >= 5000) {
+		  incentive = 1;
+		} else {
+		  incentive = 0;
+		}
+
+		deliveryFee += (deliveryFee / 100) * incentive;
+
         caver.wallet.newKeyring(adminExists.address, adminExists.privateKey);
 
         await kip7Instance.methods
@@ -274,10 +316,10 @@ export const patchOrder = async (req, res) => {
             caver.utils.toBN(caver.utils.toPeb(String(totalPrice)))
           )
           .send({ from: adminExists.address, gas: 15000000 });
-		await kip7Instance.methods.transfer(adminExists.address, deliveryManExists.encryptedKeystore.address, caver.utils.toBN(caver.utils.toPeb(String(3000)))).send({from: adminExists.address, gas: 15000000});
+		await kip7Instance.methods.transfer(adminExists.address, deliveryManExists.encryptedKeystore.address, caver.utils.toBN(caver.utils.toPeb(String(deliveryFee)))).send({from: adminExists.address, gas: 15000000});
 
         restaurantExists.token += totalPrice;
-		deliveryManExists.token += 3000;
+		deliveryManExists.token += deliveryFee;
         await restaurantExists.save();
 		await deliveryManExists.save();
 

@@ -115,6 +115,8 @@ export const postSignIn = async (req, res) => {
   return res.json({
     userType: user.userType,
     userObjectId: user._id,
+	sigungu: user.sigungu,
+	stakedToken: user.stakedToken
   });
 };
 
@@ -279,3 +281,16 @@ export const getCustomMadeNft = async (req, res) => {
     return res.status(400).json({ message: "❌ Fail to Get Custom Made NFT!" });
   }
 };
+
+export const getAddress = async (req, res) => {
+  const {userObjectId} = req.params;
+
+  try {
+	const userInfo = await User.findById(userObjectId);
+
+	res.status(200).json({address: userInfo.roadNameAddress});
+  } catch(err) {
+	console.err(err);
+	res.status(400).json({message: err.message});
+  }
+}
