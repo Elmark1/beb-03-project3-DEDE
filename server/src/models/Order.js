@@ -6,6 +6,7 @@ const orderSchema = new mongoose.Schema({
   user3_id: { type: mongoose.ObjectId, ref: "User" },
   status: { type: String, default: "Pending" },
   orderedMenu: [{ type: Object, required: true }],
+  distance: {type: Number, required: true}
 });
 
 const Order = mongoose.model("Order", orderSchema);

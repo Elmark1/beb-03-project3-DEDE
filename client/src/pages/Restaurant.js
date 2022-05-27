@@ -12,7 +12,7 @@ const Restaurant = () => {
     axios
       .get("http://localhost:4000/restaurants")
       .then((res) => {
-        const data = res.data;
+        let data = res.data;
 
         if (cookieSigungu) {
           data = data.filter(
