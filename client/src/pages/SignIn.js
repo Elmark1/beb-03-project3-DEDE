@@ -12,6 +12,8 @@ const SignIn = ({ isSignedIn, setIsSignedIn }) => {
     "isSignedIn",
     "userType",
     "userObjectId",
+    "sigungu",
+    "stakedToken",
   ]);
 
   // const cookieOptions = {
@@ -21,12 +23,10 @@ const SignIn = ({ isSignedIn, setIsSignedIn }) => {
   // };
 
   const onUserIdHandler = (e) => {
-    e.preventDefault();
     setUserId(e.currentTarget.value);
   };
 
   const onPasswordHandler = (e) => {
-    e.preventDefault();
     setPassword(e.currentTarget.value);
   };
 
@@ -45,6 +45,8 @@ const SignIn = ({ isSignedIn, setIsSignedIn }) => {
         setCookie("isSignedIn", true, { maxAge: 3600 });
         setCookie("userType", data.userType, { maxAge: 3600 });
         setCookie("userObjectId", data.userObjectId, { maxAge: 3600 });
+        setCookie("sigungu", data.sigungu, { maxAge: 3600 });
+        setCookie("stakedToken", data.stakedToken, { maxAge: 3600 });
       })
       .then(() => {
         return navigate("/mypage");

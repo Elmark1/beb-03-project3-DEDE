@@ -11,6 +11,8 @@ const MyPage = ({ setIsSignedIn }) => {
   const cookieIsSignedIn = cookies.get("isSignedIn");
   const cookieUserType = cookies.get("userType");
   const cookieUserObjectId = cookies.get("userObjectId");
+  const cookieSigungu = cookies.get("sigungu");
+  const cookieStakedToken = cookies.get("stakedToken");
 
   const signOutHandler = async () => {
     try {
@@ -19,6 +21,9 @@ const MyPage = ({ setIsSignedIn }) => {
       cookies.remove("isSignedIn");
       cookies.remove("userType");
       cookies.remove("userObjectId");
+      cookies.remove("sigungu");
+      cookies.remove("stakedToken");
+
       setIsSignedIn(false);
 
       return navigate("/");
