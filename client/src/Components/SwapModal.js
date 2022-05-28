@@ -42,9 +42,7 @@ const ModalButton = styled.button.attrs(props => ({
   borderRadius: .25rem;
   fontSize: 1rem;
   lineHeight: 1.5;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
+  font-family: 'KirangHaerang';
   cursor: pointer;
   width: 10em;
   margin: 5px auto;
