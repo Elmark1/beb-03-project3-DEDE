@@ -24,7 +24,7 @@ const ModalView = styled.div`
   left: 0;
   margin: auto;
   width: 25%;
-  height: 45%;
+  height: 40%;
   padding: 40px;
   text-align: center;
   background-color: rgb(255, 255, 255);
@@ -37,29 +37,26 @@ const ModalButton = styled.button.attrs(props => ({
 }))`
   color: white;
   background: #00c2bd;
-  padding: .375rem .75rem;
+  padding: 0.375rem 0.75rem;
   border: 1px solid #00c2bd;
-  borderRadius: .25rem;
-  fontSize: 1rem;
-  lineHeight: 1.5;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  cursor: pointer;
+  border-radius: 10px;
   width: 10em;
-  margin: 5px auto;
+  cursor: pointer;
+  margin: 0 auto 5px auto;
 `;
 
 const TextInput = styled.input.attrs(props => ({
   type: props.type
 }))`
-  border: 1px solid black;
-  margin: 5px auto;
-  padding: 0.5px;
+  height: 33px;
+  padding-left: 10px;
+  border: 1px solid grey;
+  border-radius: 7px;
+  margin-bottom: 15px;
 `;
 
-const Alert = styled.div`
-  margin: auto;
+const Alert = styled.h2`
+  margin-bottom: 5px;
 `;
 
 const TransferModal = ({setIsTransferClicked}) => {

@@ -80,7 +80,7 @@ const Navbar = ({ isSignedIn }) => {
         <StyledLink to={isSignedIn ? "/mypage" : "/signin"}>
           <FaUserCircle className="user" />
         </StyledLink>
-        <StyledLink to="/wallet">
+		<StyledLink to={isSignedIn ? "/wallet" : "/signin"}>
           <AiOutlineWallet className="wallet" />
         </StyledLink>
       </StyledDiv>

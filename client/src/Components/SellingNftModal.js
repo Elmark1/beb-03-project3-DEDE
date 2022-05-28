@@ -23,8 +23,8 @@ const ModalView = styled.div`
   right: 0;
   left: 0;
   margin: auto;
-  width: 25%;
-  height: 35%;
+  width: 30%;
+  height: 60%;
   padding: 40px;
   text-align: center;
   background-color: rgb(255, 255, 255);
@@ -45,50 +45,47 @@ const ModalButton = styled.button.attrs(props => ({
   margin: 0 auto 5px auto;
 `;
 
-const TextInput = styled.input.attrs(props => ({
-  type: props.type
-}))`
-  height: 33px;
-  padding-left: 10px;
-  border: 1px solid grey;
-  border-radius: 7px;
-  margin-bottom: 15px;
-`;
-
 const Alert = styled.h2`
   margin-bottom: 5px;
 `;
 
-const StakeModal = ({setIsStakeClicked}) => {
-  const [amount, setAmount] = useState(0);
+const Contents = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 500px;
+  overflow-y: scroll;
+  padding: 15px;
+  margin-bottom: 15px;
+`;
 
-  const cookies = new Cookies();
+const Content = styled.div`
+  margin: 10px;
+`;
 
-  const stake = async () => {
-	const userObjectId = cookies.get("userObjectId");
-	await axios.post('http://localhost:4000/stake', {userObjectId, amount});
-	setIsStakeClicked(false);
-  }
-
-  const unstake = async () => {
-	const userObjectId = cookies.get("userObjectId");
-	await axios.post('http://localhost:4000/unstake', {userObjectId, amount});
-	setIsStakeClicked(false);
-  }
-
+const SellingNftModal = ({setIsSellingNftClicked, sellingNft}) => {
   return (
 	<>
 	  <ModalBackdrop>
 		<ModalView>
-		  <Alert>Amount</Alert>
-		  <TextInput type={'text'} onChange={(e) => {setAmount(e.target.value);}}/>
-		  <ModalButton onClick={() => {stake();}}>Stake</ModalButton>
-		  <ModalButton onClick={() => {unstake();}}>Unstake</ModalButton>
-		  <ModalButton onClick={() => setIsStakeClicked(false)}>Close</ModalButton>
+		  <Alert>Selling NFT</Alert>
+		  <Contents>
+			{sellingNft.length === 0 && <div>You are not selling any NFT!</div>}
+			{sellingNft.map(el => {
+			  return (
+				<Content key={el._id} >
+				  <div>Name: {el.nftName}</div>
+				  <div>Discount Rate: {el.discountRate}%</div>
+				  <div>Price: {el.nftPrice}</div>
+				</Content>
+			  );
+			})}
+		  </Contents>
+		  <ModalButton onClick={() => setIsSellingNftClicked(false)}>Close</ModalButton>
 		</ModalView>
 	  </ModalBackdrop>
 	</>
   );
 }
 
-export default StakeModal;
+export default SellingNftModal;

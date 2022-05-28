@@ -15,6 +15,7 @@ import SignIn from "./pages/SignIn";
 import SignUp from "./pages/SignUp";
 import NotFound from "./pages/NotFound";
 import { Cookies } from "react-cookie";
+import Footer from './components/Footer.js';
 
 function App() {
   const cookies = new Cookies();
@@ -26,72 +27,75 @@ function App() {
   const cookieUserObjectId = cookies.get("userObjectId");
 
   useEffect(() => {
-    if (cookieIsSignedIn) {
-      setIsSignedIn(true);
-      setUserType(cookieUserType);
-      setUserObjectId(cookieUserObjectId);
-    }
+	if (cookieIsSignedIn) {
+	  setIsSignedIn(true);
+	  setUserType(cookieUserType);
+	  setUserObjectId(cookieUserObjectId);
+	}
   }, [isSignedIn]);
 
   return (
-    <div className="App">
-      <BrowserRouter>
-        <NavBar isSignedIn={isSignedIn} />
-        <Routes>
-          <Route path="/" element={<Home />}></Route>
-          <Route path="/restaurants" element={<Restaurant />}></Route>
-          <Route
-            path="/restaurants/:restaurantObjectId/menus"
-            element={<Order userObjectId={userObjectId} />}
-          ></Route>
-          <Route
-            path="/restaurants/:restaurantObjectId/nfts"
-            element={<BuyNFT userObjectId={userObjectId} />}
-          ></Route>
-          <Route path="/history" element={<History />}></Route>
-          <Route path="/pending" element={<Pending />}></Route>
-          <Route
-            path="/wallet"
-            element={<Wallet userObjectId={userObjectId} />}
-          ></Route>
-          <Route
-            path="/signin"
-            element={
-              <SignIn
-                isSignedIn={isSignedIn}
-                setIsSignedIn={setIsSignedIn}
-                setUserType={setUserType}
-                setUserObjectId={setUserObjectId}
-              />
-            }
-          />
-          <Route path="/signup" element={<SignUp isSignedIn={isSignedIn} />} />
-          <Route
-            path="/mypage"
-            element={
-              <MyPage
-                cookies={cookies}
-                isSignedIn={isSignedIn}
-                userType={userType}
-                userObjectId={userObjectId}
-                setIsSignedIn={setIsSignedIn}
-              />
-            }
-          ></Route>
-          <Route
-            path="/registration"
-            element={
-              <Registration
-                isSignedIn={isSignedIn}
-                userType={userType}
-                userObjectId={userObjectId}
-              />
-            }
-          ></Route>
-          <Route path="*" element={<NotFound />} />
-        </Routes>
-      </BrowserRouter>
-    </div>
+	<>
+	  <div className="App" style={{minHeight: 'calc(100vh - 90px)'}}>
+		<BrowserRouter>
+		  <NavBar isSignedIn={isSignedIn} />
+		  <Routes>
+			<Route path="/" element={<Home />}></Route>
+			<Route path="/restaurants" element={<Restaurant />}></Route>
+			<Route
+			  path="/restaurants/:restaurantObjectId/menus"
+			  element={<Order userObjectId={userObjectId} />}
+			></Route>
+			<Route
+			  path="/restaurants/:restaurantObjectId/nfts"
+			  element={<BuyNFT userObjectId={userObjectId} />}
+			></Route>
+			<Route path="/history" element={<History />}></Route>
+			<Route path="/pending" element={<Pending />}></Route>
+			<Route
+			  path="/wallet"
+			  element={<Wallet userObjectId={userObjectId} />}
+			></Route>
+			<Route
+			  path="/signin"
+			  element={
+				<SignIn
+				  isSignedIn={isSignedIn}
+				  setIsSignedIn={setIsSignedIn}
+				  setUserType={setUserType}
+				  setUserObjectId={setUserObjectId}
+				/>
+			  }
+			/>
+			<Route path="/signup" element={<SignUp isSignedIn={isSignedIn} />} />
+			<Route
+			  path="/mypage"
+			  element={
+				<MyPage
+				  cookies={cookies}
+				  isSignedIn={isSignedIn}
+				  userType={userType}
+				  userObjectId={userObjectId}
+				  setIsSignedIn={setIsSignedIn}
+				/>
+			  }
+			></Route>
+			<Route
+			  path="/registration"
+			  element={
+				<Registration
+				  isSignedIn={isSignedIn}
+				  userType={userType}
+				  userObjectId={userObjectId}
+				/>
+			  }
+			></Route>
+			<Route path="*" element={<NotFound />} />
+		  </Routes>
+		</BrowserRouter>
+	  </div>
+	  <Footer />
+	</>
   );
 }
 

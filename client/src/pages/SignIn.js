@@ -49,6 +49,7 @@ const StyledButton = styled.button`
   border: 1px solid #00c2bd;
   border-radius: 10px;
   width: 10em;
+  cursor: pointer;
 `;
 
 const StyledLink = styled(Link)`

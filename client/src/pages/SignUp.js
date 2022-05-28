@@ -76,7 +76,7 @@ const SignUp = ({ isSignedIn }) => {
   const [userId, setUserId] = useState();
   const [password, setPassword] = useState();
   const [phoneNumber, setPhoneNumber] = useState();
-  const [roadNameAddress, setRoadNameAddress] = useState();
+  const [roadNameAddress, setRoadNameAddress] = useState("");
   const [sigungu, setSigungu] = useState("");
 
   const openPostCode = () => {
@@ -222,6 +222,7 @@ const SignUp = ({ isSignedIn }) => {
               name="roadNameAddress"
               placeholder="roadNameAddress"
               value={roadNameAddress}
+			  readOnly={true}
               onClick={() => {
                 openPostCode();
               }}
