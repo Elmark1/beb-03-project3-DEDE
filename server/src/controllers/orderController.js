@@ -36,12 +36,21 @@ export const postOrder = async (req, res) => {
       // ⭐️⭐️⭐️⭐️⭐️ Client로부터 받아올 때, [{menuName, menuDescription, menuPrice} ... ] 형태의 Array로 받아올 거로 예상하고 작성한 코드입니다.
     });
 
-    const totalPrice = orderedMenu.reduce((prev, cur) => {
+    let totalPrice = orderedMenu.reduce((prev, cur) => {
       prev += cur.menuPrice;
       return prev;
     }, 0);
 
     const userExists = await User.findById(customerObjectId);
+
+	for(const nft of userExists.collectedNft) {
+	  const parsed = JSON.parse(nft);
+	  if(parsed.restaurantObjectId === restaurantObjectId) {
+		totalPrice -= totalPrice * parsed.discountRate / 100;
+		break;
+	  }
+	}
+
     const kip7Exists = await Contract.findOne({ contractType: "KIP7" });
     const kip7Instance = caver.contract.create(kip7Abi, kip7Exists.address);
 
@@ -198,12 +207,21 @@ export const patchOrder = async (req, res) => {
       if (status === "Rejected") {
         await Order.findByIdAndUpdate(orderId, { status });
 
-        const totalPrice = order.orderedMenu.reduce((prev, cur) => {
+        let totalPrice = order.orderedMenu.reduce((prev, cur) => {
           prev += cur.menuPrice;
           return prev;
         }, 0);
 
         const userExists = await User.findById(order.user1_id);
+
+		for(const nft of userExists.collectedNft) {
+		  const parsed = JSON.parse(nft);
+		  if(parsed.restaurantObjectId === restaurantObjectId) {
+			totalPrice -= totalPrice * parsed.discountRate / 100;
+			break;
+		  }
+		}
+
         const kip7Exists = await Contract.findOne({ contractType: "KIP7" });
         const kip7Instance = caver.contract.create(kip7Abi, kip7Exists.address);
 
@@ -256,10 +274,20 @@ export const patchOrder = async (req, res) => {
       if (status === "Completed") {
         await Order.findByIdAndUpdate(orderId, { status: "Completed" });
 
-        const totalPrice = order.orderedMenu.reduce((prev, cur) => {
+        let totalPrice = order.orderedMenu.reduce((prev, cur) => {
           prev += cur.menuPrice;
           return prev;
         }, 0);
+
+		const userExists = await User.findById(order.user1_id);
+
+		for(const nft of userExists.collectedNft) {
+		  const parsed = JSON.parse(nft);
+		  if(parsed.restaurantObjectId === order.user2_id.toString()) {
+			totalPrice -= totalPrice * parsed.discountRate / 100;
+			break;
+		  }
+		}
 
         const restaurantExists = await User.findById(order.user2_id);
 		const deliveryManExists = await User.findById(order.user3_id);

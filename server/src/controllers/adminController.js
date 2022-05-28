@@ -125,10 +125,14 @@ export const buyNft = async (req, res) => {
 	kip7.options.from = adminExists.address;
 	kip7.options.gas = 15000000;
 
+	const tax = Number(nftExists.nftPrice) / 10;
+	const price = Number(nftExists.nftPrice) - tax;
+
 	await kip17.methods.mintNft(customerAddress, metadataUrl, caver.utils.toBN(caver.utils.toPeb(nftExists.nftPrice))).send();
-	await kip7.methods.transfer(customerAddress, restaurantAddress, caver.utils.toBN(caver.utils.toPeb(nftExists.nftPrice))).send();
+	await kip7.methods.transfer(customerAddress, restaurantAddress, caver.utils.toBN(caver.utils.toPeb(String(price)))).send();
+	await kip7.methods.transfer(customerAddress, adminExists.address, caver.utils.toBN(caver.utils.toPeb(String(tax)))).send();
 	customerExists.token -= Number(nftExists.nftPrice);
-	restaurantExists.token += Number(nftExists.nftPrice);
+	restaurantExists.token += price;
 	customerExists.collectedNft.push(metadataJson);
 	await customerExists.save();
 	await restaurantExists.save();
@@ -210,13 +214,23 @@ export const transfer = async (req, res) => {
 	  return res.status(401).json({message: 'recipient does not exist'});
 	}
 
+	const amount = Number(body.amount);
+	let incentive = 0;
+
+	if(sender.userType !== 1 && recipient.userType === 1) {
+	  incentive = (amount / 100) * 5;
+	}
+
 	caver.wallet.newKeyring(adminExists.address, adminExists.privateKey);
 
 	const kip7Instance = caver.contract.create(kip7Abi, kip7Exists.address);
-	await kip7Instance.methods.transfer(sender.encryptedKeystore.address, recipient.encryptedKeystore.address, caver.utils.toBN(caver.utils.toPeb(body.amount))).send({from: adminExists.address, gas: 15000000});
+	await kip7Instance.methods.transfer(sender.encryptedKeystore.address, recipient.encryptedKeystore.address, caver.utils.toBN(caver.utils.toPeb(String(amount)))).send({from: adminExists.address, gas: 15000000});
+	if(incentive > 0) {
+	  await kip7Instance.methods.transfer(adminExists.address, recipient.encryptedKeystore.address, caver.utils.toBN(caver.utils.toPeb(String(incentive)))).send({from: adminExists.address, gas: 15000000});
+	}
 
-	sender.token -= Number(body.amount);
-	recipient.token += Number(body.amount);
+	sender.token -= amount;
+	recipient.token += amount + incentive;
 	await sender.save();
 	await recipient.save();
 

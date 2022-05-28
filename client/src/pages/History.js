@@ -110,7 +110,7 @@ const History = () => {
                     <input
                       type="radio"
                       name={order._id}
-                      value="Reject"
+                      value="Rejected"
                       onClick={onStatusHandler}
                     />
                     Reject
