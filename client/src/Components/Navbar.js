@@ -1,67 +1,90 @@
-import React, { useState, useEffect } from "react";
-// import "./Navbar.css";
-import Search from "./Search";
+import React from "react";
+import styled from "styled-components";
+import { AiOutlineHistory, AiOutlineWallet } from "react-icons/ai";
+import { FaUserCircle, FaScroll } from "react-icons/fa";
+import { BiRestaurant } from "react-icons/bi";
 import { Link } from "react-router-dom";
 
-// Import packages
-import styled from "styled-components";
+const StyledNav = styled.nav`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding: 25px 30px 15px 30px;
+  height: 90px;
+  box-shadow: 0px 0.5px 20px rgb(50, 194, 189);
+`;
 
-const StyledUl = styled.ul`
+const StyledDiv = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: space-evenly;
+
+  .restaurant {
+    font-size: 34px;
+    color: #00c2bd;
+  }
+
+  .history {
+    font-size: 34px;
+    color: #00c2bd;
+  }
+
+  .pending {
+    font-size: 34px;
+    color: #00c2bd;
+  }
+
+  .wallet {
+    font-size: 34px;
+    color: #00c2bd;
+  }
+
+  .user {
+    font-size: 34px;
+    color: #00c2bd;
+  }
+`;
+
+const StyledLink = styled(Link)`
+  margin: 10px;
+`;
+
+const StyledLogo = styled.img`
+  height: 80px;
 `;
 
 const Navbar = ({ isSignedIn }) => {
   return (
-    <div className="navbar FlexRowreact">
-      <Link
-        to="/"
-        style={{ textDecoration: "none", color: "inherit" }}
-        className="to-home"
-      >
-        <span className="navbar-title">Decentralised Delivery</span>
-      </Link>
+    <StyledNav>
+      <StyledLink to="/" className="to-home">
+        <StyledLogo src="logoHome.png" />
+      </StyledLink>
       {/*<Search searchValue={""} />*/}
-      <StyledUl>
+      <StyledDiv>
         {isSignedIn ? (
           <>
-            <Link
-              to="/restaurants"
-              style={{ textDecoration: "none", color: "inherit" }}
-            >
-              <li>Restaurant</li>
-            </Link>
-            <Link
-              to="/history"
-              style={{ textDecoration: "none", color: "inherit" }}
-            >
-              <li>History</li>
-            </Link>
-            <Link
-              to="/pending"
-              style={{ textDecoration: "none", color: "inherit" }}
-            >
-              <li>Pending</li>
-            </Link>
-            <Link
-              to="/wallet"
-              style={{ textDecoration: "none", color: "inherit" }}
-            >
-              <li>Wallet</li>
-            </Link>
+            <StyledLink to="/restaurants">
+              <BiRestaurant className="restaurant" />
+            </StyledLink>
+            <StyledLink to="/pending">
+              <AiOutlineHistory className="pending" />
+            </StyledLink>
+            <StyledLink to="/history">
+              <FaScroll className="history" />
+            </StyledLink>
           </>
         ) : (
           <></>
         )}
-        <Link
-          to={isSignedIn ? "/mypage" : "/signin"}
-          style={{ textDecoration: "none", color: "inherit" }}
-        >
-          <li>My Page</li>
-        </Link>
-      </StyledUl>
-    </div>
+        <StyledLink to={isSignedIn ? "/mypage" : "/signin"}>
+          <FaUserCircle className="user" />
+        </StyledLink>
+        <StyledLink to="/wallet">
+          <AiOutlineWallet className="wallet" />
+        </StyledLink>
+      </StyledDiv>
+    </StyledNav>
   );
 };
 
