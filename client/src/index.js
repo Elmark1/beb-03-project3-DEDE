@@ -6,7 +6,7 @@ import { CookiesProvider } from "react-cookie";
 import reportWebVitals from "./reportWebVitals";
 import GlobalStyle from './fonts/GlobalStyle.js'; 
 
-axios.defaults.baseURL = "http://localhost:4000";
+axios.defaults.baseURL = "https://dede-server.herokuapp.com";
 axios.defaults.withCredentials = true; // 쿠키 설정 허용
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
