@@ -9,6 +9,8 @@ const StyledMain = styled.main`
 
 const StyledSection = styled.section`
   width: 100%;
+  display: flex;
+  flex-direction: column;
 `;
 
 const IntroSection = styled.div`
@@ -17,16 +19,14 @@ const IntroSection = styled.div`
   padding: 0 30px;
 `;
 const AboutSection = styled.section`
-  display: flex;
-  flex-direction: column;
-  height: 780px;
+  height: 820px;
   background-color: #00c2bd;
   width: 100%;
-  align-items: le;
 `;
 
-const StyledSection2 = styled.section`
-  padding: 0 0 0 150px;
+const AboutText = styled.div`
+  flex-direction: column;
+  padding-left: 70px;
 `;
 
 const StyledH1 = styled.h1`
@@ -44,6 +44,10 @@ const StyledH2 = styled.h2`
 `;
 
 const StyledH3 = styled.h3`
+  border: 1px solid white;
+  border-radius: 10px;
+  padding: 10px;
+  width: 500px;
   font-size: 34px;
   color: #fff;
   margin: 20px 0px;
@@ -56,28 +60,65 @@ const SectionH4 = styled.div`
 const StyledH4 = styled.h4`
   font-size: 24px;
   color: #576574;
+  border: 1px solid black;
+  border-color: #00c2bd;
+  border-radius: 10px;
+  width: 600px;
+  padding: 5px;
 `;
 
 const StyledH6 = styled.h6`
   font-size: 17px;
   color: #222f3e;
+  margin-left: 20px;
 `;
 
 const TeamSection = styled.div`
-  height: 500px;
+  height: 600px;
   width: 100%;
 `;
 
-const TeamSectionWrapper = styled.div`
+const TeamIconSection = styled.div`
   display: flex;
-  flex-direction: row;
+  justify-content: space-evenly;
+  color: #dfe6e9;
+  margin-top: 50px;
   align-items: center;
-  padding: 50px;
 `;
 
-const MemberIcon1 = styled.div``;
-const MemberIcon2 = styled.div``;
-const MemberIcon3 = styled.div``;
+const TeamIcon1 = styled.div`
+  border: 2px solid;
+  border-radius: 50px;
+  border-color: #00c2bd;
+  padding: 30px;
+  flex-direction: row;
+`;
+const TeamIcon2 = styled.div`
+  border: 2px solid;
+  border-radius: 50px;
+  border-color: #00c2bd;
+  padding: 30px;
+  flex-direction: row;
+`;
+const TeamIcon3 = styled.div`
+  border: 2px solid;
+  border-radius: 50px;
+  border-color: #00c2bd;
+  padding: 30px;
+  flex-direction: row;
+`;
+
+const NameLabel = styled.div`
+  color: #000;
+  font-size: 24px;
+  text-align: center;
+  text-shadow: 1em;
+`;
+const StackLabel = styled.div`
+  text-align: center;
+  color: #fff;
+  background-color: #00c2b2;
+`;
 
 const Home = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -125,7 +166,7 @@ const Home = () => {
       <StyledSection>
         <AboutSection>
           <StyledH1>Token Economy Flow</StyledH1>
-          <StyledSection2>
+          <AboutText>
             <StyledH3>#1. Platform Level</StyledH3>
             <StyledH6>
               ・ DEDE의 핵심은 이용자 모두에게 합리적 이윤분배가 가능
@@ -158,25 +199,29 @@ const Home = () => {
             <StyledH6>
               ・ 일반 유저계정으로 토큰 송금 시 수수료 할인 혜택
             </StyledH6>
-          </StyledSection2>
+          </AboutText>
         </AboutSection>
       </StyledSection>
-      <StyledSection>
-        <TeamSection>
-          <StyledH1>Our Team</StyledH1>
-        </TeamSection>
-        <TeamSectionWrapper>
-          <MemberIcon1>
+      <TeamSection>
+        <StyledH1>Our Team</StyledH1>
+        <TeamIconSection>
+          <TeamIcon1>
             <FaUserSecret size={"200"} />
-          </MemberIcon1>
-          <MemberIcon2>
+            <StackLabel>Smart Contract & Front-end</StackLabel>
+            <NameLabel> 권 한 준</NameLabel>
+          </TeamIcon1>
+          <TeamIcon2>
             <FaUserSecret size={"200"} />
-          </MemberIcon2>
-          <MemberIcon3>
+            <StackLabel>Back-end & Front-end</StackLabel>
+            <NameLabel> 허 정 </NameLabel>
+          </TeamIcon2>
+          <TeamIcon3>
             <FaUserSecret size={"200"} />
-          </MemberIcon3>
-        </TeamSectionWrapper>
-      </StyledSection>
+            <StackLabel>Front-end & UI Design</StackLabel>
+            <NameLabel> 강 성 우 </NameLabel>
+          </TeamIcon3>
+        </TeamIconSection>
+      </TeamSection>
     </StyledMain>
   );
 };
