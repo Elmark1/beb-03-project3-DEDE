@@ -100,6 +100,8 @@ const SignIn = ({ isSignedIn, setIsSignedIn }) => {
         setCookie("userObjectId", data.userObjectId, { maxAge: 3600 });
         setCookie("sigungu", data.sigungu, { maxAge: 3600 });
         setCookie("stakedToken", data.stakedToken, { maxAge: 3600 });
+		setCookie("accessToken", data.accessToken, {maxAge: 3600});
+		axios.defaults.headers.common['authorization'] = `Bearer ${data.accessToken}`;
       })
       .then(() => {
         return navigate("/mypage");

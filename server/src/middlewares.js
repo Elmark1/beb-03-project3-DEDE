@@ -4,15 +4,16 @@ import jwt from "jsonwebtoken";
 dotenv.config();
 
 export const verifyToken = (req, res, next) => {
-  const token = req.cookies.accessToken;
+  const authHeader = req.headers['authorization'];
 
-  if (!token) {
+  if (!authHeader) {
     return res
       .status(401)
       .json({ message: "❌ You do not have permission to use API" });
   }
 
   try {
+	const token = authHeader.split(" ")[1];
     const accessToken = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
 
     req.decoded = accessToken;

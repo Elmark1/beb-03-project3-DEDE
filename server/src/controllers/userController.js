@@ -103,10 +103,11 @@ export const postSignIn = async (req, res) => {
     });
   }
 
-  res.cookie("accessToken", accessToken, {
-    maxAge: 3600000,
-    httpOnly: true,
-  });
+  // res.cookie("accessToken", accessToken, {
+  //   maxAge: 3600000,
+  //   httpOnly: true,
+  //   domain: 'http://localhost:3000'
+  // });
   // ⭐️⭐️⭐️⭐️⭐️ option 설정 이유를 명확히 알고 가자!
   // -> httpOnly를 통해서 쿠키가 JS에 의해 읽어져서, 클라이언트가 쿠키를 읽어서 헤더에 넣는 것을 방지합니다.
   // ⭐️⭐️⭐️⭐️⭐️ 쿠키에도 maxAge를 설정해줘야하나?!
@@ -116,13 +117,13 @@ export const postSignIn = async (req, res) => {
     userType: user.userType,
     userObjectId: user._id,
 	sigungu: user.sigungu,
-	stakedToken: user.stakedToken
+	stakedToken: user.stakedToken,
+	accessToken: accessToken
   });
 };
 
 export const postSignOut = async (req, res) => {
   return res
-    .clearCookie("accessToken")
     .json({ message: "✅ Sign Out Successfully!" });
 };
 
@@ -131,6 +132,8 @@ export const getUserInfo = async (req, res) => {
   const accessToken = req.decoded;
   const user = await User.findById(userId);
 
+  console.log(userId);
+  console.log(accessToken.userObjectId);
   if (userId !== accessToken.userObjectId) {
     return res
       .status(403)

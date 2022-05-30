@@ -88,6 +88,7 @@ const MyPage = ({ setIsSignedIn }) => {
       cookies.remove("userObjectId");
       cookies.remove("sigungu");
       cookies.remove("stakedToken");
+	  cookies.remove("accessToken");
 
       setIsSignedIn(false);
 
