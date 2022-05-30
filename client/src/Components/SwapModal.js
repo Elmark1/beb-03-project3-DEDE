@@ -67,13 +67,13 @@ const SwapModal = ({setIsSwapClicked}) => {
 
   const klayToDede = async () => {
 	const userId = cookies.get("userObjectId");
-	await axios.post('http://localhost:4000/dexes/klaytodede', {userId, password, amount});
+	await axios.post('/dexes/klaytodede', {userId, password, amount});
 	setIsSwapClicked(false);
   }
 
   const dedeToKlay = async () => {
 	const userId = cookies.get('userObjectId');
-	await axios.post('http://localhost:4000/dexes/dedetoklay', {userId, password, amount});
+	await axios.post('/dexes/dedetoklay', {userId, password, amount});
 	setIsSwapClicked(false);
   }
 

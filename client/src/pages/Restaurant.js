@@ -73,7 +73,7 @@ const Restaurant = () => {
 
   useEffect(() => {
     axios
-      .get("http://localhost:4000/restaurants")
+      .get("/restaurants")
       .then((res) => {
         let data = res.data;
 

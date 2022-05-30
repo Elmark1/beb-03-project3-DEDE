@@ -67,7 +67,7 @@ const TransferModal = ({setIsTransferClicked}) => {
 
   const transfer = async () => {
 	const userId = cookies.get("userObjectId");
-	await axios.post('http://localhost:4000/transfer', {userId, recipientUserId: recipient, amount});
+	await axios.post('/transfer', {userId, recipientUserId: recipient, amount});
 	setIsTransferClicked(false);
   }
 
