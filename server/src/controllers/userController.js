@@ -124,7 +124,6 @@ export const postSignIn = async (req, res) => {
 
 export const postSignOut = async (req, res) => {
   return res
-    .clearCookie("accessToken")
     .json({ message: "✅ Sign Out Successfully!" });
 };
 
