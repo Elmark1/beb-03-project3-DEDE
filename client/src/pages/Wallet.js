@@ -83,7 +83,7 @@ const Wallet = () => {
   useEffect(() => {
 	if (cookieUserObjectId) {
 	  axios
-		.get(`http://localhost:4000/users/${cookieUserObjectId}`)
+		.get(`/users/${cookieUserObjectId}`)
 		.then((res) => {
 		  const data = res.data;
 

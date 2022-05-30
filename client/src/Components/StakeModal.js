@@ -66,13 +66,13 @@ const StakeModal = ({setIsStakeClicked}) => {
 
   const stake = async () => {
 	const userObjectId = cookies.get("userObjectId");
-	await axios.post('http://localhost:4000/stake', {userObjectId, amount});
+	await axios.post('/stake', {userObjectId, amount});
 	setIsStakeClicked(false);
   }
 
   const unstake = async () => {
 	const userObjectId = cookies.get("userObjectId");
-	await axios.post('http://localhost:4000/unstake', {userObjectId, amount});
+	await axios.post('/unstake', {userObjectId, amount});
 	setIsStakeClicked(false);
   }
 
